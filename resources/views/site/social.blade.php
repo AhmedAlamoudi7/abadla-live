@@ -175,14 +175,18 @@
 
         async function swap(url, push = true) {
             const results = document.querySelector(resultsSel);
-            if (!results) return;
+            if (!results) { window.location.href = url; return; }
 
             results.classList.add('is-leaving');
-            await new Promise(r => setTimeout(r, 280));
+            await new Promise(r => setTimeout(r, 220));
 
             let html;
             try {
-                const res = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'text/html' } });
+                const res = await fetch(url, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'text/html' },
+                    credentials: 'same-origin',
+                });
+                if (!res.ok) throw new Error('bad status ' + res.status);
                 html = await res.text();
             } catch (e) {
                 window.location.href = url;
@@ -194,21 +198,27 @@
             const nextPills = doc.querySelector('.soc-categories');
             if (!nextResults) { window.location.href = url; return; }
 
+            nextResults.classList.remove('is-leaving', 'is-entering');
+
             results.replaceWith(nextResults);
+
             if (nextPills) {
                 const currentPills = document.querySelector('.soc-categories');
                 if (currentPills) currentPills.replaceWith(nextPills);
-                bindPills();
-                bindInPageLinks();
             }
+            bindPills();
+            bindInPageLinks();
 
-            nextResults.classList.add('is-entering');
+            nextResults.style.opacity = '0';
+            nextResults.style.transform = 'translateY(10px)';
             requestAnimationFrame(() => {
-                requestAnimationFrame(() => nextResults.classList.remove('is-entering'));
+                nextResults.style.transition = 'opacity .28s ease, transform .28s ease';
+                nextResults.style.opacity = '1';
+                nextResults.style.transform = 'translateY(0)';
             });
 
             if (push) history.pushState({ socUrl: url }, '', url);
-            window.scrollTo({ top: nextResults.offsetTop - 80, behavior: 'smooth' });
+            try { window.scrollTo({ top: Math.max(0, nextResults.getBoundingClientRect().top + window.scrollY - 80), behavior: 'smooth' }); } catch (_) {}
         }
 
         function bindPills() {

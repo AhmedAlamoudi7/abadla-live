@@ -16,14 +16,20 @@ class SocialController extends Controller
     {
         $categories = SocialCategory::query()->orderBy('sort_order')->get();
 
-        $categorySlug = $request->query('category');
+        $categorySlug = trim((string) $request->query('category', ''));
+        $categorySlug = $categorySlug === '' ? null : $categorySlug;
+
+        $activeCategory = null;
+        if ($categorySlug) {
+            $activeCategory = $categories->firstWhere('slug', $categorySlug);
+        }
 
         $occasions = SocialOccasion::query()
             ->with('category')
             ->where('published', true);
 
-        if ($categorySlug) {
-            $occasions->whereHas('category', fn ($q) => $q->where('slug', $categorySlug));
+        if ($activeCategory) {
+            $occasions->where('social_category_id', $activeCategory->id);
         }
 
         $occasions = $occasions
