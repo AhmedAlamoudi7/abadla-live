@@ -1,0 +1,41 @@
+/* Rawasi Display Arabic — bundled for site + Filament (paths relative to this file in /css/) */
+@font-face {
+  font-family: 'Rawasi Display Arabic';
+  src: url('../fonts/rawasi/RawasiDisplayArabic-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Rawasi Display Arabic';
+  src: url('../fonts/rawasi/RawasiDisplayArabic-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Rawasi Display Arabic';
+  src: url('../fonts/rawasi/RawasiDisplayArabic-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Rawasi Display Arabic';
+  src: url('../fonts/rawasi/RawasiDisplayArabic-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Rawasi Display Arabic';
+  src: url('../fonts/rawasi/RawasiDisplayArabic-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Filament panel (avoid * so icon fonts keep working) */
+.fi-body {
+  font-family: 'Rawasi Display Arabic', Tahoma, sans-serif;
+}
