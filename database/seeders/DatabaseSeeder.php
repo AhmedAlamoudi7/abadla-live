@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
             ['email' => 'admin@abadla.local'],
             [
                 'name' => 'مدير الموقع',
-                'password' => Hash::make('password'),
+                'password' => Hash::make('Admin123$$'),
             ],
         );
 
