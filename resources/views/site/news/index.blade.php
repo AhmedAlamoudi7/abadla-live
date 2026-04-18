@@ -26,32 +26,26 @@
 @section('body_class', 'news-page')
 
 @section('content')
-    @if ($showFullLayout && $intro)
-        <section class="container" style="padding:24px 0 0;" data-animate="fade-up">
-            <div class="article-text" style="max-width:900px;margin:0 auto;text-align:center;">{!! $intro !!}</div>
-        </section>
-    @endif
-
     @if ($showFullLayout)
         <section class="np-banners container" data-animate="fade-up">
             @forelse ($banners->take(2) as $i => $banner)
                 <a href="{{ $banner->link ?: '#' }}" class="np-banner {{ $i === 1 ? 'np-banner--dark' : '' }}">
                     @if ($banner->image)
-                        <img src="{{ Media::url($banner->image) }}" alt="" class="np-banner-img" loading="lazy" width="1200" height="400" />
+                        <img src="{{ Media::url($banner->image) }}" alt="" class="np-banner-img" loading="lazy" width="1200" height="286" />
                     @else
-                        <img src="{{ asset('legacy/img/banner'.($i + 1).'.jpg') }}" alt="" class="np-banner-img" loading="lazy" width="1200" height="400" />
+                        <img src="{{ asset('legacy/img/banner'.($i + 1).'.jpg') }}" alt="" class="np-banner-img" loading="lazy" width="1200" height="286" />
                     @endif
                     <div class="np-banner-overlay {{ $i === 1 ? 'np-banner-overlay--dark' : '' }}"></div>
                     <p class="np-banner-caption">{{ $banner->caption ?: '—' }}</p>
                 </a>
             @empty
                 <a href="{{ route('news.index') }}" class="np-banner">
-                    <img src="{{ asset('legacy/img/banner.jpg') }}" alt="" class="np-banner-img" loading="lazy" width="1200" height="400" />
+                    <img src="{{ asset('legacy/img/banner.jpg') }}" alt="" class="np-banner-img" loading="lazy" width="1200" height="286" />
                     <div class="np-banner-overlay"></div>
                     <p class="np-banner-caption">أخبار العائلة</p>
                 </a>
                 <a href="{{ route('news.index') }}" class="np-banner np-banner--dark">
-                    <img src="{{ asset('legacy/img/banner2.jpg') }}" alt="" class="np-banner-img" loading="lazy" width="1200" height="400" />
+                    <img src="{{ asset('legacy/img/banner2.jpg') }}" alt="" class="np-banner-img" loading="lazy" width="1200" height="286" />
                     <div class="np-banner-overlay np-banner-overlay--dark"></div>
                     <p class="np-banner-caption">متابعة آخر المستجدات</p>
                 </a>

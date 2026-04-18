@@ -3,41 +3,55 @@
 @section('body_class', 'news-page')
 
 @section('content')
-    <article class="container content-frame content-frame--article" style="padding:48px 0;max-width:880px;" data-animate="fade-up">
-        <header style="margin-bottom:24px;">
-            <span class="news-date">{{ optional($post->published_at)->locale('ar')->translatedFormat('j F Y') }}</span>
-            <h1 style="margin-top:12px;font-size:1.75rem;">{{ $post->title }}</h1>
-        </header>
-        @if ($post->featured_image)
-            <div class="news-detail-featured">
-                <img src="{{ \App\Support\Media::url($post->featured_image) }}" alt="" width="880" height="495" loading="eager" decoding="async" />
-            </div>
-        @endif
-        <div class="article-text" style="line-height:1.9;">
-            {!! $post->body !!}
-        </div>
-        <p style="margin-top:32px;">
-            <a href="{{ route('news.index') }}">← العودة للأخبار</a>
-        </p>
-    </article>
-@endsection
+    <section class="detail-view-section">
+        <div class="container detail-view-wrap">
+            <article class="detail-view" data-animate="fade-up">
+                <div class="detail-view__inner">
+                    <div class="detail-view__ornament" aria-hidden="true"></div>
 
-@push('styles')
-    <style>
-        .news-detail-featured {
-            width: 100%;
-            max-height: min(70vh, 520px);
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 28px;
-            background: var(--cream-light, #f5f0ea);
-        }
-        .news-detail-featured img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            max-height: min(70vh, 520px);
-            object-fit: cover;
-        }
-    </style>
-@endpush
+                    <header class="detail-view__head">
+                        <div class="detail-view__meta-row">
+                            @if ($post->published_at)
+                                <time class="detail-view__date" datetime="{{ $post->published_at->toIso8601String() }}">
+                                    {{ $post->published_at->locale('ar')->translatedFormat('j F Y') }}
+                                </time>
+                            @endif
+                            @if ($post->category)
+                                <span class="detail-view__chip">{{ $post->category }}</span>
+                            @endif
+                        </div>
+                        <h1 class="detail-view__title">{{ $post->title }}</h1>
+                    </header>
+
+                    @if ($post->featured_image)
+                        <figure class="detail-view__media">
+                            <img
+                                src="{{ \App\Support\Media::url($post->featured_image) }}"
+                                alt=""
+                                loading="eager"
+                                decoding="async"
+                                width="880"
+                                height="495"
+                            />
+                        </figure>
+                    @endif
+
+                    @if ($post->excerpt)
+                        <p class="detail-view__lead">{{ $post->excerpt }}</p>
+                    @endif
+
+                    <div class="detail-view__body article-text">
+                        {!! $post->body !!}
+                    </div>
+
+                    <footer class="detail-view__footer">
+                        <a href="{{ route('news.index') }}" class="detail-view__back">
+                            <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                            العودة للأخبار
+                        </a>
+                    </footer>
+                </div>
+            </article>
+        </div>
+    </section>
+@endsection

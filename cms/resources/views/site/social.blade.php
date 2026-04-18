@@ -61,7 +61,7 @@
         @endif
     </section>
 
-    <section class="container" style="padding-bottom:48px;" data-animate="fade-up">
+    <section class="container soc-results" id="soc-results" style="padding-bottom:48px;" data-animate="fade-up">
         <div class="news-grid">
             @forelse ($occasions as $item)
                 <article class="news-card social-card">
@@ -95,5 +95,96 @@
             outline: 2px solid var(--accent-brown, #8b7355);
             outline-offset: 2px;
         }
+        .soc-results {
+            transition: opacity .28s ease, transform .28s ease;
+            will-change: opacity, transform;
+        }
+        .soc-results.is-leaving {
+            opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+        }
+        .soc-results.is-entering {
+            opacity: 0;
+            transform: translateY(12px);
+        }
+        .soc-pill { transition: transform .2s ease, background .2s ease; }
+        .soc-pill:active { transform: scale(.97); }
     </style>
+@endpush
+
+@push('scripts')
+    <script>
+    (function () {
+        const resultsSel = '#soc-results';
+        const pillSel = '.soc-categories a.soc-pill';
+
+        async function swap(url, push = true) {
+            const results = document.querySelector(resultsSel);
+            if (!results) return;
+
+            results.classList.add('is-leaving');
+            await new Promise(r => setTimeout(r, 280));
+
+            let html;
+            try {
+                const res = await fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'text/html' } });
+                html = await res.text();
+            } catch (e) {
+                window.location.href = url;
+                return;
+            }
+
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            const nextResults = doc.querySelector(resultsSel);
+            const nextPills = doc.querySelector('.soc-categories');
+            if (!nextResults) { window.location.href = url; return; }
+
+            results.replaceWith(nextResults);
+            if (nextPills) {
+                const currentPills = document.querySelector('.soc-categories');
+                if (currentPills) currentPills.replaceWith(nextPills);
+                bindPills();
+                bindInPageLinks();
+            }
+
+            nextResults.classList.add('is-entering');
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => nextResults.classList.remove('is-entering'));
+            });
+
+            if (push) history.pushState({ socUrl: url }, '', url);
+            window.scrollTo({ top: nextResults.offsetTop - 80, behavior: 'smooth' });
+        }
+
+        function bindPills() {
+            document.querySelectorAll(pillSel).forEach(a => {
+                if (a.dataset.socBound) return;
+                a.dataset.socBound = '1';
+                a.addEventListener('click', (e) => {
+                    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+                    e.preventDefault();
+                    swap(a.href);
+                });
+            });
+        }
+
+        function bindInPageLinks() {
+            document.querySelectorAll(resultsSel + ' .np-pagination a').forEach(a => {
+                if (a.dataset.socBound) return;
+                a.dataset.socBound = '1';
+                a.addEventListener('click', (e) => {
+                    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+                    e.preventDefault();
+                    swap(a.href);
+                });
+            });
+        }
+
+        window.addEventListener('popstate', () => swap(window.location.href, false));
+
+        bindPills();
+        bindInPageLinks();
+    })();
+    </script>
 @endpush

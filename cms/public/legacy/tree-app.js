@@ -83,14 +83,24 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", (e) => { e.stopPropagation(); toggleBranch(btn); });
   });
 
+  /* CMS data lives under .ftree-collapsed, which is hidden until .ftree-expanded (tree.css).
+     Expand everything on load so the tree is visible without clicking "توسيع" (synthetic root has no toggle). */
+  function expandEntireTree() {
+    const tree = document.getElementById("familyTree");
+    if (!tree) return;
+    tree.querySelectorAll(".ftree-collapsed").forEach((ul) => ul.classList.add("ftree-expanded"));
+    tree.querySelectorAll(".ftree-toggle").forEach((b) => b.classList.add("expanded"));
+  }
+  expandEntireTree();
+
   bind("tbExpandAll", () => {
-    document.querySelectorAll(".ftree-collapsed").forEach(ul => ul.classList.add("ftree-expanded"));
-    document.querySelectorAll(".ftree-toggle").forEach(b => b.classList.add("expanded"));
+    document.querySelectorAll("#familyTree .ftree-collapsed").forEach((ul) => ul.classList.add("ftree-expanded"));
+    document.querySelectorAll("#familyTree .ftree-toggle").forEach((b) => b.classList.add("expanded"));
   });
 
   bind("tbCollapseAll", () => {
-    document.querySelectorAll(".ftree-collapsed").forEach(ul => ul.classList.remove("ftree-expanded"));
-    document.querySelectorAll(".ftree-toggle").forEach(b => b.classList.remove("expanded"));
+    document.querySelectorAll("#familyTree .ftree-collapsed").forEach((ul) => ul.classList.remove("ftree-expanded"));
+    document.querySelectorAll("#familyTree .ftree-toggle").forEach((b) => b.classList.remove("expanded"));
   });
 
   /* ============ DETAIL PANEL ============ */

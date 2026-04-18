@@ -79,7 +79,6 @@ class NewsController extends Controller
             'mosaicMid' => $mosaicMid,
             'mosaicSm1' => $mosaicSm1,
             'mosaicSm2' => $mosaicSm2,
-            'intro' => Setting::getValue('news_intro_html', ''),
             'showFullLayout' => $page === 1,
         ]);
     }
