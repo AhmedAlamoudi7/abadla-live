@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use App\Models\Setting;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -34,6 +35,11 @@ class ManageSiteSettings extends Page implements HasForms
     public function mount(): void
     {
         $keys = [
+            'about_meta_title',
+            'about_meta_description',
+            'about_title',
+            'about_lead',
+            'about_body_html',
             'breaking_ticker',
             'copyright_line',
             'privacy_url',
@@ -93,6 +99,25 @@ class ManageSiteSettings extends Page implements HasForms
     {
         return $form
             ->schema([
+                Section::make('صفحة عن العائلة')
+                    ->description('يتحكم في محتوى صفحة «عن العائلة» العامة.')
+                    ->schema([
+                        TextInput::make('about_title')->label('العنوان الرئيسي')->maxLength(300),
+                        Textarea::make('about_lead')->label('النص التمهيدي (تحت العنوان)')->rows(3),
+                        RichEditor::make('about_body_html')
+                            ->label('المحتوى التفصيلي')
+                            ->toolbarButtons([
+                                'bold', 'italic', 'underline', 'strike',
+                                'h2', 'h3',
+                                'bulletList', 'orderedList',
+                                'link', 'blockquote',
+                                'undo', 'redo',
+                            ])
+                            ->columnSpanFull(),
+                        TextInput::make('about_meta_title')->label('عنوان الصفحة في المتصفح (SEO)')->maxLength(255),
+                        Textarea::make('about_meta_description')->label('وصف الصفحة (SEO)')->rows(2)->maxLength(500),
+                    ])
+                    ->columns(1),
                 Section::make('شريط الأخبار والواجهة')
                     ->schema([
                         Textarea::make('breaking_ticker')->label('نص الشريط (آخر الأخبار)')->rows(2),

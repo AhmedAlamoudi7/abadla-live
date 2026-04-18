@@ -118,11 +118,21 @@ class NewsController extends Controller
             ->where('published_at', '<=', now())
             ->firstOrFail();
 
+        $latest = NewsPost::query()
+            ->where('published', true)
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->where('id', '!=', $post->id)
+            ->orderByDesc('published_at')
+            ->limit(6)
+            ->get();
+
         return view('site.news.show', [
             'activeNav' => 'news',
             'title' => $post->title.' - العبادلة',
             'metaDescription' => $post->excerpt ?? \Illuminate\Support\Str::limit(strip_tags((string) $post->body), 160),
             'post' => $post,
+            'latest' => $latest,
         ]);
     }
 }

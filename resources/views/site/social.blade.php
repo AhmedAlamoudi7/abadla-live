@@ -2,8 +2,23 @@
 
 @php
     use App\Support\Media;
-    $row1 = $categories->slice(0, 3);
-    $row2 = $categories->slice(3);
+    $row1 = $categories->slice(0, 4);
+    $row2 = $categories->slice(4);
+    $iconBySlug = [
+        'engagement' => 'legacy/img/ring.svg',
+        'wedding'    => 'legacy/img/married.svg',
+        'birth'      => 'legacy/img/cake.svg',
+        'graduation' => 'legacy/img/Icon (4).svg',
+        'travel'     => 'legacy/img/elements (1).svg',
+        'death'      => 'legacy/img/elements (2).svg',
+        'martyrs'    => 'legacy/img/elements (3).svg',
+    ];
+    $pillIcon = function ($cat) use ($iconBySlug) {
+        if ($cat->icon_image) {
+            return Media::url($cat->icon_image);
+        }
+        return isset($iconBySlug[$cat->slug]) ? asset($iconBySlug[$cat->slug]) : null;
+    };
 @endphp
 
 @section('body_class', 'social-page')
@@ -35,25 +50,30 @@
 
     <section class="soc-categories container" data-animate="fade-up">
         <div class="soc-pills-row">
-            <a href="{{ route('social') }}" class="soc-pill {{ $activeCategorySlug ? '' : 'is-active' }}">
+            <a href="{{ route('social') }}" class="soc-pill soc-pill--all {{ $activeCategorySlug ? '' : 'is-active' }}">
                 <span>الكل</span>
+                <i aria-hidden="true" class="soc-pill-ico soc-pill-ico--all">
+                    <i class="fas fa-border-all"></i>
+                </i>
             </a>
             @foreach ($row1 as $cat)
-                    <a href="{{ route('social', ['category' => $cat->slug]) }}" class="soc-pill {{ $activeCategorySlug === $cat->slug ? 'is-active' : '' }}">
-                        <span>{{ $cat->name }}</span>
-                        @if ($cat->icon_image)
-                            <i aria-hidden="true"><img src="{{ Media::url($cat->icon_image) }}" alt="" /></i>
-                        @endif
-                    </a>
+                @php($icoUrl = $pillIcon($cat))
+                <a href="{{ route('social', ['category' => $cat->slug]) }}" class="soc-pill {{ $activeCategorySlug === $cat->slug ? 'is-active' : '' }}">
+                    <span>{{ $cat->name }}</span>
+                    @if ($icoUrl)
+                        <i aria-hidden="true" class="soc-pill-ico"><img src="{{ $icoUrl }}" alt="" /></i>
+                    @endif
+                </a>
             @endforeach
         </div>
         @if ($row2->isNotEmpty())
             <div class="soc-pills-row">
                 @foreach ($row2 as $cat)
+                    @php($icoUrl = $pillIcon($cat))
                     <a href="{{ route('social', ['category' => $cat->slug]) }}" class="soc-pill {{ $activeCategorySlug === $cat->slug ? 'is-active' : '' }}">
                         <span>{{ $cat->name }}</span>
-                        @if ($cat->icon_image)
-                            <i aria-hidden="true"><img src="{{ Media::url($cat->icon_image) }}" alt="" /></i>
+                        @if ($icoUrl)
+                            <i aria-hidden="true" class="soc-pill-ico"><img src="{{ $icoUrl }}" alt="" /></i>
                         @endif
                     </a>
                 @endforeach
@@ -91,10 +111,46 @@
 
 @push('styles')
     <style>
+        .soc-pill {
+            transition: transform .2s ease, background .2s ease, box-shadow .2s ease, border-color .2s ease, color .2s ease;
+        }
+        .soc-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px -14px rgba(80,55,20,.35);
+        }
+        .soc-pill:active { transform: scale(.97); }
         .soc-pill.is-active {
+            background: linear-gradient(135deg, rgba(139,115,85,.14), rgba(139,115,85,.04));
+            border-color: var(--accent-brown, #8b7355) !important;
             outline: 2px solid var(--accent-brown, #8b7355);
             outline-offset: 2px;
+            box-shadow: 0 14px 28px -16px rgba(80,55,20,.45);
         }
+        .soc-pill .soc-pill-ico {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(139,115,85,.08);
+            transition: background .2s ease, transform .2s ease;
+        }
+        .soc-pill .soc-pill-ico img {
+            width: 18px;
+            height: 18px;
+            object-fit: contain;
+            display: block;
+        }
+        .soc-pill .soc-pill-ico--all .fas,
+        .soc-pill .soc-pill-ico .fas { color: #8b7355; font-size: 15px; }
+        .soc-pill:hover .soc-pill-ico { background: rgba(139,115,85,.18); transform: rotate(-6deg); }
+        .soc-pill.is-active .soc-pill-ico {
+            background: linear-gradient(135deg, #8b7355, #a68a6a);
+        }
+        .soc-pill.is-active .soc-pill-ico img { filter: brightness(0) invert(1); }
+        .soc-pill.is-active .soc-pill-ico .fas { color: #fff; }
+
         .soc-results {
             transition: opacity .28s ease, transform .28s ease;
             will-change: opacity, transform;
@@ -108,8 +164,6 @@
             opacity: 0;
             transform: translateY(12px);
         }
-        .soc-pill { transition: transform .2s ease, background .2s ease; }
-        .soc-pill:active { transform: scale(.97); }
     </style>
 @endpush
 

@@ -33,11 +33,19 @@ class EventController extends Controller
             ->where('is_published', true)
             ->firstOrFail();
 
+        $latest = Event::query()
+            ->where('is_published', true)
+            ->where('id', '!=', $event->id)
+            ->orderByDesc('starts_at')
+            ->limit(6)
+            ->get();
+
         return view('site.events.show', [
             'activeNav' => 'events',
             'title' => $event->title.' - العبادلة',
             'metaDescription' => $event->description ?? \Illuminate\Support\Str::limit(strip_tags((string) $event->body), 160),
             'event' => $event,
+            'latest' => $latest,
         ]);
     }
 }
