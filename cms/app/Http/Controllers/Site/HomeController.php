@@ -7,7 +7,6 @@ use App\Models\Event;
 use App\Models\GalleryImage;
 use App\Models\HeroSlide;
 use App\Models\HomeFeaturedEvent;
-use App\Models\NewsPost;
 use App\Models\Setting;
 use Illuminate\View\View;
 
@@ -36,25 +35,6 @@ class HomeController extends Controller
                 ->get();
         }
 
-        $homeNews = NewsPost::query()
-            ->where('published', true)
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
-            ->where('show_on_home', true)
-            ->orderByDesc('published_at')
-            ->limit(8)
-            ->get();
-
-        if ($homeNews->isEmpty()) {
-            $homeNews = NewsPost::query()
-                ->where('published', true)
-                ->whereNotNull('published_at')
-                ->where('published_at', '<=', now())
-                ->orderByDesc('published_at')
-                ->limit(8)
-                ->get();
-        }
-
         $activityEvents = Event::query()
             ->where('is_published', true)
             ->orderByDesc('starts_at')
@@ -72,7 +52,6 @@ class HomeController extends Controller
             'metaDescription' => Setting::getValue('meta_home_description', 'موقع عائلة العبادلة — أخبار، فعاليات، وتراث.'),
             'heroSlides' => $slides,
             'featuredEvents' => $featuredLinks,
-            'homeNews' => $homeNews,
             'activityEvents' => $activityEvents,
             'galleryImages' => $galleryImages,
             'familyIntroTitle' => Setting::getValue('home_family_intro_title', 'تعمـــــــــــــــق وتعرف على أصول العائلة ...'),
@@ -91,7 +70,7 @@ class HomeController extends Controller
             'landmarkMoreUrl' => Setting::getValue('landmark_more_url', '#'),
             'mediaArticlesImage' => Setting::getValue('media_articles_image', 'img/article.jpg'),
             'mediaVideoUrl' => Setting::getValue('media_video_url', ''),
-            'heroDateLine' => Setting::getValue('hero_date_line', ''),
+            'heroDateLine' => 'اليوم : '.now()->locale('ar')->isoFormat('dddd').' | التاريخ : '.now()->format('d/m/Y').' مـ',
         ]);
     }
 }

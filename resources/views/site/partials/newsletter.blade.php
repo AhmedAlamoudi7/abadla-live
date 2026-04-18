@@ -1,9 +1,3 @@
-@if (session('newsletter_ok'))
-    <div class="container" style="padding:12px 0;text-align:center;color:#0a7a3e;font-weight:600;">
-        تم تسجيل بريدك بنجاح. شكراً لك.
-    </div>
-@endif
-
 <section class="newsletter-wrapper" data-animate="fade-up">
     <div class="newsletter-box">
         <div class="newsletter-content">

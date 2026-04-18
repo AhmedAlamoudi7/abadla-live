@@ -15,7 +15,8 @@ class SiteComposer
             'footer_legal' => Setting::getValue('footer_legal', 'سياسة الخصوصية | الشروط والأحكام'),
             'whatsapp_line1' => Setting::getValue('whatsapp_line1', 'للانضمام في'),
             'whatsapp_line2' => Setting::getValue('whatsapp_line2', 'مجموعة واتساب'),
-            'whatsapp_url' => Setting::getValue('whatsapp_url', '#'),
+            'whatsapp_url' => Setting::getValue('whatsapp_url')
+                ?: Setting::getValue('whatsapp_link', 'https://wa.me/972599626660'),
             'social_facebook' => Setting::getValue('social_facebook', '#'),
             'social_instagram' => Setting::getValue('social_instagram', '#'),
             'social_youtube' => Setting::getValue('social_youtube', '#'),

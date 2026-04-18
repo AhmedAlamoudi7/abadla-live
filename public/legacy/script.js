@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     animateRing();
 
-    const hoverTargets = "a, button, .event-card, .activity-card, .stat-card, .news-card, .gallery-card, .branch-card, .value-card, .social-card, .graduate-card, .archive-item, .play-btn, input, select, textarea";
+    const hoverTargets = "a, button, .event-card, .activity-card, .stat-card, .news-card, .gallery-card, .branch-card, .value-card, .social-card, .collection-card, .graduate-card, .archive-item, .play-btn, input, select, textarea";
     document.querySelectorAll(hoverTargets).forEach((el) => {
       el.addEventListener("mouseenter", () => ring.classList.add("hover"));
       el.addEventListener("mouseleave", () => ring.classList.remove("hover"));
@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const videoFrame = document.getElementById("videoFrame");
   const videoCloseBtn = document.querySelector(".video-close");
   const videoOverlay = document.querySelector(".video-overlay");
-  const videoURL = window.MEDIA_VIDEO_URL || "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
+  const videoURL = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
 
   function closeVideoModal() {
     if (videoModal) videoModal.classList.remove("active");
@@ -346,7 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================================
      GALLERY – dynamic grid + lightbox
      ========================================= */
-  const galleryImagesFallback = [
+  const galleryImages = [
     "img/library-image.png",
     "img/library-image.png",
     "img/library-image.png",
@@ -355,9 +355,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "img/library-image.png",
     "img/library-image.png",
   ];
-  const galleryImages = Array.isArray(window.GALLERY_IMAGES) && window.GALLERY_IMAGES.length
-    ? window.GALLERY_IMAGES
-    : galleryImagesFallback;
 
   const galleryGrid = document.getElementById("galleryGrid");
   const lightbox = document.getElementById("lightbox");
@@ -372,8 +369,6 @@ document.addEventListener("DOMContentLoaded", () => {
       <a class="gallery-more" href="#">مشاهدة المزيد</a>
     `;
     galleryGrid.appendChild(textCell);
-    const galleryMore = textCell.querySelector(".gallery-more");
-    if (galleryMore && window.GALLERY_MORE_URL) galleryMore.href = window.GALLERY_MORE_URL;
 
     galleryImages.forEach((src, i) => {
       const card = document.createElement("div");
@@ -643,7 +638,7 @@ document.addEventListener("DOMContentLoaded", () => {
      INNER PAGE – stagger grid animations
      ========================================= */
   const innerGrids = document.querySelectorAll(
-    ".values-grid, .social-grid, .degrees-stats, .graduates-grid, .branches-grid, .archive-grid"
+    ".values-grid, .social-grid, .degrees-stats, .graduates-grid, .branches-grid, .collections-grid, .archive-grid"
   );
 
   const innerGridObs = new IntersectionObserver(
@@ -722,24 +717,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const siteSearch = document.getElementById("siteSearch");
   const searchDropdown = document.getElementById("searchDropdown");
 
-  const sitePagesFallback = [
-    { title: "الرئيسية", url: "/", icon: "fas fa-home", keywords: "الصفحة الرئيسية أخبار فعاليات إحصائيات صور مكتبة نشرة العبادلة" },
-    { title: "عن العائلة", url: "/about", icon: "fas fa-users", keywords: "تاريخ العائلة القيم الرؤية الرسالة النشأة الجذور العبادلة عن" },
-    { title: "أخبار العائلة", url: "/news", icon: "fas fa-newspaper", keywords: "أخبار مقالات أحداث جديد آخر الأخبار تقارير" },
-    { title: "إجتماعيات", url: "/social", icon: "fas fa-heart", keywords: "زواج تهنئة عزاء مناسبات اجتماعيات تهاني أفراح" },
-    { title: "شجرة العائلة", url: "/family-tree", icon: "fas fa-sitemap", keywords: "شجرة نسب فروع أجداد الجد المؤسس عبدالله محمد إبراهيم علي حسين" },
-    { title: "فعاليات", url: "/events", icon: "fas fa-calendar-check", keywords: "فعاليات أنشطة مناسبات ملتقى حفل تجمع لقاء عائلي" },
-    { title: "شخصيات إعتبارية", url: "/personalities", icon: "fas fa-user-tie", keywords: "شخصيات إعتبارية أعيان وجهاء شخصية بارزة كبار" },
-    { title: "الألبوم", url: "/album", icon: "fas fa-images", keywords: "ألبوم صور مكتبة لقطات ذكريات تاريخ مناسبات صورة" },
+  const sitePages = [
+    { title: "الرئيسية", url: "index.html", icon: "fas fa-home", keywords: "الصفحة الرئيسية أخبار فعاليات إحصائيات صور مكتبة نشرة العبادلة" },
+    { title: "عن العائلة", url: "about.html", icon: "fas fa-users", keywords: "تاريخ العائلة القيم الرؤية الرسالة النشأة الجذور العبادلة عن" },
+    { title: "أخبار العائلة", url: "news.html", icon: "fas fa-newspaper", keywords: "أخبار مقالات أحداث جديد آخر الأخبار تقارير" },
+    { title: "إجتماعيات", url: "social.html", icon: "fas fa-heart", keywords: "زواج تهنئة عزاء مناسبات اجتماعيات تهاني أفراح" },
+    { title: "شجرة العائلة", url: "family-tree.html", icon: "fas fa-sitemap", keywords: "شجرة نسب فروع أجداد الجد المؤسس عبدالله محمد إبراهيم علي حسين" },
+    { title: "فعاليات", url: "events.html", icon: "fas fa-calendar-check", keywords: "فعاليات أنشطة مناسبات ملتقى حفل تجمع لقاء عائلي" },
+    { title: "شخصيات إعتبارية", url: "personalities.html", icon: "fas fa-user-tie", keywords: "شخصيات إعتبارية أعيان وجهاء شخصية بارزة كبار" },
+    { title: "الألبوم", url: "album.html", icon: "fas fa-images", keywords: "ألبوم صور مكتبة لقطات ذكريات تاريخ مناسبات صورة" },
+    { title: "معلومات", url: "informations.html", icon: "fas fa-info-circle", keywords: "معلومات بيانات تفاصيل أخبار عريس عرس زواج مناسبة" },
   ];
-  const sitePages = Array.isArray(window.SITE_SEARCH_PAGES) && window.SITE_SEARCH_PAGES.length
-    ? window.SITE_SEARCH_PAGES
-    : sitePagesFallback;
 
   if (siteSearch && searchDropdown) {
     function collectPageContent() {
       const items = [];
-      const sections = document.querySelectorAll("h1, h2, h3, h4, .event-card, .activity-card, .stat-card, .news-card, .gallery-text, .landmark-title, .branch-card, .value-card, .social-card, .graduate-card, .archive-item, .about-intro, .timeline-item, p");
+      const sections = document.querySelectorAll("h1, h2, h3, h4, .event-card, .activity-card, .stat-card, .news-card, .gallery-text, .landmark-title, .branch-card, .value-card, .social-card, .collection-card, .graduate-card, .archive-item, .about-intro, .timeline-item, p");
       sections.forEach((el) => {
         const text = el.textContent.trim();
         if (text.length > 3 && text.length < 300) {

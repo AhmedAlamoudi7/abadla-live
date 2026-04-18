@@ -33,6 +33,15 @@
         window.SITE_SEARCH_PAGES = @json($siteSearchPages ?? []);
         window.GALLERY_MORE_URL = @json(route('album'));
     </script>
+    @if (session('contact_ok'))
+        <script>alert('تم استلام رسالتك بنجاح.');</script>
+    @endif
+    @if (session('newsletter_ok'))
+        <script>alert('تم تسجيل بريدك بنجاح. شكراً لك.');</script>
+    @endif
+    @if (session('archive_ok'))
+        <script>alert('تم إرسال بياناتك بنجاح.');</script>
+    @endif
     @stack('before_legacy_script')
     <script src="{{ asset('legacy/script.js') }}"></script>
     @stack('scripts')

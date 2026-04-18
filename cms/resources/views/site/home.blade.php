@@ -2,7 +2,6 @@
 
 @php
     use App\Support\Media;
-    $heroDateLine = $heroDateLine ?: 'اليوم : '.\Illuminate\Support\Carbon::now()->locale('ar')->isoFormat('dddd | D/M/Y').' مـ';
     $galleryUrls = $galleryImages->isNotEmpty()
         ? $galleryImages->map(fn ($g) => Media::url($g->image))->values()->all()
         : [
@@ -34,45 +33,11 @@
         </div>
     </section>
 
-    <section class="news-section home-news-below-hero" data-animate="fade-up">
-        <div class="container">
-            <div class="section-title" style="margin-bottom: 24px;">
-                <div class="title-wrapper">
-                    <span class="line"></span>
-                    <h2 class="gradient-text">آخر الأخبار</h2>
-                    <span class="line"></span>
-                </div>
-            </div>
-        </div>
-        <div class="news-grid">
-            @forelse ($homeNews as $post)
-                <article class="news-card">
-                    <div class="news-text">
-                        <span class="news-date">
-                            {{ optional($post->published_at)->locale('ar')->translatedFormat('j F Y') }}
-                        </span>
-                        <h3><a href="{{ route('news.show', $post->slug) }}">{{ $post->title }}</a></h3>
-                        <p>{{ $post->excerpt ?? \Illuminate\Support\Str::limit(strip_tags((string) $post->body), 140) }}</p>
-                    </div>
-                    <div class="news-image">
-                        @if ($post->featured_image)
-                            <img src="{{ Media::url($post->featured_image) }}" alt="" />
-                        @else
-                            <i class="fas fa-image"></i>
-                        @endif
-                    </div>
-                </article>
-            @empty
-                <p style="grid-column:1/-1;text-align:center;">لا توجد أخبار منشورة بعد.</p>
-            @endforelse
-        </div>
-    </section>
-
     <section class="family-events">
         <div class="container">
             <div class="events-row" data-animate="fade-up">
                 @foreach ($featuredEvents->take(3) as $i => $event)
-                    <div class="event-card {{ $i === 0 ? 'active' : '' }}">
+                    <a href="{{ route('events.show', $event->slug) }}" class="event-card {{ $i === 0 ? 'active' : '' }}">
                         <span class="event-date">
                             @if ($event->starts_at)
                                 {{ $event->starts_at->locale('ar')->translatedFormat('j F Y') }}
@@ -85,8 +50,8 @@
                         @else
                             <img src="{{ asset('legacy/img/event'.($i % 3 + 1).'.jpg') }}" alt="" />
                         @endif
-                        <a class="event-btn" href="{{ route('events.show', $event->slug) }}">مشاهدة المزيد <img src="{{ asset('legacy/img/arrow-left.svg') }}" class="btn-icon" alt="" /></a>
-                    </div>
+                        <span class="event-btn">مشاهدة المزيد <img src="{{ asset('legacy/img/arrow-left.svg') }}" class="btn-icon" alt="" /></span>
+                    </a>
                     @if ($i === 0)
                         <button class="arrow right" type="button" aria-label="التالي">›</button>
                     @endif
@@ -117,7 +82,7 @@
                         <div class="media-block articles">
                             <div class="media-head"><h3>مقـــــــــــالات</h3></div>
                             <div class="articles-image">
-                                <img src="{{ str($mediaArticlesImage)->startsWith(['http://', 'https://']) ? $mediaArticlesImage : asset('legacy/'.$mediaArticlesImage) }}" alt="مقـــــــــــالات" />
+                                <img src="{{ Media::settingImage($mediaArticlesImage ?? null, 'img/article.jpg') }}" alt="مقـــــــــــالات" />
                             </div>
                         </div>
                         <div class="media-block video">
@@ -138,7 +103,7 @@
 
             <div class="activites-row" data-animate="fade-up">
                 @foreach ($activityEvents->take(3) as $i => $event)
-                    <div class="activity-card {{ $i === 0 ? 'active' : '' }}">
+                    <a href="{{ route('events.show', $event->slug) }}" class="activity-card {{ $i === 0 ? 'active' : '' }}">
                         @if ($event->cover_image)
                             <img class="activity-img" src="{{ Media::url($event->cover_image) }}" alt="" />
                         @else
@@ -155,7 +120,7 @@
                                 <img src="{{ asset('legacy/img/arrow-left.svg') }}" class="activity-arrow" alt="" />
                             </div>
                         </div>
-                    </div>
+                    </a>
                     @if ($i === 0)
                         <button class="arrow-activty right" type="button" aria-label="التالي">›</button>
                     @endif
@@ -224,7 +189,7 @@
                         </a>
                     </div>
                     <div class="landmark-image">
-                        <img src="{{ str($landmarkImage)->startsWith(['http://', 'https://']) ? $landmarkImage : asset('legacy/'.$landmarkImage) }}" alt="معلم تاريخي" />
+                        <img src="{{ Media::settingImage($landmarkImage ?? null, 'img/jureselem.png') }}" alt="معلم تاريخي" />
                     </div>
                 </div>
             </section>
@@ -241,12 +206,6 @@
         <span class="close">&times;</span>
         <img id="lightboxImg" alt="Gallery preview" />
     </div>
-
-    @if (session('archive_ok'))
-        <div class="container" style="padding:12px 0;text-align:center;color:#0a7a3e;font-weight:600;">
-            تم استلام طلبك وسيتم مراجعته.
-        </div>
-    @endif
 
     <section class="form-section" data-animate="fade-up">
         <div class="form-box">
@@ -286,7 +245,6 @@
             </form>
         </div>
     </section>
-
 @endsection
 
 @push('before_legacy_script')

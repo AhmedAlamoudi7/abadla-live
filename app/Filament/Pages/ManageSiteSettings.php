@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Setting;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -11,6 +12,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
 class ManageSiteSettings extends Page implements HasForms
 {
@@ -43,7 +45,6 @@ class ManageSiteSettings extends Page implements HasForms
             'social_telegram',
             'whatsapp_link',
             'whatsapp_text',
-            'hero_date_line',
             'events_intro_1',
             'events_intro_2',
             'news_intro_html',
@@ -57,11 +58,9 @@ class ManageSiteSettings extends Page implements HasForms
             'stat_wide_one_value',
             'stat_wide_two_label',
             'stat_wide_two_value',
-            'media_articles_image',
             'media_video_url',
             'landmark_title',
             'landmark_body_html',
-            'landmark_image',
             'landmark_more_url',
         ];
 
@@ -70,7 +69,22 @@ class ManageSiteSettings extends Page implements HasForms
             $data[$key] = Setting::getValue($key, '');
         }
 
+        $landmark = (string) Setting::getValue('landmark_image', '');
+        $data['landmark_image_file'] = self::isStoredHomeSectionPath($landmark) ? $landmark : null;
+        $data['landmark_image_path'] = self::isStoredHomeSectionPath($landmark) ? '' : $landmark;
+
+        $mediaArticles = (string) Setting::getValue('media_articles_image', '');
+        $data['media_articles_image_file'] = self::isStoredHomeSectionPath($mediaArticles) ? $mediaArticles : null;
+        $data['media_articles_image_path'] = self::isStoredHomeSectionPath($mediaArticles) ? '' : $mediaArticles;
+
         $this->form->fill($data);
+    }
+
+    private static function isStoredHomeSectionPath(string $path): bool
+    {
+        $path = ltrim($path, '/');
+
+        return $path !== '' && str_starts_with($path, 'home-sections/');
     }
 
     public function form(Form $form): Form
@@ -80,7 +94,6 @@ class ManageSiteSettings extends Page implements HasForms
                 Section::make('شريط الأخبار والواجهة')
                     ->schema([
                         Textarea::make('breaking_ticker')->label('نص الشريط (آخر الأخبار)')->rows(2),
-                        TextInput::make('hero_date_line')->label('سطر التاريخ في الرئيسية')->maxLength(500),
                     ]),
                 Section::make('التذييل والروابط القانونية')
                     ->schema([
@@ -100,7 +113,7 @@ class ManageSiteSettings extends Page implements HasForms
                     ->columns(2),
                 Section::make('واتساب')
                     ->schema([
-                        TextInput::make('whatsapp_link')->label('رابط المجموعة')->url()->maxLength(500)->nullable(),
+                        TextInput::make('whatsapp_link')->label('رابط المجموعة / واتساب')->url()->maxLength(500)->nullable(),
                         Textarea::make('whatsapp_text')->label('نص دعوة الواتساب')->rows(2),
                     ]),
                 Section::make('صفحة الأخبار')
@@ -119,7 +132,17 @@ class ManageSiteSettings extends Page implements HasForms
                     ]),
                 Section::make('الرئيسية — معرض الوسائط')
                     ->schema([
-                        TextInput::make('media_articles_image')->label('صورة قسم المقالات (مسار داخل legacy/ أو رابط كامل)')->maxLength(500),
+                        FileUpload::make('media_articles_image_file')
+                            ->label('صورة قسم المقالات (رفع ملف)')
+                            ->image()
+                            ->disk('public')
+                            ->directory('home-sections')
+                            ->visibility('public')
+                            ->nullable(),
+                        TextInput::make('media_articles_image_path')
+                            ->label('أو مسار داخل legacy/ أو رابط كامل (بدون رفع)')
+                            ->maxLength(1000)
+                            ->placeholder('مثال: img/article.jpg أو https://…'),
                         TextInput::make('media_video_url')->label('رابط فيديو البرومو (YouTube أو ملف)')->url()->maxLength(1000)->nullable(),
                     ]),
                 Section::make('الرئيسية — إحصائيات العائلة')
@@ -138,7 +161,17 @@ class ManageSiteSettings extends Page implements HasForms
                     ->schema([
                         TextInput::make('landmark_title')->label('عنوان القسم')->maxLength(300),
                         Textarea::make('landmark_body_html')->label('النص (HTML)')->rows(5),
-                        TextInput::make('landmark_image')->label('صورة القسم (مسار داخل legacy/ أو رابط كامل)')->maxLength(500),
+                        FileUpload::make('landmark_image_file')
+                            ->label('صورة القسم (رفع ملف)')
+                            ->image()
+                            ->disk('public')
+                            ->directory('home-sections')
+                            ->visibility('public')
+                            ->nullable(),
+                        TextInput::make('landmark_image_path')
+                            ->label('أو مسار داخل legacy/ أو رابط كامل (بدون رفع)')
+                            ->maxLength(1000)
+                            ->placeholder('مثال: img/jureselem.png أو https://…'),
                         TextInput::make('landmark_more_url')->label('رابط «مشاهدة المزيد»')->url()->maxLength(500)->nullable(),
                     ]),
             ])
@@ -148,6 +181,26 @@ class ManageSiteSettings extends Page implements HasForms
     public function save(): void
     {
         $state = $this->form->getState();
+
+        $landmark = $this->resolveHomeSectionImage(
+            $state['landmark_image_file'] ?? null,
+            (string) ($state['landmark_image_path'] ?? '')
+        );
+        $mediaArticles = $this->resolveHomeSectionImage(
+            $state['media_articles_image_file'] ?? null,
+            (string) ($state['media_articles_image_path'] ?? '')
+        );
+
+        unset(
+            $state['landmark_image_file'],
+            $state['landmark_image_path'],
+            $state['media_articles_image_file'],
+            $state['media_articles_image_path'],
+        );
+
+        $state['landmark_image'] = $landmark;
+        $state['media_articles_image'] = $mediaArticles;
+
         foreach ($state as $key => $value) {
             Setting::setValue((string) $key, $value === null || $value === '' ? null : (string) $value);
         }
@@ -156,5 +209,24 @@ class ManageSiteSettings extends Page implements HasForms
             ->title('تم حفظ الإعدادات')
             ->success()
             ->send();
+    }
+
+    private function resolveHomeSectionImage(mixed $file, string $path): ?string
+    {
+        if (is_array($file)) {
+            $file = $file[0] ?? null;
+        }
+
+        if ($file instanceof TemporaryUploadedFile) {
+            return $file->store('home-sections', 'public');
+        }
+
+        if (is_string($file) && $file !== '') {
+            return $file;
+        }
+
+        $path = trim($path);
+
+        return $path === '' ? null : $path;
     }
 }
