@@ -52,7 +52,7 @@
         </div>
 
         <div class="container" style="padding:24px 0;">
-            {{ $events->links() }}
+            {{ $events->links('pagination.np') }}
         </div>
     </section>
 @endsection

@@ -7,6 +7,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.getElementById("treeSidebar");
   if (!canvas || !viewport) return;
 
+  const safeSidebarToggle = () => {
+    if (!sidebar) return;
+    if (window.innerWidth <= 992) {
+      sidebar.classList.toggle("open");
+    } else {
+      sidebar.classList.toggle("collapsed");
+    }
+  };
+
   /* ============ ZOOM ============ */
   let zoom = 1;
   const ZOOM_STEP = 0.1, ZOOM_MIN = 0.3, ZOOM_MAX = 2;
@@ -171,13 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   /* ============ SIDEBAR TOGGLE ============ */
-  bind("tbSidebarToggle", () => {
-    if (window.innerWidth <= 992) {
-      sidebar.classList.toggle("open");
-    } else {
-      sidebar.classList.toggle("collapsed");
-    }
-  });
+  bind("tbSidebarToggle", safeSidebarToggle);
 
   /* ============ BRANCH FILTER ============ */
   document.querySelectorAll(".branch-item").forEach(btn => {
@@ -198,11 +201,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       tabs.forEach(t => t.classList.remove("active"));
-      tabs[0].classList.add("active");
+      if (tabs[0]) tabs[0].classList.add("active");
       Object.values(tabPanels).forEach(p => { if (p) p.classList.remove("active"); });
-      tabPanels.tree.classList.add("active");
+      if (tabPanels.tree) tabPanels.tree.classList.add("active");
 
-      if (window.innerWidth <= 992) sidebar.classList.remove("open");
+      if (sidebar && window.innerWidth <= 992) sidebar.classList.remove("open");
     });
   });
 
@@ -232,10 +235,10 @@ document.addEventListener("DOMContentLoaded", () => {
         scrollToNode(node);
         highlightNode(node);
         tabs.forEach(t => t.classList.remove("active"));
-        tabs[0].classList.add("active");
+        if (tabs[0]) tabs[0].classList.add("active");
         Object.values(tabPanels).forEach(p => { if (p) p.classList.remove("active"); });
-        tabPanels.tree.classList.add("active");
-        if (window.innerWidth <= 992) sidebar.classList.remove("open");
+        if (tabPanels.tree) tabPanels.tree.classList.add("active");
+        if (sidebar && window.innerWidth <= 992) sidebar.classList.remove("open");
       });
       searchResults.appendChild(item);
     });
@@ -254,9 +257,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       el = el.parentElement && el.parentElement.closest("ul");
     }
-    document.querySelectorAll("#familyTree > li > ul > li[data-branch]").forEach(li => li.style.display = "");
-    document.querySelectorAll(".branch-item").forEach(b => b.classList.remove("active"));
-    document.querySelector('.branch-item[data-branch="all"]').classList.add("active");
+      document.querySelectorAll("#familyTree > li > ul > li[data-branch]").forEach(li => li.style.display = "");
+      document.querySelectorAll(".branch-item").forEach(b => b.classList.remove("active"));
+      const allBranchBtn = document.querySelector('.branch-item[data-branch="all"]');
+      if (allBranchBtn) allBranchBtn.classList.add("active");
   }
 
   function scrollToNode(node) {
@@ -301,6 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ============ CLOSE SIDEBAR ON OUTSIDE CLICK (mobile) ============ */
   document.addEventListener("click", (e) => {
+    if (!sidebar) return;
     if (window.innerWidth <= 992 && sidebar.classList.contains("open")) {
       if (!sidebar.contains(e.target) && !e.target.closest("#tbSidebarToggle")) {
         sidebar.classList.remove("open");

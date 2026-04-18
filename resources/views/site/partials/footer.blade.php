@@ -11,8 +11,8 @@
                     <li><a href="{{ route('social') }}">إجتماعيات</a></li>
                 </ul>
                 <ul>
-                    <li><a href="{{ route('news.index') }}">درجات علمية</a></li>
                     <li><a href="{{ route('family-tree') }}">شجرة العائلة</a></li>
+                    <li><a href="{{ route('personalities') }}">شخصيات إعتبارية</a></li>
                     <li><a href="{{ route('album') }}">الألبوم</a></li>
                 </ul>
             </div>

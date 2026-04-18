@@ -4982,6 +4982,11 @@ body.news-page {
   transition: all 0.3s ease;
 }
 
+a.np-page {
+  text-decoration: none;
+  color: inherit;
+}
+
 .np-page:hover {
   background: var(--cream);
 }

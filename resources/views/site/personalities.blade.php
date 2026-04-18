@@ -43,6 +43,6 @@
                 <p style="grid-column:1/-1;text-align:center;">لا توجد بيانات بعد.</p>
             @endforelse
         </div>
-        <div style="padding:24px 0;">{{ $personalities->links() }}</div>
+        <div style="padding:24px 0;">{{ $personalities->links('pagination.np') }}</div>
     </section>
 @endsection

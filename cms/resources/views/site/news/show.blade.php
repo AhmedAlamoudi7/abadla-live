@@ -1,5 +1,7 @@
 @extends('layouts.site')
 
+@section('body_class', 'news-page')
+
 @section('content')
     <article class="container content-frame content-frame--article" style="padding:48px 0;max-width:880px;" data-animate="fade-up">
         <header style="margin-bottom:24px;">
@@ -8,7 +10,7 @@
         </header>
         @if ($post->featured_image)
             <div class="news-detail-featured">
-                <img src="{{ \App\Support\Media::url($post->featured_image) }}" alt="" />
+                <img src="{{ \App\Support\Media::url($post->featured_image) }}" alt="" width="880" height="495" loading="eager" decoding="async" />
             </div>
         @endif
         <div class="article-text" style="line-height:1.9;">
@@ -19,3 +21,23 @@
         </p>
     </article>
 @endsection
+
+@push('styles')
+    <style>
+        .news-detail-featured {
+            width: 100%;
+            max-height: min(70vh, 520px);
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 28px;
+            background: var(--cream-light, #f5f0ea);
+        }
+        .news-detail-featured img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            max-height: min(70vh, 520px);
+            object-fit: cover;
+        }
+    </style>
+@endpush

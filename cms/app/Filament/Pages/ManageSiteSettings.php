@@ -45,6 +45,8 @@ class ManageSiteSettings extends Page implements HasForms
             'social_telegram',
             'whatsapp_link',
             'whatsapp_text',
+            'social_banner_image',
+            'social_hero_title',
             'events_intro_1',
             'events_intro_2',
             'news_intro_html',
@@ -115,6 +117,14 @@ class ManageSiteSettings extends Page implements HasForms
                     ->schema([
                         TextInput::make('whatsapp_link')->label('رابط المجموعة / واتساب')->url()->maxLength(500)->nullable(),
                         Textarea::make('whatsapp_text')->label('نص دعوة الواتساب')->rows(2),
+                    ]),
+                Section::make('صفحة إجتماعيات')
+                    ->schema([
+                        TextInput::make('social_banner_image')
+                            ->label('صورة البانر العلوي (مسار داخل legacy/ أو رابط كامل)')
+                            ->maxLength(1000)
+                            ->placeholder('مثال: img/banner.jpg'),
+                        TextInput::make('social_hero_title')->label('عنوان البانر')->maxLength(200),
                     ]),
                 Section::make('صفحة الأخبار')
                     ->schema([
