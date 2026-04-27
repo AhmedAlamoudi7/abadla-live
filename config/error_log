@@ -1,0 +1,36 @@
+[20-Apr-2026 01:39:22 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/alabbwki/public_html/config/database.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/alabbwki/public_html/config/database.php on line 19
+[20-Apr-2026 01:39:22 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/alabbwki/public_html/config/mail.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/alabbwki/public_html/config/mail.php on line 17
+[22-Apr-2026 13:39:23 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/alabbwki/public_html/config/database.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/alabbwki/public_html/config/database.php on line 19
+[25-Apr-2026 04:56:47 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/alabbwki/public_html/config/database.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/alabbwki/public_html/config/database.php on line 19
+[25-Apr-2026 04:56:47 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/alabbwki/public_html/config/mail.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/alabbwki/public_html/config/mail.php on line 17
+[25-Apr-2026 04:56:47 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/alabbwki/public_html/config/services.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/alabbwki/public_html/config/services.php on line 18
+[26-Apr-2026 04:12:15 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/alabbwki/public_html/config/database.php:19
+Stack trace:
+#0 {main}
+  thrown in /home/alabbwki/public_html/config/database.php on line 19
+[26-Apr-2026 04:12:15 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/alabbwki/public_html/config/mail.php:17
+Stack trace:
+#0 {main}
+  thrown in /home/alabbwki/public_html/config/mail.php on line 17
+[26-Apr-2026 04:12:15 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/alabbwki/public_html/config/services.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/alabbwki/public_html/config/services.php on line 18

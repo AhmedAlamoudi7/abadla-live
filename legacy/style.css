@@ -1922,7 +1922,6 @@ mark {
   padding: var(--section-gap) var(--page-gutter);
   background: #8b6b55;
   box-sizing: border-box;
-  margin-top:-232px;
 }
 
 .gallery-wrapper {
