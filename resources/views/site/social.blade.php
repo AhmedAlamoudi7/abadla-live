@@ -199,10 +199,12 @@
             if (!nextResults) { window.location.href = url; return; }
 
             nextResults.classList.remove('is-leaving', 'is-entering');
+            nextResults.classList.add('animated');
 
             results.replaceWith(nextResults);
 
             if (nextPills) {
+                nextPills.classList.add('animated');
                 const currentPills = document.querySelector('.soc-categories');
                 if (currentPills) currentPills.replaceWith(nextPills);
             }

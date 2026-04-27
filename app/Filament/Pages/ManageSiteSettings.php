@@ -35,6 +35,7 @@ class ManageSiteSettings extends Page implements HasForms
     public function mount(): void
     {
         $keys = [
+            'site_logo_alt',
             'about_meta_title',
             'about_meta_description',
             'about_title',
@@ -77,6 +78,10 @@ class ManageSiteSettings extends Page implements HasForms
             $data[$key] = Setting::getValue($key, '');
         }
 
+        $logo = (string) Setting::getValue('site_logo', '');
+        $data['site_logo_file'] = self::isStoredHomeSectionPath($logo) ? $logo : null;
+        $data['site_logo_path'] = self::isStoredHomeSectionPath($logo) ? '' : $logo;
+
         $landmark = (string) Setting::getValue('landmark_image', '');
         $data['landmark_image_file'] = self::isStoredHomeSectionPath($landmark) ? $landmark : null;
         $data['landmark_image_path'] = self::isStoredHomeSectionPath($landmark) ? '' : $landmark;
@@ -99,6 +104,27 @@ class ManageSiteSettings extends Page implements HasForms
     {
         return $form
             ->schema([
+                Section::make('الشعار')
+                    ->description('شعار الموقع الذي يظهر في رأس الصفحات. اترك الحقل فارغاً لاستخدام الشعار الافتراضي.')
+                    ->schema([
+                        FileUpload::make('site_logo_file')
+                            ->label('شعار الموقع (رفع ملف SVG/PNG)')
+                            ->image()
+                            ->acceptedFileTypes(['image/svg+xml', 'image/png', 'image/jpeg', 'image/webp'])
+                            ->disk('public')
+                            ->directory('home-sections')
+                            ->visibility('public')
+                            ->nullable(),
+                        TextInput::make('site_logo_path')
+                            ->label('أو مسار داخل legacy/ أو رابط كامل (بدون رفع)')
+                            ->maxLength(1000)
+                            ->placeholder('مثال: img/abadla-logo.svg أو https://…'),
+                        TextInput::make('site_logo_alt')
+                            ->label('النص البديل للشعار (alt)')
+                            ->maxLength(200)
+                            ->placeholder('العبادلة'),
+                    ])
+                    ->columns(1),
                 Section::make('صفحة عن العائلة')
                     ->description('يتحكم في محتوى صفحة «عن العائلة» العامة.')
                     ->schema([
@@ -217,6 +243,10 @@ class ManageSiteSettings extends Page implements HasForms
     {
         $state = $this->form->getState();
 
+        $logo = $this->resolveHomeSectionImage(
+            $state['site_logo_file'] ?? null,
+            (string) ($state['site_logo_path'] ?? '')
+        );
         $landmark = $this->resolveHomeSectionImage(
             $state['landmark_image_file'] ?? null,
             (string) ($state['landmark_image_path'] ?? '')
@@ -227,12 +257,15 @@ class ManageSiteSettings extends Page implements HasForms
         );
 
         unset(
+            $state['site_logo_file'],
+            $state['site_logo_path'],
             $state['landmark_image_file'],
             $state['landmark_image_path'],
             $state['media_articles_image_file'],
             $state['media_articles_image_path'],
         );
 
+        $state['site_logo'] = $logo;
         $state['landmark_image'] = $landmark;
         $state['media_articles_image'] = $mediaArticles;
 

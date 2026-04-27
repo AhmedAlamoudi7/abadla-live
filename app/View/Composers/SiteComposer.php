@@ -3,6 +3,7 @@
 namespace App\View\Composers;
 
 use App\Models\Setting;
+use App\Support\Media;
 use Illuminate\View\View;
 
 class SiteComposer
@@ -10,6 +11,8 @@ class SiteComposer
     public function compose(View $view): void
     {
         $view->with('site', [
+            'logo_url' => Media::settingImage(Setting::getValue('site_logo'), 'img/abadla-logo.svg'),
+            'logo_alt' => Setting::getValue('site_logo_alt', 'العبادلة'),
             'breaking_ticker' => Setting::getValue('breaking_ticker', ''),
             'copyright_line' => Setting::getValue('copyright_line', ''),
             'footer_legal' => Setting::getValue('footer_legal', 'سياسة الخصوصية | الشروط والأحكام'),

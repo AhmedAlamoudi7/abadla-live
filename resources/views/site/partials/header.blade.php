@@ -1,5 +1,9 @@
 @php($nav = $activeNav ?? '')
 <header class="header container" id="header">
+    <a href="{{ route('home') }}" class="header-logo" aria-label="{{ $site['logo_alt'] ?? 'العبادلة' }}">
+        <img src="{{ $site['logo_url'] }}" alt="{{ $site['logo_alt'] ?? 'العبادلة' }}" />
+    </a>
+
     <div class="header-right">
         <nav class="nav" id="navMenu">
             <a href="{{ route('home') }}" class="{{ $nav === 'home' ? 'active' : '' }}">الرئيسية</a>
