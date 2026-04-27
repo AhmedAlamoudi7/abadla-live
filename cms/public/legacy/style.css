@@ -416,16 +416,22 @@ header.header.container.scrolled {
   align-items: center;
   flex-shrink: 0;
   margin-inline-start: 12px;
+  height: 56px;
 }
 
 .header-logo img {
+  display: block;
   height: 56px;
   width: auto;
-  display: block;
+  max-width: none;
+  min-width: 56px;
+  object-fit: contain;
 }
 
 @media (max-width: 900px) {
+  .header-logo,
   .header-logo img { height: 44px; }
+  .header-logo img { min-width: 44px; }
 }
 
 .nav {
@@ -1267,6 +1273,14 @@ mark {
   overflow: hidden;
   background:#BBA188 ;
 
+}
+
+a.media-block,
+a.media-block:hover,
+a.media-block:visited {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .media-head {

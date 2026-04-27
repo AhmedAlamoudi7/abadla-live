@@ -69,6 +69,7 @@ class HomeController extends Controller
             'landmarkImage' => Setting::getValue('landmark_image', 'img/jureselem.png'),
             'landmarkMoreUrl' => Setting::getValue('landmark_more_url', '#'),
             'mediaArticlesImage' => Setting::getValue('media_articles_image', 'img/article.jpg'),
+            'mediaArticlesLabel' => Setting::getValue('home_articles_label', 'مقالات'),
             'mediaVideoUrl' => Setting::getValue('media_video_url', ''),
             'heroDateLine' => 'اليوم : '.now()->locale('ar')->isoFormat('dddd').' | التاريخ : '.now()->format('d/m/Y').' مـ',
         ]);

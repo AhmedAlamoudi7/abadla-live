@@ -68,6 +68,7 @@ class ManageSiteSettings extends Page implements HasForms
             'stat_wide_two_label',
             'stat_wide_two_value',
             'media_video_url',
+            'home_articles_label',
             'landmark_title',
             'landmark_body_html',
             'landmark_more_url',
@@ -179,20 +180,60 @@ class ManageSiteSettings extends Page implements HasForms
                     ]),
                 Section::make('صفحة الأخبار')
                     ->schema([
-                        Textarea::make('news_intro_html')->label('مقدمة صفحة الأخبار (HTML)')->rows(4),
+                        RichEditor::make('news_intro_html')
+                            ->label('مقدمة صفحة الأخبار')
+                            ->toolbarButtons([
+                                'bold', 'italic', 'underline', 'strike',
+                                'h2', 'h3',
+                                'bulletList', 'orderedList',
+                                'link', 'blockquote',
+                                'undo', 'redo',
+                            ])
+                            ->columnSpanFull(),
                     ]),
                 Section::make('صفحة الفعاليات (مقدمة)')
                     ->schema([
-                        Textarea::make('events_intro_1')->label('المقدمة — الفقرة الأولى (يدعم HTML)')->rows(4),
-                        Textarea::make('events_intro_2')->label('المقدمة — الفقرة الثانية (يدعم HTML)')->rows(4),
+                        RichEditor::make('events_intro_1')
+                            ->label('المقدمة — الفقرة الأولى')
+                            ->toolbarButtons([
+                                'bold', 'italic', 'underline', 'strike',
+                                'h2', 'h3',
+                                'bulletList', 'orderedList',
+                                'link', 'blockquote',
+                                'undo', 'redo',
+                            ])
+                            ->columnSpanFull(),
+                        RichEditor::make('events_intro_2')
+                            ->label('المقدمة — الفقرة الثانية')
+                            ->toolbarButtons([
+                                'bold', 'italic', 'underline', 'strike',
+                                'h2', 'h3',
+                                'bulletList', 'orderedList',
+                                'link', 'blockquote',
+                                'undo', 'redo',
+                            ])
+                            ->columnSpanFull(),
                     ]),
                 Section::make('الرئيسية — قسم «تعرف على العائلة»')
                     ->schema([
                         TextInput::make('home_family_intro_title')->label('عنوان القسم')->maxLength(500),
-                        Textarea::make('home_family_intro_html')->label('المحتوى (HTML)')->rows(6),
+                        RichEditor::make('home_family_intro_html')
+                            ->label('المحتوى')
+                            ->toolbarButtons([
+                                'bold', 'italic', 'underline', 'strike',
+                                'h2', 'h3',
+                                'bulletList', 'orderedList',
+                                'link', 'blockquote',
+                                'undo', 'redo',
+                            ])
+                            ->columnSpanFull(),
                     ]),
                 Section::make('الرئيسية — معرض الوسائط')
                     ->schema([
+                        TextInput::make('home_articles_label')
+                            ->label('عنوان قسم المقالات (يظهر فوق الصورة في الرئيسية)')
+                            ->maxLength(200)
+                            ->placeholder('مقالات'),
                         FileUpload::make('media_articles_image_file')
                             ->label('صورة قسم المقالات (رفع ملف)')
                             ->image()
@@ -221,7 +262,16 @@ class ManageSiteSettings extends Page implements HasForms
                 Section::make('الرئيسية — مكتبة الصور (المعلم / المحتوى)')
                     ->schema([
                         TextInput::make('landmark_title')->label('عنوان القسم')->maxLength(300),
-                        Textarea::make('landmark_body_html')->label('النص (HTML)')->rows(5),
+                        RichEditor::make('landmark_body_html')
+                            ->label('النص')
+                            ->toolbarButtons([
+                                'bold', 'italic', 'underline', 'strike',
+                                'h2', 'h3',
+                                'bulletList', 'orderedList',
+                                'link', 'blockquote',
+                                'undo', 'redo',
+                            ])
+                            ->columnSpanFull(),
                         FileUpload::make('landmark_image_file')
                             ->label('صورة القسم (رفع ملف)')
                             ->image()

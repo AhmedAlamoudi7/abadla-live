@@ -79,12 +79,12 @@
             <section class="media-showcase section-home-motion" data-animate="fade-up">
                 <div class="container">
                     <div class="media-wrapper">
-                        <div class="media-block articles">
-                            <div class="media-head"><h3>مقـــــــــــالات</h3></div>
+                        <a href="{{ route('news.index') }}" class="media-block articles" aria-label="{{ $mediaArticlesLabel }}">
+                            <div class="media-head"><h3>{{ $mediaArticlesLabel }}</h3></div>
                             <div class="articles-image">
-                                <img src="{{ Media::settingImage($mediaArticlesImage ?? null, 'img/article.jpg') }}" alt="مقـــــــــــالات" />
+                                <img src="{{ Media::settingImage($mediaArticlesImage ?? null, 'img/article.jpg') }}" alt="{{ $mediaArticlesLabel }}" />
                             </div>
-                        </div>
+                        </a>
                         <div class="media-block video">
                             <div class="media-head"><h3>برومو ومقاطع فيديو</h3></div>
                             <div class="video-box" data-video-url="{{ e($mediaVideoUrl) }}"><span class="play-btn">▶</span></div>
