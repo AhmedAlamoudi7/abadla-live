@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class NewsPost extends Model
 {
+    public const TYPE_NEWS = 'news';
+
+    public const TYPE_ARTICLE = 'article';
+
     protected $fillable = [
         'title',
         'slug',
@@ -14,6 +18,7 @@ class NewsPost extends Model
         'featured_image',
         'published_at',
         'category',
+        'type',
         'tags',
         'is_breaking',
         'show_on_home',

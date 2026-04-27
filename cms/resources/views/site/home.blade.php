@@ -79,7 +79,7 @@
             <section class="media-showcase section-home-motion" data-animate="fade-up">
                 <div class="container">
                     <div class="media-wrapper">
-                        <a href="{{ route('news.index') }}" class="media-block articles" aria-label="{{ $mediaArticlesLabel }}">
+                        <a href="{{ route('articles.index') }}" class="media-block articles" aria-label="{{ $mediaArticlesLabel }}">
                             <div class="media-head"><h3>{{ $mediaArticlesLabel }}</h3></div>
                             <div class="articles-image">
                                 <img src="{{ Media::settingImage($mediaArticlesImage ?? null, 'img/article.jpg') }}" alt="{{ $mediaArticlesLabel }}" />

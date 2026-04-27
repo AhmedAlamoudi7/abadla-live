@@ -17,6 +17,7 @@ class NewsController extends Controller
         $page = max(1, (int) $request->query('page', 1));
 
         $base = NewsPost::query()
+            ->where('type', NewsPost::TYPE_NEWS)
             ->where('published', true)
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now())

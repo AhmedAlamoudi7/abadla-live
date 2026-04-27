@@ -44,6 +44,15 @@ class NewsPostResource extends Resource
                     ->directory('news')
                     ->visibility('public'),
                 Forms\Components\DateTimePicker::make('published_at')->label('تاريخ النشر'),
+                Forms\Components\Select::make('type')
+                    ->label('نوع المنشور')
+                    ->options([
+                        NewsPost::TYPE_NEWS => 'خبر',
+                        NewsPost::TYPE_ARTICLE => 'مقال',
+                    ])
+                    ->default(NewsPost::TYPE_NEWS)
+                    ->required()
+                    ->native(false),
                 Forms\Components\TextInput::make('category')->label('التصنيف')->maxLength(120),
                 Forms\Components\TagsInput::make('tags')->label('وسوم'),
                 Forms\Components\Toggle::make('is_breaking')->label('خبر عاجل'),
@@ -61,12 +70,23 @@ class NewsPostResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('title')->label('العنوان')->searchable()->limit(40),
+                Tables\Columns\TextColumn::make('type')
+                    ->label('النوع')
+                    ->formatStateUsing(fn (?string $state): string => $state === NewsPost::TYPE_ARTICLE ? 'مقال' : 'خبر')
+                    ->badge()
+                    ->color(fn (?string $state): string => $state === NewsPost::TYPE_ARTICLE ? 'info' : 'gray'),
                 Tables\Columns\TextColumn::make('category')->label('التصنيف'),
                 Tables\Columns\IconColumn::make('published')->label('منشور')->boolean(),
                 Tables\Columns\TextColumn::make('published_at')->label('النشر')->dateTime()->sortable(),
             ])
             ->defaultSort('published_at', 'desc')
             ->filters([
+                Tables\Filters\SelectFilter::make('type')
+                    ->label('النوع')
+                    ->options([
+                        NewsPost::TYPE_NEWS => 'خبر',
+                        NewsPost::TYPE_ARTICLE => 'مقال',
+                    ]),
                 Tables\Filters\TernaryFilter::make('published')->label('منشور'),
             ])
             ->actions([

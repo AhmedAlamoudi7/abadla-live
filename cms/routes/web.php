@@ -3,6 +3,7 @@
 use App\Http\Controllers\Site\AboutController;
 use App\Http\Controllers\Site\AlbumController;
 use App\Http\Controllers\Site\ArchiveSubmissionController;
+use App\Http\Controllers\Site\ArticlesController;
 use App\Http\Controllers\Site\ContactController;
 use App\Http\Controllers\Site\EventController;
 use App\Http\Controllers\Site\FamilyTreePageController;
@@ -20,6 +21,8 @@ Route::get('/about', AboutController::class)->name('about');
 
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
+
+Route::get('/articles', [ArticlesController::class, 'index'])->name('articles.index');
 
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{slug}', [EventController::class, 'show'])->name('events.show');
