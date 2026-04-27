@@ -420,18 +420,22 @@ header.header.container.scrolled {
 }
 
 .header-logo img {
-  display: block;
-  height: 56px;
-  width: auto;
-  max-width: none;
+  display: block !important;
+  height: 56px !important;
+  width: auto !important;
+  max-width: none !important;
+  max-height: 56px !important;
   min-width: 56px;
   object-fit: contain;
 }
 
 @media (max-width: 900px) {
-  .header-logo,
-  .header-logo img { height: 44px; }
-  .header-logo img { min-width: 44px; }
+  .header-logo { height: 44px; }
+  .header-logo img {
+    height: 44px !important;
+    max-height: 44px !important;
+    min-width: 44px;
+  }
 }
 
 .nav {
