@@ -411,6 +411,23 @@ header.header.container.scrolled {
   justify-content: space-evenly;
 }
 
+.header-logo {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-inline-start: 12px;
+}
+
+.header-logo img {
+  height: 56px;
+  width: auto;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .header-logo img { height: 44px; }
+}
+
 .nav {
   display: flex;
   gap: 18px;
