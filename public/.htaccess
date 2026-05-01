@@ -23,3 +23,82 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# =================================================
+# BROWSER CACHING (mod_expires)
+# Cache static media and assets so they don't re-download on every visit.
+# =================================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault                              "access plus 1 month"
+
+    # Images
+    ExpiresByType image/jpeg                    "access plus 1 year"
+    ExpiresByType image/jpg                     "access plus 1 year"
+    ExpiresByType image/png                     "access plus 1 year"
+    ExpiresByType image/gif                     "access plus 1 year"
+    ExpiresByType image/webp                    "access plus 1 year"
+    ExpiresByType image/avif                    "access plus 1 year"
+    ExpiresByType image/svg+xml                 "access plus 1 year"
+    ExpiresByType image/x-icon                  "access plus 1 year"
+    ExpiresByType image/vnd.microsoft.icon      "access plus 1 year"
+
+    # Video / Audio
+    ExpiresByType video/mp4                     "access plus 1 year"
+    ExpiresByType video/webm                    "access plus 1 year"
+    ExpiresByType video/ogg                     "access plus 1 year"
+    ExpiresByType audio/mpeg                    "access plus 1 year"
+    ExpiresByType audio/ogg                     "access plus 1 year"
+
+    # Fonts
+    ExpiresByType font/ttf                      "access plus 1 year"
+    ExpiresByType font/otf                      "access plus 1 year"
+    ExpiresByType font/woff                     "access plus 1 year"
+    ExpiresByType font/woff2                    "access plus 1 year"
+    ExpiresByType application/font-woff         "access plus 1 year"
+    ExpiresByType application/font-woff2        "access plus 1 year"
+    ExpiresByType application/x-font-ttf        "access plus 1 year"
+
+    # CSS / JS
+    ExpiresByType text/css                      "access plus 1 month"
+    ExpiresByType text/javascript               "access plus 1 month"
+    ExpiresByType application/javascript        "access plus 1 month"
+    ExpiresByType application/x-javascript      "access plus 1 month"
+
+    # HTML / data
+    ExpiresByType text/html                     "access plus 0 seconds"
+    ExpiresByType application/json              "access plus 0 seconds"
+    ExpiresByType application/xml               "access plus 0 seconds"
+</IfModule>
+
+# =================================================
+# Cache-Control headers + immutable for fingerprinted assets
+# =================================================
+<IfModule mod_headers.c>
+    # Long cache for images, fonts, video, audio
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp|avif|svg|ico|ttf|otf|woff|woff2|mp4|webm|ogg|mp3)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+        Header unset ETag
+        FileETag None
+    </FilesMatch>
+
+    # Medium cache for CSS / JS (Vite emits hashed filenames so this is safe)
+    <FilesMatch "\.(css|js)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+
+    # Never cache HTML
+    <FilesMatch "\.(html|htm)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+    </FilesMatch>
+</IfModule>
+
+# =================================================
+# Compression (gzip) for text assets
+# =================================================
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript application/json
+    AddOutputFilterByType DEFLATE application/xml application/xhtml+xml application/rss+xml
+    AddOutputFilterByType DEFLATE image/svg+xml font/ttf font/otf application/font-woff application/font-woff2
+</IfModule>

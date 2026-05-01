@@ -93,9 +93,9 @@
                             <span class="badge" style="display:inline-block;margin-top:8px;padding:4px 10px;border-radius:999px;background:#f0f0f0;font-size:12px;">{{ $item->category->name }}</span>
                         @endif
                     </div>
-                    <div class="news-image">
+                    <div class="news-image {{ $item->image ? 'news-image--has-img' : '' }}">
                         @if ($item->image)
-                            <img src="{{ Media::url($item->image) }}" alt="" style="width:100%;height:100%;object-fit:cover;" loading="lazy" />
+                            <img src="{{ Media::url($item->image) }}" alt="" loading="lazy" decoding="async" />
                         @else
                             <i class="fas fa-heart"></i>
                         @endif
@@ -111,6 +111,27 @@
 
 @push('styles')
     <style>
+        .social-card .news-image.news-image--has-img {
+            background: #f4ece1;
+            height: auto;
+            min-height: 180px;
+            aspect-ratio: 16 / 10;
+            padding: 0;
+            overflow: hidden;
+        }
+        .social-card .news-image.news-image--has-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .social-card .news-image.news-image--has-img {
+                aspect-ratio: 16 / 9;
+                min-height: 220px;
+            }
+        }
+
         .soc-pill {
             transition: transform .2s ease, background .2s ease, box-shadow .2s ease, border-color .2s ease, color .2s ease;
         }
