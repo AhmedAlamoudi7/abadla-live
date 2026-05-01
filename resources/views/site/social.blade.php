@@ -111,13 +111,18 @@
 
 @push('styles')
     <style>
+        /* Make image + placeholder cards use the same fixed height so the grid stays even */
+        .social-card .news-image {
+            height: 220px;
+            min-height: 220px;
+            overflow: hidden;
+            padding: 0;
+        }
         .social-card .news-image.news-image--has-img {
             background: #f4ece1;
-            height: auto;
-            min-height: 180px;
-            aspect-ratio: 16 / 10;
-            padding: 0;
-            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .social-card .news-image.news-image--has-img img {
             width: 100%;
@@ -126,9 +131,10 @@
             display: block;
         }
         @media (max-width: 768px) {
+            .social-card .news-image,
             .social-card .news-image.news-image--has-img {
-                aspect-ratio: 16 / 9;
-                min-height: 220px;
+                height: 240px;
+                min-height: 240px;
             }
         }
 
