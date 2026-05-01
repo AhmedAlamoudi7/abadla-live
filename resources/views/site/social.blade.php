@@ -111,12 +111,27 @@
 
 @push('styles')
     <style>
-        /* Make image + placeholder cards use the same fixed height so the grid stays even */
+        /* Lock the social card layout: text gets the wide column, image gets a fixed
+           narrow column with full preview (no cropping, no stretched cards). */
+        .social-card.news-card {
+            grid-template-columns: 1fr 260px !important;
+            gap: 24px;
+        }
+        .social-card .news-text {
+            order: 1 !important;
+            min-width: 0;
+        }
         .social-card .news-image {
-            height: 220px;
-            min-height: 220px;
+            order: 2 !important;
+            width: 100%;
+            max-width: 260px;
+            height: 200px;
+            min-height: 200px;
+            max-height: 200px;
             overflow: hidden;
             padding: 0;
+            justify-self: end;
+            align-self: center;
         }
         .social-card .news-image.news-image--has-img {
             background: #f4ece1;
@@ -131,10 +146,16 @@
             display: block;
         }
         @media (max-width: 768px) {
+            .social-card.news-card {
+                grid-template-columns: 1fr !important;
+                gap: 16px;
+            }
             .social-card .news-image,
             .social-card .news-image.news-image--has-img {
-                height: 240px;
-                min-height: 240px;
+                max-width: 100%;
+                height: 220px;
+                min-height: 220px;
+                max-height: 220px;
             }
         }
 
