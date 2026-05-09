@@ -86,7 +86,7 @@
             @forelse ($occasions as $item)
                 <article class="news-card social-card">
                     <div class="news-text">
-                        <span class="news-date">{{ optional($item->occurred_on)->locale('ar')->translatedFormat('j F Y') }}</span>
+                        <span class="news-date">{{ $item->occurred_on ? $item->occurred_on->locale('ar')->translatedFormat('j F Y') : '' }}</span>
                         <h3>{{ $item->title }}</h3>
                         <p>{{ $item->excerpt ?? '' }}</p>
                         @if ($item->category)
