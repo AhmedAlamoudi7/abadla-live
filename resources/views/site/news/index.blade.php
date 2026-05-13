@@ -174,13 +174,72 @@
 
 @push('styles')
     <style>
-        /* Show the full news image without cropping (letterbox inside the tile). */
+        /* Show news images at full natural size — container grows to match. */
+
+        /* Mosaic tiles (hero + side) */
+        .np-tile {
+            aspect-ratio: auto !important;
+            min-height: 0 !important;
+        }
+        .np-tile--hero,
+        .np-tile--mid,
+        .np-tile--sm {
+            aspect-ratio: auto !important;
+            min-height: 0 !important;
+        }
         .np-tile-img,
-        .np-panel-feature-media img,
-        .np-panel-row-media img,
-        .np-list-thumb img {
+        .np-tile--hero .np-tile-img,
+        .np-tile--mid .np-tile-img,
+        .np-tile--sm .np-tile-img {
+            position: static !important;
+            inset: auto !important;
+            width: 100% !important;
+            height: auto !important;
             object-fit: contain !important;
-            background: var(--brown-pale, #f3ece2);
+            display: block;
+        }
+
+        /* "أخبار الساعة" big featured */
+        .np-panel-feature-media {
+            aspect-ratio: auto !important;
+        }
+        .np-panel-feature-media img {
+            position: static !important;
+            inset: auto !important;
+            width: 100% !important;
+            height: auto !important;
+            object-fit: contain !important;
+            display: block;
+        }
+
+        /* "أهم الأخبار" row thumbs */
+        .np-panel-row-media {
+            aspect-ratio: auto !important;
+        }
+        .np-panel-row-media img {
+            width: 100% !important;
+            height: auto !important;
+            object-fit: contain !important;
+            display: block;
+        }
+
+        /* Bottom grid list thumbs */
+        .np-list-thumb {
+            width: 100% !important;
+            height: auto !important;
+            aspect-ratio: auto !important;
+        }
+        .np-list-thumb img {
+            width: 100% !important;
+            height: auto !important;
+            object-fit: contain !important;
+            display: block;
+        }
+
+        /* Stack bottom list card vertically so the full image can breathe */
+        .np-list-card {
+            flex-direction: column !important;
+            align-items: stretch !important;
         }
     </style>
 @endpush
