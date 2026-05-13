@@ -174,10 +174,13 @@
 
 @push('styles')
     <style>
+        /* Show the full news image without cropping (letterbox inside the tile). */
+        .np-tile-img,
         .np-panel-feature-media img,
         .np-panel-row-media img,
         .np-list-thumb img {
-            object-fit: cover;
+            object-fit: contain !important;
+            background: var(--brown-pale, #f3ece2);
         }
     </style>
 @endpush
