@@ -43,7 +43,7 @@ class NewsPostResource extends Resource
                     ->disk('public')
                     ->directory('news')
                     ->visibility('public'),
-                Forms\Components\DateTimePicker::make('published_at')->label('تاريخ النشر'),
+                Forms\Components\DateTimePicker::make('published_at')->label('تاريخ النشر')->default(now()),
                 Forms\Components\Select::make('type')
                     ->label('نوع المنشور')
                     ->options([
@@ -61,7 +61,7 @@ class NewsPostResource extends Resource
                 Forms\Components\TextInput::make('layout_role')->label('دور التخطيط (banner/list/...)')->maxLength(60),
                 Forms\Components\TextInput::make('mosaic_slot')->label('موضع الموزاييك')->maxLength(60),
                 Forms\Components\TextInput::make('important_sort')->label('ترتيب أهم الأخبار')->numeric()->default(0),
-                Forms\Components\Toggle::make('published')->label('منشور')->default(false),
+                Forms\Components\Toggle::make('published')->label('منشور')->default(true),
             ]);
     }
 
