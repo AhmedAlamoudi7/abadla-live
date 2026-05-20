@@ -21,8 +21,7 @@
 
     @yield('content')
 
-    @include('site.partials.newsletter')
-
+    {{-- Newsletter card is now included inside the new footer partial. --}}
     @include('site.partials.footer')
 
     @include('site.partials.video-modal')
