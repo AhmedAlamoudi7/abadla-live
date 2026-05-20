@@ -94,7 +94,7 @@
         font-weight: 800;
     }
     .pers-intro {
-        max-width: 800px;
+        max-width: min(1100px, 92%);
         margin: 16px auto 0;
         text-align: center;
         color: var(--pers-text);

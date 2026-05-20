@@ -44,7 +44,7 @@
 
     @if ($introHtml)
         <section class="container" style="padding:16px 0 0;" data-animate="fade-up">
-            <div class="article-text" style="max-width:800px;margin:0 auto;text-align:center;">{!! $introHtml !!}</div>
+            <div class="article-text" style="max-width:min(1100px, 92%);margin:0 auto;text-align:center;">{!! $introHtml !!}</div>
         </section>
     @endif
 

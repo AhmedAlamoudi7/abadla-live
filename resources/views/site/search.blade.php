@@ -3,7 +3,7 @@
 @section('content')
     <section class="container" style="padding:40px 0;" data-animate="fade-up">
         <h1 class="gradient-text" style="text-align:center;">بحث</h1>
-        <form method="get" action="{{ route('search') }}" style="max-width:520px;margin:24px auto;display:flex;gap:8px;">
+        <form method="get" action="{{ route('search') }}" style="max-width:min(720px, 100%);margin:24px auto;display:flex;gap:8px;">
             <input type="search" name="q" value="{{ $query }}" placeholder="اكتب كلمة البحث" class="search" style="flex:1;padding:12px;border-radius:8px;border:1px solid #ddd;" />
             <button type="submit" class="submit-btn" style="padding:12px 20px;">بحث</button>
         </form>
@@ -11,7 +11,7 @@
         @if ($query === '')
             <p style="text-align:center;opacity:.8;">أدخل كلمة للبحث في الأخبار والفعاليات والشخصيات وأفراد العائلة.</p>
         @else
-            <div style="max-width:880px;margin:0 auto;">
+            <div style="max-width:min(1200px, 100%);margin:0 auto;">
                 <h2 style="font-size:1.1rem;margin:24px 0 12px;">الأخبار</h2>
                 <ul style="list-style:none;padding:0;">
                     @forelse ($results['news'] as $post)

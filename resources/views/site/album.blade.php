@@ -6,7 +6,7 @@
     <section class="container" style="padding:40px 0 16px;" data-animate="fade-up">
         <h1 class="gradient-text" style="text-align:center;">الألبوم</h1>
         @if ($introHtml)
-            <div class="article-text" style="max-width:800px;margin:16px auto;text-align:center;">{!! $introHtml !!}</div>
+            <div class="article-text" style="max-width:min(1100px, 92%);margin:16px auto;text-align:center;">{!! $introHtml !!}</div>
         @endif
     </section>
 

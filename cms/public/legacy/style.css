@@ -72,12 +72,13 @@
   --glass: rgba(255, 255, 255, 0.6);
   --glass-border: rgba(255, 255, 255, 0.3);
 
-  /* One column width for all main content (aligned start + width) */
-  --content-max: 1400px;
+  /* One column width for all main content (aligned start + width).
+     Fluid: scales with the viewport instead of capping at 1400px. */
+  --content-max: min(100% - (var(--page-gutter) * 2), 1920px);
 
   /* Same vertical rhythm between sections + horizontal padding (aligned with .container) */
   --section-gap: 96px;
-  --page-gutter: 20px;
+  --page-gutter: clamp(20px, 3vw, 56px);
   /* Newsletter pulls into footer; padding-top must clear this overlap */
   --footer-overlap: 130px;
 
@@ -347,10 +348,10 @@ input, select, textarea { font-family: inherit; }
    CONTAINER
    ================================================= */
 .container {
-  max-width: var(--content-max);
+  width: min(100%, var(--content-max));
+  max-width: none;
   margin: 0 auto;
   padding: 0 var(--page-gutter);
-  width: 100%;
   box-sizing: border-box;
 }
 
@@ -377,10 +378,11 @@ body.loaded .header {
 header.header.container {
   border-bottom: 2px solid var(--brown-pale);
   padding-bottom: 0;
-  max-width: 100%;
   background: var(--beige);
-  padding-left: 127px !important;
-  padding-right: 146px !important;
+  /* Aligned with every other .container — symmetric gutters so the
+     header starts/ends at the same x-position as sections below. */
+  padding-left: var(--page-gutter) !important;
+  padding-right: var(--page-gutter) !important;
   transition: box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
@@ -1991,7 +1993,7 @@ a.media-block:visited {
    ================================================= */
 .gallery-section {
   width: 100%;
-  padding: var(--section-gap) var(--page-gutter);
+  padding: var(--section-gap) 0;
   background: #8b6b55;
   box-sizing: border-box;
 }
@@ -1999,10 +2001,12 @@ a.media-block:visited {
 .gallery-wrapper {
   display: grid;
   grid-template-columns: 1fr;
-  max-width: var(--content-max);
+  width: min(100%, var(--content-max));
+  max-width: none;
   margin-left: auto;
   margin-right: auto;
-  width: 100%;
+  padding: 0 var(--page-gutter);
+  box-sizing: border-box;
 }
 
 .gallery-grid {
@@ -2462,10 +2466,12 @@ a.media-block:visited {
    NEWSLETTER
    ================================================= */
 .newsletter-wrapper {
-  max-width: var(--content-max);
+  width: min(100%, var(--content-max));
+  max-width: none;
   margin-left: auto;
   margin-right: auto;
   padding: var(--section-gap) var(--page-gutter);
+  box-sizing: border-box;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -2620,7 +2626,9 @@ a.media-block:visited {
 .footer {
   background: linear-gradient(160deg, var(--brown-dark) 0%, var(--brown-mid) 100%);
   color: var(--white);
-  padding: calc(var(--footer-overlap) + var(--section-gap)) var(--page-gutter) 30px;
+  /* Side padding moved to .footer-top / .footer-bottom so footer content
+     lines up exactly with .container content. */
+  padding: calc(var(--footer-overlap) + var(--section-gap)) 0 30px;
   border-radius: 66px 66px 0 0;
   position: relative;
 }
@@ -2641,13 +2649,12 @@ a.media-block:visited {
   display: flex;
   justify-content: space-between;
   gap: 40px;
-  margin-top: 0;
+  margin: 0 auto;
   position: relative;
   z-index: 1;
-  max-width: var(--content-max);
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
+  width: min(100%, var(--content-max));
+  max-width: none;
+  padding: 0 var(--page-gutter);
   box-sizing: border-box;
 }
 
@@ -2802,18 +2809,16 @@ a.media-block:visited {
 
 .footer-bottom {
   border-top: 1px solid rgba(255, 255, 255, 0.15);
-  margin-top: 40px;
-  padding-top: 20px;
+  margin: 40px auto 0;
+  padding: 20px var(--page-gutter) 0;
   display: flex;
   justify-content: space-between;
   font-size: 14px;
   opacity: 0.8;
   position: relative;
   z-index: 1;
-  max-width: var(--content-max);
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
+  width: min(100%, var(--content-max));
+  max-width: none;
   box-sizing: border-box;
 }
 
@@ -4045,7 +4050,7 @@ h2.gradient-text {
   .wide-label { font-size: 26px; }
 
   .gallery-section {
-    padding: var(--section-gap) var(--page-gutter);
+    padding: var(--section-gap) 0;
   }
 }
 
@@ -6512,8 +6517,7 @@ img, video, iframe { max-width: 100%; height: auto; }
   .form-box { grid-template-columns: 1fr !important; padding: 20px !important; }
   .type-buttons { flex-wrap: wrap; gap: 6px; }
 
-  /* Footer tidy */
-  .footer { padding-left: 16px !important; padding-right: 16px !important; }
+  /* Footer side padding now lives on .footer-top / .footer-bottom (var(--page-gutter)) */
 }
 
 /* Small phones */
@@ -6572,20 +6576,21 @@ img, video, iframe { max-width: 100%; height: auto; }
    HOME GALLERY + NEWS + EVENTS — targeted mobile
    ================================================= */
 
-/* Gallery (home index) */
+/* Gallery (home index) — side gutter handled by .gallery-wrapper to stay
+   aligned with other .container sections. */
 @media (max-width: 992px) {
-  .gallery-section { padding: 48px var(--page-gutter) !important; }
+  .gallery-section { padding: 48px 0 !important; }
   .gallery-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 16px !important; }
 }
 @media (max-width: 768px) {
-  .gallery-section { padding: 40px 16px !important; }
+  .gallery-section { padding: 40px 0 !important; }
   .gallery-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 14px !important; }
   .gallery-text.grid-text { grid-column: span 2 !important; text-align: center !important; align-items: center !important; padding: 0 0 8px !important; }
   .gallery-text h2 { font-size: clamp(22px, 5vw, 30px) !important; }
   .gallery-card { border-radius: 14px !important; }
 }
 @media (max-width: 480px) {
-  .gallery-section { padding: 32px 14px !important; }
+  .gallery-section { padding: 32px 0 !important; }
   .gallery-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
   .gallery-text.grid-text { grid-column: span 1 !important; }
   .gallery-card { aspect-ratio: 4 / 3 !important; border-radius: 12px !important; }
