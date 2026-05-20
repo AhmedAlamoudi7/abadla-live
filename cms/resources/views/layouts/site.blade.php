@@ -8,8 +8,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link rel="stylesheet" href="{{ asset('css/rawasi-display.css') }}" />
-    <link rel="stylesheet" href="{{ asset('legacy/style.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/rawasi-display.css') }}?v={{ @filemtime(public_path('css/rawasi-display.css')) ?: time() }}" />
+    <link rel="stylesheet" href="{{ asset('legacy/style.css') }}?v={{ @filemtime(public_path('legacy/style.css')) ?: time() }}" />
     @stack('styles')
 </head>
 <body class="@yield('body_class')">

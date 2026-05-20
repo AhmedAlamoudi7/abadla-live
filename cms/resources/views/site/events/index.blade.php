@@ -19,36 +19,43 @@
             <h2 class="gradient-text">تصفح الفعاليات</h2>
         </div>
 
-        <div class="evt-grid-wrap">
-            <div class="evt-grid">
-                @forelse ($events as $i => $event)
-                    <a href="{{ route('events.show', $event->slug) }}" class="evt-card">
-                        @if ($event->cover_image)
-                            <img class="evt-card-img" src="{{ \App\Support\Media::url($event->cover_image) }}" alt="" loading="lazy" />
-                        @else
-                            <img class="evt-card-img" src="{{ asset('legacy/img/event'.($i % 3 + 1).'.jpg') }}" alt="" loading="lazy" />
-                        @endif
-                        <div class="evt-card-overlay">
-                            <div class="evt-card-copy">
-                                <h3>{{ $event->title }}</h3>
-                                <p class="evt-card-date">
-                                    @if ($event->starts_at)
-                                        {{ $event->starts_at->locale('ar')->translatedFormat('j F Y') }}
-                                    @endif
-                                    @if ($event->location)
-                                        — {{ $event->location }}
-                                    @endif
-                                </p>
+        <div class="events-carousel" data-events-carousel>
+            <button class="carousel-arrow carousel-arrow-prev" type="button" aria-label="السابق">
+                <img src="{{ asset('legacy/img/Frame 49.png') }}" alt="" />
+            </button>
+            <div class="carousel-viewport">
+                <div class="carousel-track">
+                    @forelse ($events as $i => $event)
+                        <a href="{{ route('events.show', $event->slug) }}" class="event-item">
+                            <div class="event-image" @if ($event->cover_image)
+                                style="background-image:url('{{ \App\Support\Media::url($event->cover_image) }}')"
+                            @else
+                                style="background-image:url('{{ asset('legacy/img/event'.($i % 3 + 1).'.jpg') }}')"
+                            @endif>
+                                <div class="event-overlay"></div>
                             </div>
-                            <span class="evt-card-arrow-icon" aria-hidden="true">
-                                <img src="{{ asset('legacy/img/arrow-left.svg') }}" alt="" />
-                            </span>
-                        </div>
-                    </a>
-                @empty
-                    <p style="grid-column:1/-1;text-align:center;">لا توجد فعاليات منشورة بعد.</p>
-                @endforelse
+                            <div class="event-pill">
+                                <div class="event-pill-text">
+                                    <div class="event-pill-title">{{ $event->title }}</div>
+                                    <div class="event-pill-date">
+                                        @if ($event->starts_at)
+                                            {{ $event->starts_at->locale('ar')->translatedFormat('j F Y') }}
+                                        @endif
+                                    </div>
+                                </div>
+                                <span class="event-pill-arrow" aria-hidden="true">
+                                    <img src="{{ asset('legacy/img/arrow-left.svg') }}" alt="" />
+                                </span>
+                            </div>
+                        </a>
+                    @empty
+                        <p style="grid-column:1/-1;text-align:center;padding:24px;">لا توجد فعاليات منشورة بعد.</p>
+                    @endforelse
+                </div>
             </div>
+            <button class="carousel-arrow carousel-arrow-next" type="button" aria-label="التالي">
+                <img src="{{ asset('legacy/img/Frame 48.png') }}" alt="" />
+            </button>
         </div>
 
         <div class="container" style="padding:24px 0;">
@@ -56,3 +63,33 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+<script>
+    (function () {
+        var carousels = document.querySelectorAll('[data-events-carousel]');
+        carousels.forEach(function (carousel) {
+            var viewport = carousel.querySelector('.carousel-viewport');
+            var track = carousel.querySelector('.carousel-track');
+            var prev = carousel.querySelector('.carousel-arrow-prev');
+            var next = carousel.querySelector('.carousel-arrow-next');
+            if (!viewport || !track || !prev || !next) return;
+
+            function step() {
+                var item = track.querySelector('.event-item');
+                if (!item) return 300;
+                var style = getComputedStyle(track);
+                var gap = parseFloat(style.columnGap || style.gap) || 0;
+                return item.getBoundingClientRect().width + gap;
+            }
+
+            prev.addEventListener('click', function () {
+                viewport.scrollBy({ left: -step(), behavior: 'smooth' });
+            });
+            next.addEventListener('click', function () {
+                viewport.scrollBy({ left: step(), behavior: 'smooth' });
+            });
+        });
+    })();
+</script>
+@endpush
