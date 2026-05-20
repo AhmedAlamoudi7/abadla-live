@@ -728,10 +728,11 @@ mark {
   gap: 47px;
   margin-top: 49px;
   margin-bottom: 49px;
-  margin-left: auto;
-  margin-right: auto;
   background: var(--cream-light);
   border-radius: 30px;
+  /* Outer alignment now provided by the wrapping .container (see
+     breaking.blade.php) — the cream pill ends exactly where every
+     other section ends. */
   padding: 0;
   box-shadow: var(--shadow-sm);
   overflow: hidden;
