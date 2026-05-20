@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         );
 
         $this->call(AbadlaDataSeeder::class);
+        $this->call(ShieldSeeder::class);
     }
 }
