@@ -6935,3 +6935,500 @@ img, video, iframe { max-width: 100%; height: auto; }
   height: 21px;
   aspect-ratio: 2.85;
 }
+
+/* ============================================================
+   Footer — link styles (CMS integration)
+   ============================================================ */
+.about-us .text-wrapper-14 a,
+.about-us .text-wrapper-16 a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.about-us .text-wrapper-14 a:hover,
+.about-us .text-wrapper-16 a:hover {
+  color: #563c2f;
+}
+
+.about-us .text-wrapper-19 {
+  color: #563c2f;
+  text-decoration: underline;
+}
+
+.about-us .div-4-link,
+.about-us .social-icons-link,
+.about-us .social-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* ============================================================
+   Footer — real form elements overlaid on Figma decorative divs
+   ============================================================ */
+.about-us .newsletter-figma-form {
+  position: absolute;
+  top: 59px;
+  left: 430px;
+  width: 346px;
+  height: 60px;
+  margin: 0;
+  padding: 0;
+  z-index: 3;
+}
+.about-us .newsletter-figma-input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: calc(100% - 95px);
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: "Rawasi Display Arabic Light-Regular", Helvetica;
+  font-size: 18px;
+  color: #252525;
+  direction: rtl;
+  text-align: right;
+  padding: 0 20px;
+}
+.about-us .newsletter-figma-input:focus + .text-wrapper-7,
+.about-us .newsletter-figma-input:not(:placeholder-shown) ~ .text-wrapper-7 { display: none; }
+.about-us .newsletter-figma-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 95px;
+  height: 100%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.about-us .contact-figma-form {
+  position: absolute;
+  top: 313px;
+  left: 125px;
+  width: 805px;
+  height: 170px;
+  margin: 0;
+  padding: 0;
+  z-index: 3;
+}
+.about-us .contact-figma-name,
+.about-us .contact-figma-phone,
+.about-us .contact-figma-message {
+  position: absolute;
+  background: transparent;
+  border: none;
+  outline: none;
+  border-radius: 16px;
+  font-family: "Rawasi Display Arabic Light-Regular", Helvetica;
+  font-size: 18px;
+  color: #563c2f;
+  direction: rtl;
+  text-align: right;
+}
+.about-us .contact-figma-name { top: 0; left: 553px; width: 252px; height: 54px; padding: 0 20px; }
+.about-us .contact-figma-phone { top: 72px; left: 553px; width: 252px; height: 54px; padding: 0 20px; }
+.about-us .contact-figma-message { top: 0; left: 0; width: 534px; height: 126px; padding: 14px 20px; resize: none; }
+.about-us .contact-figma-submit {
+  position: absolute;
+  top: 141px;
+  left: 0;
+  width: 178px;
+  height: 29px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* Lift the social-row anchors above the brown band */
+.about-us .group-3 .social-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================================
+   Footer — RESPONSIVE: reflow Figma layout into stacked block
+   on tablet / mobile. Single big breakpoint at 1024px.
+   ============================================================ */
+@media (max-width: 1024px) {
+  .about-us {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+  .about-us .group {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
+  }
+  .about-us .group-2 {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    padding: 32px 20px 24px !important;
+    background-color: #bba188;
+    border-radius: 24px 24px 0 0;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "newsletter newsletter"
+      "whatsapp whatsapp"
+      "contact links"
+      "social social"
+      "bottom bottom";
+    gap: 28px;
+  }
+
+  /* Hide pure decoration */
+  .about-us .rectangle-10,
+  .about-us .vector-5,
+  .about-us .vector-6,
+  .about-us .vector-7,
+  .about-us .vector-8,
+  .about-us .rectangle-19,
+  .about-us .rectangle-11,
+  .about-us .rectangle-12,
+  .about-us .rectangle-13,
+  .about-us .rectangle-14,
+  .about-us .rectangle-15,
+  .about-us .rectangle-17,
+  .about-us .rectangle-18,
+  .about-us .text-wrapper-7,
+  .about-us .text-wrapper-8,
+  .about-us .text-wrapper-9,
+  .about-us .text-wrapper-10,
+  .about-us .text-wrapper-11,
+  .about-us .text-wrapper-15,
+  .about-us .group-4 {
+    display: none !important;
+  }
+
+  /* ---- Newsletter (top, full width white card) ---- */
+  .about-us .text-wrapper-5,
+  .about-us .div-3,
+  .about-us .newsletter-figma-form {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    left: auto !important;
+    top: auto !important;
+    white-space: normal !important;
+  }
+  .about-us .text-wrapper-5 {
+    grid-area: newsletter;
+    background: #f4f3ef;
+    border: 1.5px solid #bba188;
+    border-radius: 16px;
+    padding: 18px 16px 6px !important;
+    font-size: clamp(20px, 3.2vw, 30px);
+    line-height: 1.2;
+    text-align: right;
+    color: #88664d;
+  }
+  .about-us .div-3 {
+    background: #f4f3ef;
+    border-left: 1.5px solid #bba188;
+    border-right: 1.5px solid #bba188;
+    padding: 0 16px 12px !important;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: right;
+    color: #252525;
+    margin-top: -28px !important;
+  }
+  .about-us .newsletter-figma-form {
+    display: flex;
+    background: #f4f3ef;
+    border: 1.5px solid #bba188;
+    border-top: none;
+    border-radius: 0 0 16px 16px;
+    padding: 12px 16px 16px !important;
+    margin-top: -28px !important;
+    gap: 8px;
+    height: auto;
+  }
+  .about-us .newsletter-figma-input {
+    position: static !important;
+    flex: 1;
+    height: 44px;
+    background: #ffffff;
+    border-radius: 9px;
+    border: 1px solid #dbcebe;
+    padding: 0 14px;
+    font-size: 14px;
+    width: auto !important;
+  }
+  .about-us .newsletter-figma-input::placeholder { color: #88664d; }
+  .about-us .newsletter-figma-button {
+    position: static !important;
+    height: 44px;
+    width: 90px;
+    background: #88664d;
+    color: #fff;
+    border-radius: 9px;
+    font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .about-us .newsletter-figma-button::before {
+    content: 'إشتراك';
+    color: #fff;
+    direction: rtl;
+  }
+
+  /* ---- WhatsApp CTA ---- */
+  .about-us .rectangle-16 {
+    grid-area: whatsapp;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 96px;
+    background-color: #88664d;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px 20px;
+    text-decoration: none;
+    color: #fff;
+  }
+  .about-us .div-4-link {
+    display: contents;
+  }
+  .about-us .div-4 {
+    position: static !important;
+    margin: 0 !important;
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+    color: #fff;
+    text-align: center;
+    grid-area: whatsapp;
+    pointer-events: none;
+    /* Render inside the whatsapp box via overlay trick */
+    display: none;
+  }
+  .about-us .social-icons-link {
+    display: contents;
+  }
+  .about-us .social-icons {
+    position: static !important;
+    width: 36px !important;
+    height: 36px !important;
+    top: auto !important;
+    left: auto !important;
+  }
+  /* Use ::after on the rectangle-16 anchor to render whatsapp text inline */
+  .about-us .rectangle-16::after {
+    content: 'للانضمام في مجموعة واتساب';
+    font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
+    font-size: 16px;
+    color: #fff;
+    direction: rtl;
+  }
+
+  /* ---- Contact form (left col) ---- */
+  .about-us .text-wrapper-18 {
+    grid-area: contact;
+    position: static !important;
+    width: 100% !important;
+    margin: 0 0 12px !important;
+    padding: 0 !important;
+    font-size: clamp(20px, 3vw, 26px) !important;
+    line-height: 1.2 !important;
+    text-align: right;
+    color: #563c2f;
+  }
+  .about-us .contact-figma-form {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    grid-area: contact;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 38px !important;
+  }
+  .about-us .contact-figma-name,
+  .about-us .contact-figma-phone,
+  .about-us .contact-figma-message {
+    position: static !important;
+    width: 100% !important;
+    background: #dbcebe;
+    color: #563c2f;
+    padding: 12px 16px !important;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+  .about-us .contact-figma-name::placeholder,
+  .about-us .contact-figma-phone::placeholder,
+  .about-us .contact-figma-message::placeholder {
+    color: #88664d;
+  }
+  .about-us .contact-figma-name { height: 42px !important; }
+  .about-us .contact-figma-phone { height: 42px !important; }
+  .about-us .contact-figma-message { height: 90px !important; min-height: 90px; resize: vertical; }
+  .about-us .contact-figma-submit {
+    position: static !important;
+    width: 120px !important;
+    height: 36px !important;
+    background: #ffffff !important;
+    color: #88664d !important;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: "Rawasi Display Arabic-Regular", Helvetica;
+    font-size: 16px;
+    align-self: flex-end;
+  }
+  .about-us .contact-figma-submit::before {
+    content: 'إرسال';
+    color: #88664d;
+  }
+
+  /* ---- Quick links (right col) ---- */
+  .about-us .text-wrapper-17 {
+    grid-area: links;
+    position: static !important;
+    width: 100% !important;
+    margin: 0 0 12px !important;
+    padding: 0 !important;
+    font-size: clamp(20px, 3vw, 26px) !important;
+    line-height: 1.2 !important;
+    text-align: right;
+    color: #563c2f;
+  }
+  .about-us .text-wrapper-14,
+  .about-us .text-wrapper-16 {
+    position: static !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    line-height: 2 !important;
+    text-align: right;
+    color: #fcfbf7;
+    grid-area: links;
+  }
+  .about-us .text-wrapper-14 {
+    margin-top: 38px !important;
+  }
+  .about-us .text-wrapper-16 {
+    margin-top: 6px !important;
+    padding-top: 6px !important;
+    border-top: 1px solid rgba(255,255,255,0.18);
+  }
+
+  /* ---- Social row + bottom bar ---- */
+  .about-us .group-3 {
+    grid-area: social;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+  }
+  .about-us .group-3 .social-link {
+    width: 28px !important;
+    height: 28px !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.12);
+    border-radius: 50%;
+    position: static !important;
+  }
+  .about-us .group-3 img {
+    position: static !important;
+    width: 16px !important;
+    height: 16px !important;
+    top: auto !important;
+    left: auto !important;
+  }
+
+  /* ---- Copyright / legal / credit ---- */
+  .about-us .element,
+  .about-us .div-5,
+  .about-us .div-6,
+  .about-us .image-2 {
+    position: static !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    white-space: normal !important;
+    text-align: center;
+    grid-area: bottom;
+  }
+  .about-us .element {
+    font-size: 11px;
+    line-height: 1.5;
+    color: #ffffff;
+    padding-top: 8px !important;
+  }
+  .about-us .div-5 {
+    font-size: 11px;
+    line-height: 1.5;
+    color: #ffffff;
+    padding-top: 4px !important;
+  }
+  .about-us .div-5 .text-wrapper-19,
+  .about-us .div-5 .text-wrapper-20 { color: #ffffff !important; font-size: 11px !important; }
+  .about-us .div-6 {
+    font-size: 10px;
+    line-height: 1.4;
+    color: #f1e9d6;
+    padding-top: 6px !important;
+  }
+  .about-us .image-2 {
+    width: 50px !important;
+    height: auto !important;
+    margin: 4px auto 0 !important;
+    display: block !important;
+  }
+}
+
+/* Mobile fine-tuning */
+@media (max-width: 640px) {
+  .about-us .group-2 {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "newsletter"
+      "whatsapp"
+      "contact"
+      "links"
+      "social"
+      "bottom";
+    gap: 20px;
+    padding: 24px 16px 20px !important;
+  }
+  .about-us .text-wrapper-14,
+  .about-us .text-wrapper-16,
+  .about-us .contact-figma-form {
+    margin-top: 0 !important;
+  }
+  .about-us .text-wrapper-16 {
+    margin-top: 4px !important;
+  }
+  .about-us .rectangle-16 {
+    flex-direction: column;
+    gap: 8px;
+    min-height: 0;
+    padding: 14px;
+  }
+  .about-us .rectangle-16::after {
+    font-size: 13px;
+    text-align: center;
+  }
+}
