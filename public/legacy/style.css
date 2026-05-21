@@ -6991,6 +6991,7 @@ img, video, iframe { max-width: 100%; height: auto; }
   text-align: right;
   padding: 0 20px;
 }
+.about-us .newsletter-figma-input::placeholder { color: transparent; }
 .about-us .newsletter-figma-input:focus + .text-wrapper-7,
 .about-us .newsletter-figma-input:not(:placeholder-shown) ~ .text-wrapper-7 { display: none; }
 .about-us .newsletter-figma-button {
@@ -7031,6 +7032,9 @@ img, video, iframe { max-width: 100%; height: auto; }
 .about-us .contact-figma-name { top: 0; left: 553px; width: 252px; height: 54px; padding: 0 20px; }
 .about-us .contact-figma-phone { top: 72px; left: 553px; width: 252px; height: 54px; padding: 0 20px; }
 .about-us .contact-figma-message { top: 0; left: 0; width: 534px; height: 126px; padding: 14px 20px; resize: none; }
+.about-us .contact-figma-name::placeholder,
+.about-us .contact-figma-phone::placeholder,
+.about-us .contact-figma-message::placeholder { color: transparent; }
 .about-us .contact-figma-submit {
   position: absolute;
   top: 141px;
@@ -7103,8 +7107,16 @@ img, video, iframe { max-width: 100%; height: auto; }
     display: none !important;
   }
 
-  /* Reset all kept elements out of absolute positioning */
-  .about-us .group-2 > * {
+  /* Reset all kept elements out of absolute positioning (including form children) */
+  .about-us .group-2 > *,
+  .about-us .group-2 form > *,
+  .about-us .group-2 nav > *,
+  .about-us .newsletter-figma-input,
+  .about-us .newsletter-figma-button,
+  .about-us .contact-figma-name,
+  .about-us .contact-figma-phone,
+  .about-us .contact-figma-message,
+  .about-us .contact-figma-submit {
     position: static !important;
     width: auto !important;
     height: auto !important;
@@ -7179,6 +7191,7 @@ img, video, iframe { max-width: 100%; height: auto; }
     font-size: 14px;
     color: #252525;
   }
+  .about-us .newsletter-figma-input::placeholder { color: #88664d !important; }
   .about-us .newsletter-figma-button {
     height: 40px;
     width: 80px;
@@ -7251,7 +7264,7 @@ img, video, iframe { max-width: 100%; height: auto; }
   .about-us .contact-figma-message { height: 80px !important; min-height: 80px; resize: vertical; }
   .about-us .contact-figma-name::placeholder,
   .about-us .contact-figma-phone::placeholder,
-  .about-us .contact-figma-message::placeholder { color: #88664d; }
+  .about-us .contact-figma-message::placeholder { color: #88664d !important; }
   .about-us .contact-figma-submit {
     width: 110px !important;
     height: 34px !important;

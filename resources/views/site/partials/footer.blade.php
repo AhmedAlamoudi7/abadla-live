@@ -22,7 +22,7 @@
             {{-- Real newsletter form overlaid on top --}}
             <form class="newsletter-figma-form" method="post" action="{{ route('newsletter.store') }}">
                 @csrf
-                <input class="newsletter-figma-input" type="email" name="email" aria-label="البريد الإلكتروني" required />
+                <input class="newsletter-figma-input" type="email" name="email" placeholder="أدخل بريدك الإلكتروني .." aria-label="البريد الإلكتروني" required />
                 <button class="newsletter-figma-button" type="submit" aria-label="إشتراك"></button>
             </form>
 
@@ -44,9 +44,9 @@
             {{-- Real contact form overlaid on top --}}
             <form class="contact-figma-form" method="post" action="{{ route('contact.store') }}">
                 @csrf
-                <input class="contact-figma-name" type="text" name="name" value="{{ old('name') }}" aria-label="الاسم كامل" required />
-                <input class="contact-figma-phone" type="text" name="phone" value="{{ old('phone') }}" aria-label="رقم الجوال" required />
-                <textarea class="contact-figma-message" name="message" aria-label="الرسالة">{{ old('message') }}</textarea>
+                <input class="contact-figma-name" type="text" name="name" value="{{ old('name') }}" placeholder="الإسم كامل *" aria-label="الاسم كامل" required />
+                <input class="contact-figma-phone" type="text" name="phone" value="{{ old('phone') }}" placeholder="رقم الجوال *" aria-label="رقم الجوال" required />
+                <textarea class="contact-figma-message" name="message" placeholder="اكتب رسالتك .." aria-label="الرسالة">{{ old('message') }}</textarea>
                 <button class="contact-figma-submit" type="submit" aria-label="إرسال"></button>
             </form>
 
