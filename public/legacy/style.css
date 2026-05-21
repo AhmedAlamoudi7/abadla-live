@@ -6458,12 +6458,9 @@ img, video, iframe { max-width: 100%; height: auto; }
    Site footer — desktop base styles
    ============================================================ */
 .site-footer {
-  position: absolute;
+  position: relative;
   width: 100%;
   height: 655px;
-  top: 1378px;
-  left: 0;
-  right: 0;
   display: flex;
   justify-content: center;
 }
