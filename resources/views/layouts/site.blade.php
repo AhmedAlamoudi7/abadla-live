@@ -23,6 +23,8 @@
 
     @include('site.partials.newsletter')
 
+    @include('site.partials.footer')
+
     @include('site.partials.video-modal')
 
     @include('site.partials.scroll-top')

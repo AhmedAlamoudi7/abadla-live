@@ -6453,3 +6453,485 @@ img, video, iframe { max-width: 100%; height: auto; }
   .evt-pagination { gap: 6px !important; margin-top: 20px !important; }
   .evt-page-num, .evt-page-arrow { width: 32px !important; height: 32px !important; font-size: 12px !important; }
 }
+
+/* ============================================================
+   Site footer — Figma export (scoped to .about-us)
+   ============================================================ */
+.about-us {
+  position: relative;
+  width: 100%;
+  height: 655px;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.about-us .group {
+  position: absolute;
+  width: 100%;
+  height: 655px;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.about-us .group-2 {
+  width: 1472px;
+  max-width: 100%;
+  height: 655px;
+  margin: 0;
+  position: relative;
+}
+
+.about-us .rectangle-10 {
+  position: absolute;
+  top: 89px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 566px;
+  background-color: #bba188;
+  border-radius: 40px 40px 0px 0px;
+}
+
+@media (min-width: 1441px) {
+  .about-us .rectangle-10 {
+    left: 50%;
+    right: auto;
+    width: 100vw;
+    transform: translateX(-50%);
+  }
+}
+
+.about-us .vector-5 {
+  position: absolute;
+  top: 558px;
+  left: 205px;
+  width: 1px;
+  height: 20px;
+}
+
+.about-us .rectangle-11 {
+  position: absolute;
+  top: -2px;
+  left: 322px;
+  width: 995px;
+  height: 181px;
+  background-color: #f4f3ef;
+  border-radius: 16px;
+  border: 1.5px solid;
+  border-color: #bba188;
+}
+
+.about-us .rectangle-12 {
+  position: absolute;
+  top: 313px;
+  left: 125px;
+  width: 534px;
+  height: 126px;
+  background-color: #dbcebe;
+  border-radius: 16px;
+}
+
+.about-us .rectangle-13 {
+  position: absolute;
+  top: 454px;
+  left: 125px;
+  width: 178px;
+  height: 29px;
+  background-color: #ffffff;
+  border-radius: 16px;
+}
+
+.about-us .rectangle-14 {
+  position: absolute;
+  top: 313px;
+  left: 678px;
+  width: 252px;
+  height: 54px;
+  background-color: #dbcebe;
+  border-radius: 16px;
+}
+
+.about-us .rectangle-15 {
+  position: absolute;
+  top: 385px;
+  left: 678px;
+  width: 252px;
+  height: 54px;
+  background-color: #dbcebe;
+  border-radius: 16px;
+}
+
+.about-us .rectangle-16 {
+  position: absolute;
+  top: 0;
+  left: 125px;
+  width: 178px;
+  height: 178px;
+  background-color: #88664d;
+  border-radius: 16px;
+}
+
+.about-us .rectangle-17 {
+  position: absolute;
+  top: 59px;
+  left: 430px;
+  width: 346px;
+  height: 60px;
+  background-color: #ffffff;
+  border-radius: 9px;
+}
+
+.about-us .text-wrapper-5 {
+  position: absolute;
+  top: 46px;
+  left: 820px;
+  font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
+  font-weight: 400;
+  color: #88664d;
+  font-size: 42px;
+  letter-spacing: 0;
+  line-height: 44px;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.about-us .div-3 {
+  position: absolute;
+  top: 100px;
+  left: 814px;
+  width: 349px;
+  font-family: "Rawasi Display Arabic Light-Regular", Helvetica;
+  font-weight: 400;
+  color: #252525;
+  font-size: 17.2px;
+  letter-spacing: 0;
+  line-height: 26px;
+  direction: rtl;
+}
+
+.about-us .span {
+  font-family: "Rawasi Display Arabic Light-Regular", Helvetica;
+  font-weight: 400;
+  color: #252525;
+  font-size: 17.2px;
+  letter-spacing: 0;
+  line-height: 26px;
+}
+
+.about-us .text-wrapper-6 {
+  font-family: "Rawasi Display Arabic-Regular", Helvetica;
+}
+
+.about-us .rectangle-18 {
+  position: absolute;
+  top: 59px;
+  left: 430px;
+  width: 95px;
+  height: 60px;
+  background-color: #88664d;
+  border-radius: 9px;
+}
+
+.about-us .text-wrapper-7 {
+  position: absolute;
+  top: 74px;
+  left: 622px;
+  font-family: "Rawasi Display Arabic Light-Regular", Helvetica;
+  font-weight: 400;
+  color: #dbcebe;
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: 50px;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.about-us .text-wrapper-8 {
+  position: absolute;
+  top: 326px;
+  left: 837px;
+  font-family: "Rawasi Display Arabic Light-Regular", Helvetica;
+  font-weight: 400;
+  color: #88664d;
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: 50px;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.about-us .text-wrapper-9 {
+  position: absolute;
+  top: 326px;
+  left: 542px;
+  font-family: "Rawasi Display Arabic Light-Regular", Helvetica;
+  font-weight: 400;
+  color: #88664d;
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: 50px;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.about-us .text-wrapper-10 {
+  position: absolute;
+  top: 398px;
+  left: 839px;
+  font-family: "Rawasi Display Arabic Light-Regular", Helvetica;
+  font-weight: 400;
+  color: #88664d;
+  font-size: 18px;
+  letter-spacing: 0;
+  line-height: 50px;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.about-us .text-wrapper-11 {
+  position: absolute;
+  top: 68px;
+  left: 452px;
+  font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 22px;
+  letter-spacing: 0;
+  line-height: 50px;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.about-us .rectangle-19 {
+  position: absolute;
+  top: 56px;
+  left: 1204px;
+  width: 4px;
+  height: 67px;
+  background-color: #88664d;
+  border-radius: 39px;
+}
+
+.about-us .div-4 {
+  position: absolute;
+  top: 94px;
+  left: 151px;
+  font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 24px;
+  line-height: 26px;
+  direction: rtl;
+}
+
+.about-us .text-wrapper-12 { letter-spacing: 0; }
+.about-us .text-wrapper-13 { letter-spacing: -0.23px; }
+
+.about-us .text-wrapper-14 {
+  position: absolute;
+  top: 304px;
+  left: 1218px;
+  font-family: "Rawasi Display Arabic-Regular", Helvetica;
+  font-weight: 400;
+  color: #fcfbf7;
+  font-size: 25px;
+  text-align: justify;
+  letter-spacing: 0;
+  line-height: 37px;
+  direction: rtl;
+}
+
+.about-us .element {
+  position: absolute;
+  top: 576px;
+  left: 1014px;
+  font-family: "Rawasi Display Arabic-Regular", Helvetica;
+  font-weight: 400;
+  color: #ffffff;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 37px;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.about-us .text-wrapper-15 {
+  position: absolute;
+  top: 450px;
+  left: 192px;
+  font-family: "Rawasi Display Arabic-Regular", Helvetica;
+  font-weight: 400;
+  color: #88664d;
+  font-size: 25px;
+  text-align: justify;
+  letter-spacing: 0;
+  line-height: 37px;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.about-us .text-wrapper-16 {
+  position: absolute;
+  top: 304px;
+  left: 1060px;
+  font-family: "Rawasi Display Arabic-Regular", Helvetica;
+  font-weight: 400;
+  color: #fcfbf7;
+  font-size: 25px;
+  text-align: justify;
+  letter-spacing: 0;
+  line-height: 37px;
+  direction: rtl;
+}
+
+.about-us .text-wrapper-17 {
+  position: absolute;
+  top: 242px;
+  left: 1183px;
+  font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
+  font-weight: 400;
+  color: #563c2f;
+  font-size: 35px;
+  letter-spacing: 0;
+  line-height: 37px;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.about-us .text-wrapper-18 {
+  position: absolute;
+  top: 242px;
+  left: 800px;
+  font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
+  font-weight: 400;
+  color: #563c2f;
+  font-size: 35px;
+  letter-spacing: 0;
+  line-height: 37px;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.about-us .vector-6 {
+  position: absolute;
+  top: 276px;
+  left: 1062px;
+  width: 110px;
+  height: 3px;
+}
+
+.about-us .vector-7 {
+  position: absolute;
+  top: 276px;
+  left: 677px;
+  width: 110px;
+  height: 3px;
+}
+
+.about-us .vector-8 {
+  position: absolute;
+  top: 590px;
+  left: 124px;
+  width: 806px;
+  height: 3px;
+  background-color: #ffffff;
+}
+
+.about-us .social-icons {
+  position: absolute;
+  top: 28px;
+  left: 183px;
+  width: 61px;
+  height: 61px;
+}
+
+.about-us .group-3 {
+  position: absolute;
+  width: 20.52%;
+  height: 3.05%;
+  top: 39.24%;
+  left: 8.49%;
+}
+
+.about-us .vector-9 {
+  position: absolute;
+  width: 5.63%;
+  height: 100%;
+  top: 0;
+  left: 94.37%;
+}
+
+.about-us .social-icons-2 { position: absolute; top: 0;  left: 114px; width: 20px; height: 20px; }
+.about-us .social-icons-3 { position: absolute; top: 1px; left: 58px;  width: 18px; height: 18px; }
+.about-us .social-icons-4 { position: absolute; top: 0;  left: 172px; width: 20px; height: 20px; }
+.about-us .social-icons-5 { position: absolute; top: 0;  left: 0;     width: 20px; height: 20px; }
+.about-us .social-icons-6 { position: absolute; top: 0;  left: 230px; width: 20px; height: 20px; }
+
+.about-us .div-5 {
+  position: absolute;
+  top: 551px;
+  left: 1121px;
+  font-family: "Rawasi Display Arabic Light-Regular", Helvetica;
+  font-weight: 400;
+  color: #563c2f;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 37px;
+  white-space: nowrap;
+  direction: rtl;
+}
+
+.about-us .text-wrapper-19 { text-decoration: underline; }
+
+.about-us .text-wrapper-20 {
+  font-family: "Rawasi Display Arabic Light-Regular", Helvetica;
+  font-weight: 400;
+  color: #563c2f;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 37px;
+}
+
+.about-us .div-6 {
+  position: absolute;
+  top: 555px;
+  left: 226px;
+  font-family: "Rawasi Display Arabic Light-Regular", Helvetica;
+  font-weight: 400;
+  color: #f1e9d6;
+  font-size: 10px;
+  letter-spacing: 0;
+  line-height: 11px;
+  direction: rtl;
+}
+
+.about-us .text-wrapper-21 { color: #ffffff; }
+.about-us .text-wrapper-22 { color: #ffffff; text-decoration: underline; }
+
+.about-us .group-4 {
+  position: absolute;
+  top: 420px;
+  left: 135px;
+  width: 10px;
+  height: 10px;
+  display: flex;
+}
+
+.about-us .vector-10 {
+  margin-top: -0.5px;
+  width: 9.42px;
+  height: 9.42px;
+  margin-left: 1.3px;
+}
+
+.about-us .image-2 {
+  position: absolute;
+  top: 556px;
+  left: 125px;
+  width: 59px;
+  height: 21px;
+  aspect-ratio: 2.85;
+}
