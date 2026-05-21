@@ -1,4 +1,4 @@
-<section class="newsletter-wrapper" data-animate="fade-up">
+<!-- <section class="newsletter-wrapper" data-animate="fade-up">
     <div class="newsletter-box">
         <div class="newsletter-content">
             <h2>{{ $site['newsletter_title'] ?? 'للاشتراك في النشرة البريدية' }}</h2>
@@ -14,4 +14,4 @@
         <img src="{{ asset('legacy/img/Social-Icons2.svg') }}" alt="WhatsApp" />
         <p>{!! nl2br(e(($site['whatsapp_line1'] ?? '')."\n".($site['whatsapp_line2'] ?? ''))) !!}</p>
     </a>
-</section>
+</section> -->
