@@ -4,9 +4,10 @@ namespace App\Providers;
 
 use App\View\Composers\SiteComposer;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,5 +29,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
 
         View::composer('layouts.site', SiteComposer::class);
+
+        Gate::before(fn ($user, string $ability) => $user->hasRole('super_admin') ? true : null);
     }
 }
