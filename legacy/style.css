@@ -7050,8 +7050,8 @@ img, video, iframe { max-width: 100%; height: auto; }
 }
 
 /* ============================================================
-   Footer — RESPONSIVE: reflow Figma layout into stacked block
-   on tablet / mobile. Single big breakpoint at 1024px.
+   Footer — RESPONSIVE (≤1024px): flex column with explicit
+   `order` per element so visual sequence is deterministic.
    ============================================================ */
 @media (max-width: 1024px) {
   .about-us {
@@ -7069,19 +7069,14 @@ img, video, iframe { max-width: 100%; height: auto; }
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
-    padding: 32px 20px 24px !important;
+    padding: 28px 16px 20px !important;
     background-color: #bba188;
     border-radius: 24px 24px 0 0;
     box-sizing: border-box;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "newsletter newsletter"
-      "whatsapp whatsapp"
-      "contact links"
-      "social social"
-      "bottom bottom";
-    gap: 28px;
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
   }
 
   /* Hide pure decoration */
@@ -7108,288 +7103,244 @@ img, video, iframe { max-width: 100%; height: auto; }
     display: none !important;
   }
 
-  /* ---- Newsletter (top, full width white card) ---- */
-  .about-us .text-wrapper-5,
-  .about-us .div-3,
-  .about-us .newsletter-figma-form {
+  /* Reset all kept elements out of absolute positioning */
+  .about-us .group-2 > * {
     position: static !important;
-    width: 100% !important;
+    width: auto !important;
     height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    left: auto !important;
     top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    margin: 0 !important;
     white-space: normal !important;
   }
+
+  /* Explicit visual order */
+  .about-us .text-wrapper-5         { order: 1; }
+  .about-us .div-3                  { order: 2; }
+  .about-us .newsletter-figma-form  { order: 3; }
+  .about-us .rectangle-16           { order: 10; }
+  .about-us .div-4-link             { order: 11; display: none; }
+  .about-us .social-icons-link      { order: 12; display: none; }
+  .about-us .text-wrapper-18        { order: 20; }
+  .about-us .contact-figma-form     { order: 21; }
+  .about-us .text-wrapper-17        { order: 30; }
+  .about-us .text-wrapper-14        { order: 31; }
+  .about-us .text-wrapper-16        { order: 32; }
+  .about-us .group-3                { order: 40; }
+  .about-us .element                { order: 50; }
+  .about-us .div-5                  { order: 51; }
+  .about-us .div-6                  { order: 52; }
+  .about-us .image-2                { order: 53; }
+
+  /* Newsletter card (title + subtitle + form share one visual card) */
   .about-us .text-wrapper-5 {
-    grid-area: newsletter;
     background: #f4f3ef;
     border: 1.5px solid #bba188;
-    border-radius: 16px;
-    padding: 18px 16px 6px !important;
-    font-size: clamp(20px, 3.2vw, 30px);
-    line-height: 1.2;
+    border-bottom: none;
+    border-radius: 16px 16px 0 0;
+    padding: 16px 16px 4px !important;
+    font-size: clamp(18px, 4.5vw, 26px);
+    line-height: 1.25;
     text-align: right;
     color: #88664d;
+    margin: 0 0 -8px 0 !important;
   }
   .about-us .div-3 {
     background: #f4f3ef;
     border-left: 1.5px solid #bba188;
     border-right: 1.5px solid #bba188;
-    padding: 0 16px 12px !important;
-    font-size: 14px;
-    line-height: 1.6;
+    padding: 0 16px 10px !important;
+    font-size: 13px;
+    line-height: 1.55;
     text-align: right;
     color: #252525;
-    margin-top: -28px !important;
+    margin: 0 0 -8px 0 !important;
   }
+  .about-us .div-3 .span,
+  .about-us .div-3 .text-wrapper-6 { font-size: 13px; line-height: 1.55; }
   .about-us .newsletter-figma-form {
-    display: flex;
+    display: flex !important;
     background: #f4f3ef;
     border: 1.5px solid #bba188;
     border-top: none;
     border-radius: 0 0 16px 16px;
-    padding: 12px 16px 16px !important;
-    margin-top: -28px !important;
+    padding: 10px 12px 12px !important;
     gap: 8px;
-    height: auto;
+    margin: 0 0 6px 0 !important;
   }
   .about-us .newsletter-figma-input {
-    position: static !important;
     flex: 1;
-    height: 44px;
+    height: 40px;
     background: #ffffff;
     border-radius: 9px;
     border: 1px solid #dbcebe;
-    padding: 0 14px;
+    padding: 0 12px;
     font-size: 14px;
-    width: auto !important;
+    color: #252525;
   }
-  .about-us .newsletter-figma-input::placeholder { color: #88664d; }
   .about-us .newsletter-figma-button {
-    position: static !important;
-    height: 44px;
-    width: 90px;
+    height: 40px;
+    width: 80px;
     background: #88664d;
-    color: #fff;
     border-radius: 9px;
-    font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
-    font-size: 16px;
     cursor: pointer;
+    color: #fff;
+    font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
+    font-size: 15px;
   }
   .about-us .newsletter-figma-button::before {
     content: 'إشتراك';
     color: #fff;
-    direction: rtl;
   }
 
-  /* ---- WhatsApp CTA ---- */
+  /* WhatsApp CTA — one horizontal brown bar with icon + text via pseudo-elements */
   .about-us .rectangle-16 {
-    grid-area: whatsapp;
-    position: static !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 96px;
     background-color: #88664d;
-    border-radius: 16px;
-    display: flex;
+    border-radius: 14px;
+    display: flex !important;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    padding: 16px 20px;
+    gap: 12px;
+    min-height: 56px !important;
+    padding: 12px 16px !important;
     text-decoration: none;
     color: #fff;
+    width: 100% !important;
   }
-  .about-us .div-4-link {
-    display: contents;
+  .about-us .rectangle-16::before {
+    content: '';
+    width: 28px;
+    height: 28px;
+    background: url('img/whatsapp-big.svg') center/contain no-repeat;
+    flex-shrink: 0;
   }
-  .about-us .div-4 {
-    position: static !important;
-    margin: 0 !important;
-    font-size: 16px !important;
-    line-height: 1.3 !important;
-    color: #fff;
-    text-align: center;
-    grid-area: whatsapp;
-    pointer-events: none;
-    /* Render inside the whatsapp box via overlay trick */
-    display: none;
-  }
-  .about-us .social-icons-link {
-    display: contents;
-  }
-  .about-us .social-icons {
-    position: static !important;
-    width: 36px !important;
-    height: 36px !important;
-    top: auto !important;
-    left: auto !important;
-  }
-  /* Use ::after on the rectangle-16 anchor to render whatsapp text inline */
   .about-us .rectangle-16::after {
     content: 'للانضمام في مجموعة واتساب';
     font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
-    font-size: 16px;
+    font-size: 15px;
     color: #fff;
     direction: rtl;
   }
 
-  /* ---- Contact form (left col) ---- */
+  /* Contact form (full width, real inputs) */
   .about-us .text-wrapper-18 {
-    grid-area: contact;
-    position: static !important;
-    width: 100% !important;
-    margin: 0 0 12px !important;
-    padding: 0 !important;
-    font-size: clamp(20px, 3vw, 26px) !important;
+    font-size: clamp(18px, 4vw, 22px) !important;
     line-height: 1.2 !important;
     text-align: right;
     color: #563c2f;
+    margin: 8px 0 4px 0 !important;
   }
   .about-us .contact-figma-form {
-    position: static !important;
-    width: 100% !important;
-    height: auto !important;
-    grid-area: contact;
-    display: flex;
+    display: flex !important;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 38px !important;
+    gap: 8px;
   }
   .about-us .contact-figma-name,
   .about-us .contact-figma-phone,
   .about-us .contact-figma-message {
-    position: static !important;
+    background: #dbcebe !important;
+    color: #563c2f !important;
+    padding: 10px 14px !important;
+    font-size: 14px !important;
+    border-radius: 10px !important;
     width: 100% !important;
-    background: #dbcebe;
-    color: #563c2f;
-    padding: 12px 16px !important;
-    font-size: 14px;
-    border-radius: 12px;
   }
+  .about-us .contact-figma-name { height: 38px !important; }
+  .about-us .contact-figma-phone { height: 38px !important; }
+  .about-us .contact-figma-message { height: 80px !important; min-height: 80px; resize: vertical; }
   .about-us .contact-figma-name::placeholder,
   .about-us .contact-figma-phone::placeholder,
-  .about-us .contact-figma-message::placeholder {
-    color: #88664d;
-  }
-  .about-us .contact-figma-name { height: 42px !important; }
-  .about-us .contact-figma-phone { height: 42px !important; }
-  .about-us .contact-figma-message { height: 90px !important; min-height: 90px; resize: vertical; }
+  .about-us .contact-figma-message::placeholder { color: #88664d; }
   .about-us .contact-figma-submit {
-    position: static !important;
-    width: 120px !important;
-    height: 36px !important;
+    width: 110px !important;
+    height: 34px !important;
     background: #ffffff !important;
-    color: #88664d !important;
-    border-radius: 30px;
+    border-radius: 24px !important;
     cursor: pointer;
-    font-family: "Rawasi Display Arabic-Regular", Helvetica;
-    font-size: 16px;
     align-self: flex-end;
+    font-family: "Rawasi Display Arabic-Regular", Helvetica;
+    font-size: 14px;
+    color: #88664d;
   }
   .about-us .contact-figma-submit::before {
     content: 'إرسال';
     color: #88664d;
   }
 
-  /* ---- Quick links (right col) ---- */
+  /* Quick links: 2 columns side by side */
   .about-us .text-wrapper-17 {
-    grid-area: links;
-    position: static !important;
-    width: 100% !important;
-    margin: 0 0 12px !important;
-    padding: 0 !important;
-    font-size: clamp(20px, 3vw, 26px) !important;
+    font-size: clamp(18px, 4vw, 22px) !important;
     line-height: 1.2 !important;
     text-align: right;
     color: #563c2f;
+    margin: 8px 0 4px 0 !important;
   }
   .about-us .text-wrapper-14,
   .about-us .text-wrapper-16 {
-    position: static !important;
-    width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    font-size: 14px !important;
-    line-height: 2 !important;
+    width: 50% !important;
+    display: inline-block !important;
+    vertical-align: top;
+    font-size: 13px !important;
+    line-height: 1.9 !important;
     text-align: right;
     color: #fcfbf7;
-    grid-area: links;
+    padding: 0 !important;
   }
-  .about-us .text-wrapper-14 {
-    margin-top: 38px !important;
-  }
-  .about-us .text-wrapper-16 {
-    margin-top: 6px !important;
-    padding-top: 6px !important;
-    border-top: 1px solid rgba(255,255,255,0.18);
-  }
+  .about-us .text-wrapper-14 a,
+  .about-us .text-wrapper-16 a { color: #fcfbf7; text-decoration: none; }
 
-  /* ---- Social row + bottom bar ---- */
+  /* Social row */
   .about-us .group-3 {
-    grid-area: social;
-    position: static !important;
-    width: 100% !important;
-    height: auto !important;
     display: flex !important;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 14px;
-    padding: 12px 0;
+    gap: 12px;
+    padding: 12px 0 !important;
+    margin: 8px 0 0 !important;
     border-top: 1px solid rgba(255,255,255,0.18);
     border-bottom: 1px solid rgba(255,255,255,0.18);
+    width: 100% !important;
   }
   .about-us .group-3 .social-link {
-    width: 28px !important;
-    height: 28px !important;
+    width: 30px !important;
+    height: 30px !important;
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.14);
     border-radius: 50%;
-    position: static !important;
   }
   .about-us .group-3 img {
-    position: static !important;
-    width: 16px !important;
-    height: 16px !important;
-    top: auto !important;
-    left: auto !important;
+    width: 14px !important;
+    height: 14px !important;
   }
 
-  /* ---- Copyright / legal / credit ---- */
+  /* Bottom bar */
   .about-us .element,
   .about-us .div-5,
-  .about-us .div-6,
-  .about-us .image-2 {
-    position: static !important;
+  .about-us .div-6 {
+    text-align: center !important;
     width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    white-space: normal !important;
-    text-align: center;
-    grid-area: bottom;
   }
   .about-us .element {
-    font-size: 11px;
-    line-height: 1.5;
-    color: #ffffff;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+    color: #ffffff !important;
     padding-top: 8px !important;
   }
   .about-us .div-5 {
-    font-size: 11px;
-    line-height: 1.5;
-    color: #ffffff;
-    padding-top: 4px !important;
+    font-size: 11px !important;
+    line-height: 1.5 !important;
+    color: #ffffff !important;
   }
   .about-us .div-5 .text-wrapper-19,
   .about-us .div-5 .text-wrapper-20 { color: #ffffff !important; font-size: 11px !important; }
   .about-us .div-6 {
-    font-size: 10px;
-    line-height: 1.4;
-    color: #f1e9d6;
-    padding-top: 6px !important;
+    font-size: 10px !important;
+    line-height: 1.4 !important;
+    color: #f1e9d6 !important;
   }
   .about-us .image-2 {
     width: 50px !important;
@@ -7399,36 +7350,3 @@ img, video, iframe { max-width: 100%; height: auto; }
   }
 }
 
-/* Mobile fine-tuning */
-@media (max-width: 640px) {
-  .about-us .group-2 {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "newsletter"
-      "whatsapp"
-      "contact"
-      "links"
-      "social"
-      "bottom";
-    gap: 20px;
-    padding: 24px 16px 20px !important;
-  }
-  .about-us .text-wrapper-14,
-  .about-us .text-wrapper-16,
-  .about-us .contact-figma-form {
-    margin-top: 0 !important;
-  }
-  .about-us .text-wrapper-16 {
-    margin-top: 4px !important;
-  }
-  .about-us .rectangle-16 {
-    flex-direction: column;
-    gap: 8px;
-    min-height: 0;
-    padding: 14px;
-  }
-  .about-us .rectangle-16::after {
-    font-size: 13px;
-    text-align: center;
-  }
-}
