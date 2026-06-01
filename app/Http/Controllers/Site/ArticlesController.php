@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
-use App\Models\NewsPost;
+use App\Models\Article;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -12,8 +12,7 @@ class ArticlesController extends Controller
 {
     public function index(Request $request): View
     {
-        $articles = NewsPost::query()
-            ->where('type', NewsPost::TYPE_ARTICLE)
+        $articles = Article::query()
             ->where('published', true)
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now())

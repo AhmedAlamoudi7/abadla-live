@@ -2,33 +2,27 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\NewsPostResource\Pages;
-use App\Models\NewsPost;
+use App\Filament\Resources\ArticleResource\Pages;
+use App\Models\Article;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
-class NewsPostResource extends Resource
+class ArticleResource extends Resource
 {
-    protected static ?string $model = NewsPost::class;
+    protected static ?string $model = Article::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-newspaper';
+    protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?string $navigationGroup = 'المحتوى';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
-    protected static ?string $modelLabel = 'خبر';
+    protected static ?string $modelLabel = 'مقال';
 
-    protected static ?string $pluralModelLabel = 'أخبار العائلة';
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()->where('type', NewsPost::TYPE_NEWS);
-    }
+    protected static ?string $pluralModelLabel = 'المقالات';
 
     public static function form(Form $form): Form
     {
@@ -49,17 +43,11 @@ class NewsPostResource extends Resource
                     ->label('صورة مميزة')
                     ->image()
                     ->disk('public')
-                    ->directory('news')
+                    ->directory('articles')
                     ->visibility('public'),
                 Forms\Components\DateTimePicker::make('published_at')->label('تاريخ النشر')->default(now()),
                 Forms\Components\TextInput::make('category')->label('التصنيف')->maxLength(120),
                 Forms\Components\TagsInput::make('tags')->label('وسوم'),
-                Forms\Components\Toggle::make('is_breaking')->label('خبر عاجل'),
-                Forms\Components\Toggle::make('show_on_home')->label('يظهر في الرئيسية'),
-                Forms\Components\Toggle::make('is_hourly_featured')->label('أخبار الساعة'),
-                Forms\Components\TextInput::make('layout_role')->label('دور التخطيط (banner/list/...)')->maxLength(60),
-                Forms\Components\TextInput::make('mosaic_slot')->label('موضع الموزاييك')->maxLength(60),
-                Forms\Components\TextInput::make('important_sort')->label('ترتيب أهم الأخبار')->numeric()->default(0),
                 Forms\Components\Toggle::make('published')->label('منشور')->default(true),
             ]);
     }
@@ -90,9 +78,9 @@ class NewsPostResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListNewsPosts::route('/'),
-            'create' => Pages\CreateNewsPost::route('/create'),
-            'edit' => Pages\EditNewsPost::route('/{record}/edit'),
+            'index' => Pages\ListArticles::route('/'),
+            'create' => Pages\CreateArticle::route('/create'),
+            'edit' => Pages\EditArticle::route('/{record}/edit'),
         ];
     }
 }

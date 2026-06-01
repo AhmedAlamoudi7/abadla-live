@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use App\Models\NewsBanner;
 use App\Models\NewsPost;
 use App\Models\Setting;
@@ -112,18 +113,26 @@ class NewsController extends Controller
 
     public function show(string $slug): View
     {
+        // Articles now live in their own table but still render at /news/{slug}.
+        // Resolve a news post first, then fall back to an article.
         $post = NewsPost::query()
             ->where('slug', $slug)
             ->where('published', true)
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now())
-            ->firstOrFail();
+            ->first()
+            ?? Article::query()
+                ->where('slug', $slug)
+                ->where('published', true)
+                ->whereNotNull('published_at')
+                ->where('published_at', '<=', now())
+                ->firstOrFail();
 
         $latest = NewsPost::query()
             ->where('published', true)
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now())
-            ->where('id', '!=', $post->id)
+            ->when($post instanceof NewsPost, fn ($q) => $q->where('id', '!=', $post->id))
             ->orderByDesc('published_at')
             ->limit(6)
             ->get();
