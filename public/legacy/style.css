@@ -77,7 +77,7 @@
   --content-max: min(100% - (var(--page-gutter) * 2), 1280px);
 
   /* Same vertical rhythm between sections + horizontal padding (aligned with .container) */
-  --section-gap: 96px;
+  --section-gap: 48px;
   --page-gutter: clamp(20px, 3vw, 56px);
   /* Newsletter pulls into footer; padding-top must clear this overlap */
   --footer-overlap: 130px;
@@ -3717,7 +3717,7 @@ h2.gradient-text {
 
 @media (max-width: 900px) {
   :root {
-    --section-gap: 64px;
+    --section-gap: 40px;
     --footer-overlap: 100px;
   }
 
@@ -3822,7 +3822,7 @@ h2.gradient-text {
 
 @media (max-width: 768px) {
   :root {
-    --section-gap: 48px;
+    --section-gap: 36px;
     --page-gutter: 16px;
     --footer-overlap: 88px;
   }
@@ -7443,5 +7443,31 @@ img, video, iframe { max-width: 100%; height: auto; }
     right: 0;
     left: auto;
   }
+}
+
+/* ============================================================
+   HOME — uniform section spacing + aligned start/end edges
+   ============================================================ */
+/* Remove the hero/events overlap so each section's top & bottom spacing
+   is uniform (no floating cards leaving an extra gap). */
+.family-events { margin-top: var(--section-gap) !important; }
+.events-row { bottom: 0 !important; }
+
+/* Align EVERY home content row to the same left/right edges (the standard
+   single-gutter container content). These rows set max-width:var(--content-max)
+   or sat inside a nested .container, which subtracted the page gutter again at
+   each level and progressively inset them (123 -> 166 -> 253px). */
+.events-row,
+.activites-row,
+.media-wrapper,
+.family-desc-inner,
+.landmark-section,
+.landmark-card { max-width: none !important; width: 100% !important; }
+.family-desc-inner,
+.media-showcase > .container {
+  width: 100% !important;
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 

@@ -289,7 +289,7 @@
 
 @push('styles')
 <style>
-    .home-latest-news { padding: 4px 0 56px; }
+    .home-latest-news { padding-top: 4px; padding-bottom: 56px; }
     .home-latest-news .hln-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
