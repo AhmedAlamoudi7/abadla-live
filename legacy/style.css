@@ -6718,7 +6718,9 @@ img, video, iframe { max-width: 100%; height: auto; }
 .about-us .div-4 {
     position: absolute;
     top: 100px;
-    left: 137px;
+    left: 125px;
+    width: 178px;
+    text-align: center;
     font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
     font-weight: 400;
     color: #ffffff;
