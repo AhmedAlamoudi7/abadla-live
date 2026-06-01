@@ -72,7 +72,7 @@
             <a class="rectangle-16" href="{{ $site['whatsapp_url'] ?? '#' }}" target="_blank" rel="noopener" aria-label="مجموعة واتساب"></a>
             <a class="div-4-link" href="{{ $site['whatsapp_url'] ?? '#' }}" target="_blank" rel="noopener">
                 <p class="div-4">
-                    <span class="text-wrapper-12">{{ $site['whatsapp_line1'] ?? 'للانضمام في' }}<br />{{ $site['whatsapp_line2'] ?? 'مجموعة واتساب' }}</span>
+                    <span class="text-wrapper-12">للإنضم</span><span class="text-wrapper-13">ـــ</span><span class="text-wrapper-12">ام في<br />{{ $site['whatsapp_line2'] ?? 'مجموعة واتساب' }}</span>
                 </p>
             </a>
             <a class="social-icons-link" href="{{ $site['whatsapp_url'] ?? '#' }}" target="_blank" rel="noopener" aria-label="واتساب">
