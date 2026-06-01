@@ -245,7 +245,135 @@
             </form>
         </div>
     </section>
+
+    @if (! empty($latestNews) && $latestNews->isNotEmpty())
+        <section class="section-title" data-animate="fade-up">
+            <div class="title-wrapper">
+                <span class="line"></span>
+                <h2 class="gradient-text">آخر الأخبار</h2>
+                <span class="line"></span>
+            </div>
+        </section>
+
+        <section class="home-latest-news container" data-animate="fade-up">
+            <div class="hln-grid">
+                @foreach ($latestNews as $post)
+                    <a href="{{ route('news.show', $post->slug) }}" class="hln-card">
+                        <div class="hln-text">
+                            @if ($post->published_at)
+                                <span class="hln-date">{{ $post->published_at->locale('ar')->translatedFormat('j F Y') }}</span>
+                            @endif
+                            <h3 class="hln-title">{{ $post->title }}</h3>
+                            @if ($post->excerpt)
+                                <p class="hln-excerpt">{{ $post->excerpt }}</p>
+                            @endif
+                        </div>
+                        <div class="hln-media">
+                            <img
+                                src="{{ $post->featured_image ? Media::url($post->featured_image) : asset('legacy/img/article.jpg') }}"
+                                alt="{{ $post->title }}"
+                                loading="lazy"
+                                width="200"
+                                height="160"
+                            />
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+            <div class="hln-all">
+                <a href="{{ route('news.index') }}">عرض كل الأخبار <i class="fas fa-arrow-left" aria-hidden="true"></i></a>
+            </div>
+        </section>
+    @endif
 @endsection
+
+@push('styles')
+<style>
+    .home-latest-news { padding: 4px 0 56px; }
+    .home-latest-news .hln-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+    }
+    .hln-card {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 16px;
+        background: #f6f1ea;
+        border: 1px solid rgba(139, 115, 85, .12);
+        border-radius: 16px;
+        padding: 16px;
+        text-decoration: none;
+        color: inherit;
+        direction: rtl;
+        box-shadow: 0 8px 22px -16px rgba(80, 55, 20, .3);
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .hln-card:hover { transform: translateY(-4px); box-shadow: 0 18px 34px -18px rgba(80, 55, 20, .4); }
+    .hln-text {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+        justify-content: center;
+    }
+    .hln-date { font-size: 12px; color: #8b7355; font-weight: 600; }
+    .hln-title {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 800;
+        line-height: 1.55;
+        color: #4a3527;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .hln-excerpt {
+        margin: 0;
+        font-size: 13.5px;
+        line-height: 1.75;
+        color: #6a5b4a;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .hln-media { flex: 0 0 190px; align-self: stretch; }
+    .hln-media img {
+        width: 100%;
+        height: 100%;
+        min-height: 130px;
+        object-fit: cover;
+        border-radius: 12px;
+        display: block;
+    }
+    .hln-all { text-align: center; margin-top: 28px; }
+    .hln-all a {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #8b7355;
+        font-weight: 700;
+        font-size: 15px;
+        text-decoration: none;
+        transition: color .2s ease;
+    }
+    .hln-all a:hover { color: #4a3527; }
+
+    @media (max-width: 768px) {
+        .home-latest-news .hln-grid { grid-template-columns: 1fr; gap: 16px; }
+        .hln-card { padding: 12px; gap: 12px; }
+        .hln-media { flex-basis: 120px; }
+        .hln-media img { min-height: 110px; }
+        .hln-title { font-size: 15px; }
+        .hln-excerpt { -webkit-line-clamp: 2; }
+    }
+</style>
+@endpush
 
 @push('before_legacy_script')
     <script>

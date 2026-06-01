@@ -32,9 +32,6 @@
             <div class="rectangle-12"></div>
             <div class="rectangle-14"></div>
             <div class="rectangle-15"></div>
-            <div class="text-wrapper-8">الإسم كامل *</div>
-            <div class="text-wrapper-9">اكتب رسالتك ..</div>
-            <div class="text-wrapper-10">رقم الجوال *</div>
             <div class="rectangle-13"></div>
             <div class="text-wrapper-15">إرسال</div>
             <div class="group-4">

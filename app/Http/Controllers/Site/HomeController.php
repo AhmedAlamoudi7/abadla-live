@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\GalleryImage;
 use App\Models\HeroSlide;
 use App\Models\HomeFeaturedEvent;
+use App\Models\NewsPost;
 use App\Models\Setting;
 use Illuminate\View\View;
 
@@ -46,6 +47,15 @@ class HomeController extends Controller
             ->orderBy('sort_order')
             ->get();
 
+        $latestNews = NewsPost::query()
+            ->where('type', NewsPost::TYPE_NEWS)
+            ->where('published', true)
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->orderByDesc('published_at')
+            ->limit(4)
+            ->get();
+
         return view('site.home', [
             'activeNav' => 'home',
             'title' => Setting::getValue('meta_home_title', 'العبادلة - موقع العائلة'),
@@ -54,6 +64,7 @@ class HomeController extends Controller
             'featuredEvents' => $featuredLinks,
             'activityEvents' => $activityEvents,
             'galleryImages' => $galleryImages,
+            'latestNews' => $latestNews,
             'familyIntroTitle' => Setting::getValue('home_family_intro_title', 'تعمـــــــــــــــق وتعرف على أصول العائلة ...'),
             'familyIntroHtml' => Setting::getValue('home_family_intro_html', ''),
             'statFemale' => Setting::getValue('stat_female', '54800'),

@@ -73,8 +73,8 @@
   --glass-border: rgba(255, 255, 255, 0.3);
 
   /* One column width for all main content (aligned start + width).
-     Fluid: scales with the viewport instead of capping at 1400px. */
-  --content-max: min(100% - (var(--page-gutter) * 2), 1920px);
+     Capped at a standard centered width; fluid below that. */
+  --content-max: min(100% - (var(--page-gutter) * 2), 1280px);
 
   /* Same vertical rhythm between sections + horizontal padding (aligned with .container) */
   --section-gap: 96px;
@@ -6749,7 +6749,7 @@ img, video, iframe { max-width: 100%; height: auto; }
 .about-us .element {
   position: absolute;
   top: 576px;
-  left: 1014px;
+  left: 1010px;
   font-family: "Rawasi Display Arabic-Regular", Helvetica;
   font-weight: 400;
   color: #ffffff;
@@ -7036,7 +7036,15 @@ img, video, iframe { max-width: 100%; height: auto; }
 .about-us .contact-figma-message { top: 0; left: 0; width: 534px; height: 126px; padding: 14px 20px; resize: none; }
 .about-us .contact-figma-name::placeholder,
 .about-us .contact-figma-phone::placeholder,
-.about-us .contact-figma-message::placeholder { color: transparent; }
+.about-us .contact-figma-message::placeholder { color: #88664d; opacity: 1; }
+.about-us .contact-figma-name:-webkit-autofill,
+.about-us .contact-figma-phone:-webkit-autofill,
+.about-us .contact-figma-message:-webkit-autofill {
+  -webkit-box-shadow: inset 0 0 0 1000px #dbcebe;
+  -webkit-text-fill-color: #563c2f;
+  caret-color: #563c2f;
+  transition: background-color 9999s ease-out 0s;
+}
 .about-us .contact-figma-submit {
   position: absolute;
   top: 141px;
@@ -7362,6 +7370,78 @@ img, video, iframe { max-width: 100%; height: auto; }
     height: auto !important;
     margin: 4px auto 0 !important;
     display: block !important;
+  }
+}
+
+/* =================================================
+   RESPONSIVE FIXES — standard section sizing on
+   tablet & mobile (appended; overrides rules above)
+   ================================================= */
+
+/* Home — remove the desktop-only overlap gap under wide stat cards once the
+   landmark card no longer overlaps them (<=992). */
+@media (max-width: 992px) {
+  .stats-wide .wide-card { margin-bottom: 24px; }
+  .stats-wide .wide-card:last-child { margin-bottom: 0; }
+}
+
+/* Home — neutralize the events carousel's upward overlap on small screens. */
+@media (max-width: 900px) {
+  .family-events .events-row { position: static; bottom: auto; }
+}
+
+/* Social — category pills have a rigid 88px inner gap that can't shrink;
+   relax it so the 2-up pill grid fits phones without clipping. */
+@media (max-width: 768px) {
+  .soc-pill { gap: 16px; }
+}
+@media (max-width: 480px) {
+  .soc-pill { gap: 10px; justify-content: space-between; }
+}
+
+/* Album — figures reuse the square home .gallery-card; let them size to their
+   content (image + caption) instead of being clipped to a square. */
+.album-page .gallery-card {
+  aspect-ratio: auto !important;
+  overflow: visible !important;
+  background: transparent;
+  box-shadow: none;
+}
+.album-page .gallery-card img { border-radius: 12px; }
+
+/* Pagination — allow wrapping so it never overflows narrow phones. */
+.np-pagination { flex-wrap: wrap; row-gap: 8px; }
+@media (max-width: 480px) {
+  .np-pagination { gap: 6px; }
+  .np-page { width: 32px; height: 32px; }
+  .np-page--nav { width: 34px; }
+}
+
+/* Footer — keep social-network icons inside their circles on tablet/mobile
+   (base rules absolutely-position them; the mobile reset never reached them). */
+@media (max-width: 1024px) {
+  .about-us .group-3 .social-link img,
+  .about-us .group-3 .vector-9,
+  .about-us .group-3 .social-icons-2,
+  .about-us .group-3 .social-icons-3,
+  .about-us .group-3 .social-icons-4,
+  .about-us .group-3 .social-icons-5,
+  .about-us .group-3 .social-icons-6 {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 14px !important;
+    height: 14px !important;
+  }
+}
+
+/* Header — keep the search dropdown within the viewport on narrow phones. */
+@media (max-width: 480px) {
+  .search-dropdown {
+    width: min(280px, calc(100vw - 24px));
+    right: 0;
+    left: auto;
   }
 }
 

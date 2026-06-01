@@ -560,3 +560,24 @@
   .ftree-avatar { width: 36px; height: 36px; font-size: 14px; }
   .members-grid { grid-template-columns: 1fr 1fr; gap: 10px; padding: 16px; }
 }
+
+/* =================================================
+   RESPONSIVE FIXES — tablet & mobile (appended)
+   ================================================= */
+@media (max-width: 992px) {
+  /* The sidebar must act as an off-screen drawer; otherwise the in-flow
+     300px sidebar squeezes the toolbar/viewport (.tree-main) to ~0 width. */
+  .tree-sidebar { position: fixed !important; }
+  .tree-main { width: 100% !important; min-width: 0; }
+  .tree-toolbar { width: 100%; }
+}
+@media (max-width: 600px) {
+  .tree-toolbar { flex-wrap: wrap; gap: 8px; padding: 8px 10px; }
+  .toolbar-left, .toolbar-right { flex-wrap: wrap; }
+  .tb-btn { padding: 6px 9px; font-size: 12px; }
+  .tab-about-content { padding: 20px 16px; }
+  .tab-about-content h2 { font-size: 22px; }
+  .tab-about-content img,
+  .tab-about-content table,
+  .tab-about-content iframe { max-width: 100%; height: auto; }
+}
