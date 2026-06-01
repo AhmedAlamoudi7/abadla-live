@@ -6716,15 +6716,15 @@ img, video, iframe { max-width: 100%; height: auto; }
 }
 
 .about-us .div-4 {
-  position: absolute;
-  top: 94px;
-  left: 151px;
-  font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
-  font-weight: 400;
-  color: #ffffff;
-  font-size: 24px;
-  line-height: 26px;
-  direction: rtl;
+    position: absolute;
+    top: 100px;
+    left: 137px;
+    font-family: "Rawasi Display Arabic Med-Regular", Helvetica;
+    font-weight: 400;
+    color: #ffffff;
+    font-size: 24px;
+    line-height: 29px;
+    direction: rtl;
 }
 
 .about-us .text-wrapper-12 { letter-spacing: 0; }
