@@ -79,7 +79,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const animObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        // Elements taller than the viewport can never reach a 15% intersection
+        // ratio, so the observer would never fire and they'd stay hidden
+        // (opacity:0). Reveal those as soon as any part scrolls into view;
+        // shorter elements keep the 15%-visible trigger.
+        const rootH = entry.rootBounds ? entry.rootBounds.height : window.innerHeight;
+        const tallerThanViewport = entry.boundingClientRect.height > rootH;
+        const revealed = tallerThanViewport
+          ? entry.intersectionRatio > 0
+          : entry.intersectionRatio >= 0.15;
+        if (revealed) {
           const el = entry.target;
           const delay = el.dataset.delay || 0;
           setTimeout(() => el.classList.add("animated"), parseInt(delay));
@@ -87,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     },
-    { rootMargin: "0px 0px -60px 0px", threshold: 0.15 }
+    { rootMargin: "0px 0px -60px 0px", threshold: [0, 0.15] }
   );
   animatedEls.forEach((el) => animObserver.observe(el));
 

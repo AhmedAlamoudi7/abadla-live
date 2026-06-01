@@ -41,7 +41,7 @@
         <script>alert('تم إرسال بياناتك بنجاح.');</script>
     @endif
     @stack('before_legacy_script')
-    <script src="{{ asset('legacy/script.js') }}"></script>
+    <script src="{{ asset('legacy/script.js') }}?v={{ @filemtime(public_path('legacy/script.js')) ?: time() }}"></script>
     @stack('scripts')
 </body>
 </html>
