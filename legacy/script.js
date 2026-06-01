@@ -355,27 +355,22 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================================
      GALLERY – dynamic grid + lightbox
      ========================================= */
-  const galleryImages = [
-    "img/library-image.png",
-    "img/library-image.png",
-    "img/library-image.png",
-    "img/library-image.png",
-    "img/library-image.png",
-    "img/library-image.png",
-    "img/library-image.png",
-  ];
+  // Real gallery images are injected by the server (home view) as
+  // window.GALLERY_IMAGES (absolute URLs). Fall back to an empty grid if absent.
+  const galleryImages = Array.isArray(window.GALLERY_IMAGES) ? window.GALLERY_IMAGES : [];
 
   const galleryGrid = document.getElementById("galleryGrid");
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightboxImg");
   const lightboxClose = document.querySelector(".lightbox .close");
 
-  if (galleryGrid) {
+  if (galleryGrid && galleryImages.length) {
     const textCell = document.createElement("div");
     textCell.className = "gallery-text grid-text";
+    const galleryMoreUrl = window.GALLERY_MORE_URL || "#";
     textCell.innerHTML = `
       <h2>تصفح مكتبة الصور</h2>
-      <a class="gallery-more" href="#">مشاهدة المزيد</a>
+      <a class="gallery-more" href="${galleryMoreUrl}">مشاهدة المزيد</a>
     `;
     galleryGrid.appendChild(textCell);
 
