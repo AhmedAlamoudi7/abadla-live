@@ -114,18 +114,19 @@ class NewsController extends Controller
     public function show(string $slug): View
     {
         // Articles now live in their own table but still render at /news/{slug}.
-        // Resolve a news post first, then fall back to an article.
+        // Resolve a news post first, then fall back to an article. Use the same
+        // "forgiving" publish rule as the listings (respect the published toggle;
+        // a missing date means published now; only future-dated content is hidden)
+        // so anything that appears in a list also opens instead of 404ing.
         $post = NewsPost::query()
             ->where('slug', $slug)
             ->where('published', true)
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
+            ->where(fn ($w) => $w->whereNull('published_at')->orWhere('published_at', '<=', now()))
             ->first()
             ?? Article::query()
                 ->where('slug', $slug)
                 ->where('published', true)
-                ->whereNotNull('published_at')
-                ->where('published_at', '<=', now())
+                ->where(fn ($w) => $w->whereNull('published_at')->orWhere('published_at', '<=', now()))
                 ->firstOrFail();
 
         $latest = NewsPost::query()
