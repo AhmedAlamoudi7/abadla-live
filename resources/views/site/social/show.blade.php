@@ -236,8 +236,20 @@
     .soc-show__chip:hover { filter: brightness(1.08); }
     .soc-show__title { font-size: clamp(22px, 3vw, 34px); line-height: 1.35; margin: 0; color: #3a2e1f; }
 
-    .soc-show__media { margin: 18px 0 22px; border-radius: 14px; overflow: hidden; box-shadow: 0 18px 40px -24px rgba(80,55,20,.35); }
-    .soc-show__media img { width: 100%; height: auto; display: block; }
+    .soc-show__media {
+        margin: 18px 0 22px; border-radius: 14px; overflow: hidden;
+        box-shadow: 0 18px 40px -24px rgba(80,55,20,.35);
+        display: flex; align-items: center; justify-content: center;
+        background: #f1e8db;
+    }
+    .soc-show__media img {
+        max-width: 100%;
+        max-height: 70vh;
+        width: auto;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
 
     .soc-show__lead { font-size: 17px; line-height: 1.85; color: #5a4a35; margin: 0 0 14px; }
     .soc-show__body { font-size: 16px; line-height: 2; color: #3a2e1f; }
