@@ -36,10 +36,11 @@ class HomeController extends Controller
                 ->get();
         }
 
+        // Activities row ("تصفح الفعاليات"): the latest 3 events the admin added (newest first).
         $activityEvents = Event::query()
             ->where('is_published', true)
-            ->orderByDesc('starts_at')
-            ->limit(6)
+            ->latest()
+            ->limit(3)
             ->get();
 
         $galleryImages = GalleryImage::query()
