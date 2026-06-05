@@ -2,13 +2,22 @@
 
 @php
     use App\Support\Media;
-    $galleryUrls = $galleryImages->isNotEmpty()
-        ? $galleryImages->map(fn ($g) => Media::url($g->image))->values()->all()
+    // Gallery items carry both the image URL and the control-panel caption.
+    $galleryItems = $galleryImages->isNotEmpty()
+        ? $galleryImages->map(fn ($g) => ['url' => Media::url($g->image), 'caption' => (string) ($g->caption ?? '')])->values()->all()
         : [
-            asset('legacy/img/library-image.png'),
-            asset('legacy/img/library-image.png'),
-            asset('legacy/img/library-image.png'),
+            ['url' => asset('legacy/img/library-image.png'), 'caption' => ''],
+            ['url' => asset('legacy/img/library-image.png'), 'caption' => ''],
+            ['url' => asset('legacy/img/library-image.png'), 'caption' => ''],
         ];
+
+    // Full activity-events pool so the slider can rotate through ALL events (not just the 3 shown).
+    $activityCardsData = $activityEvents->values()->map(fn ($e, $idx) => [
+        'title' => $e->title,
+        'date' => $e->starts_at ? $e->starts_at->locale('ar')->translatedFormat('j F Y') : '',
+        'url' => route('events.show', $e->slug),
+        'img' => $e->cover_image ? Media::url($e->cover_image) : asset('legacy/img/event'.($idx % 3 + 1).'.jpg'),
+    ])->all();
 @endphp
 
 @section('content')
@@ -26,8 +35,15 @@
                     $src = $slide && ($slide->image ?? null)
                         ? Media::url($slide->image, asset($fallbackBanners[$i % 3]))
                         : asset($fallbackBanners[$i % 3]);
+                    $slideLink = $slide->link ?? null;
                 @endphp
-                <img src="{{ $src }}" class="slide {{ $i === 0 ? 'active' : '' }}" loading="lazy" alt="" />
+                @if ($slideLink)
+                    <a href="{{ $slideLink }}" class="slide {{ $i === 0 ? 'active' : '' }}">
+                        <img src="{{ $src }}" loading="lazy" alt="" />
+                    </a>
+                @else
+                    <img src="{{ $src }}" class="slide {{ $i === 0 ? 'active' : '' }}" loading="lazy" alt="" />
+                @endif
             @endforeach
             <div class="slider-dots"></div>
         </div>
@@ -86,7 +102,7 @@
                             </div>
                         </a>
                         <div class="media-block video">
-                            <div class="media-head"><h3>برومو ومقاطع فيديو</h3></div>
+                            <div class="media-head"><h3>{{ $videoLabel }}</h3></div>
                             <div class="video-box" data-video-url="{{ e($mediaVideoUrl) }}"><span class="play-btn">▶</span></div>
                         </div>
                     </div>
@@ -96,7 +112,7 @@
             <section class="section-title" data-animate="fade-up">
                 <div class="title-wrapper">
                     <span class="line"></span>
-                    <h2 class="gradient-text">تصفح الفعاليات</h2>
+                    <h2 class="gradient-text">{{ $activitiesTitle }}</h2>
                     <span class="line"></span>
                 </div>
             </section>
@@ -134,22 +150,22 @@
 
     <section class="family-stats section-home-motion" data-animate="fade-up">
         <div class="container">
-            <h2 class="stats-title gradient-text">إحصائيات العائلة</h2>
+            <h2 class="stats-title gradient-text">{{ $statsTitle }}</h2>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <span class="stat-label">إجمالي الإناث</span>
+                    <span class="stat-label">{{ $statFemaleLabel }}</span>
                     <span class="stat-number" data-target="{{ preg_replace('/\D/', '', $statFemale) ?: 0 }}">0</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-label">إجمالي الذكور</span>
+                    <span class="stat-label">{{ $statMaleLabel }}</span>
                     <span class="stat-number" data-target="{{ preg_replace('/\D/', '', $statMale) ?: 0 }}">0</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-label">على قيد الحياة</span>
+                    <span class="stat-label">{{ $statAliveLabel }}</span>
                     <span class="stat-number" data-target="{{ preg_replace('/\D/', '', $statAlive) ?: 0 }}">0</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-label">إجمالي عدد الأفراد</span>
+                    <span class="stat-label">{{ $statTotalLabel }}</span>
                     <span class="stat-number" data-target="{{ preg_replace('/\D/', '', $statTotal) ?: 0 }}">0</span>
                 </div>
             </div>
@@ -205,24 +221,24 @@
     <div class="lightbox" id="lightbox">
         <span class="close">&times;</span>
         <img id="lightboxImg" alt="Gallery preview" />
+        <div class="lightbox-caption" id="lightboxCaption" style="display:none"></div>
     </div>
 
     <section class="form-section" data-animate="fade-up">
         <div class="form-box">
             <div class="form-info">
-                <h2>أضف بياناتك</h2>
-                <p>يرجى تعبئة جميع البيانات صحيحة ومحدثة<br />لإضافتها لأرشيف العائلة</p>
+                <h2>{{ $archiveTitle }}</h2>
+                <p>{!! nl2br(e($archiveHelp)) !!}</p>
                 <div class="type-buttons">
-                    <button type="button" class="type-btn active" data-archive-type="أفراد">أفراد</button>
-                    <button type="button" class="type-btn" data-archive-type="عائلة">عائلة</button>
-                    <button type="button" class="type-btn" data-archive-type="مغترب">مغترب</button>
-                    <button type="button" class="type-btn" data-archive-type="أخرى">أخرى</button>
+                    @foreach ($archiveTypes as $i => $archiveType)
+                        <button type="button" class="type-btn {{ $i === 0 ? 'active' : '' }}" data-archive-type="{{ $archiveType }}">{{ $archiveType }}</button>
+                    @endforeach
                 </div>
             </div>
 
             <form class="form-fields" method="post" action="{{ route('archive-submissions.store') }}">
                 @csrf
-                <input type="hidden" name="type" id="archiveTypeField" value="أفراد" />
+                <input type="hidden" name="type" id="archiveTypeField" value="{{ $archiveTypes->first() }}" />
                 <div class="field">
                     <label>الاسم بالكامل <span>*</span></label>
                     <input type="text" name="full_name" value="{{ old('full_name') }}" placeholder="ادخل الاسم" required />
@@ -250,7 +266,7 @@
         <section class="section-title" data-animate="fade-up">
             <div class="title-wrapper">
                 <span class="line"></span>
-                <h2 class="gradient-text">آخر الأخبار</h2>
+                <h2 class="gradient-text">{{ $newsTitle }}</h2>
                 <span class="line"></span>
             </div>
         </section>
@@ -289,6 +305,22 @@
 
 @push('styles')
 <style>
+    /* Clickable hero slides: keep the anchor sized like the bare <img> slide */
+    .hero-slider a.slide { display: block; height: 100%; }
+    .hero-slider a.slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* Gallery lightbox caption (control-panel managed) */
+    .lightbox .lightbox-caption {
+        margin-top: 14px;
+        max-width: 90vw;
+        color: #fff;
+        font-size: 16px;
+        line-height: 1.7;
+        text-align: center;
+        direction: rtl;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, .6);
+    }
+
     .home-latest-news { padding-top: 4px; padding-bottom: 56px; }
     .home-latest-news .hln-grid {
         display: grid;
@@ -378,7 +410,8 @@
 @push('before_legacy_script')
     <script>
         window.MEDIA_VIDEO_URL = @json($mediaVideoUrl ?: '');
-        window.GALLERY_IMAGES = @json($galleryUrls);
+        window.GALLERY_IMAGES = @json($galleryItems);
+        window.ACTIVITY_EVENTS = @json($activityCardsData);
     </script>
 @endpush
 

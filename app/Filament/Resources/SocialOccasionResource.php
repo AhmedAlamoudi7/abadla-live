@@ -31,9 +31,32 @@ class SocialOccasionResource extends Resource
                 ->required()
                 ->preload(),
             Forms\Components\TextInput::make('title')->label('العنوان')->required()->maxLength(500),
+            Forms\Components\TextInput::make('slug')
+                ->label('المسار (slug)')
+                ->maxLength(500)
+                ->unique(ignoreRecord: true)
+                ->helperText('اتركه فارغاً ليُنشأ تلقائياً من العنوان.'),
             Forms\Components\DatePicker::make('occurred_on')->label('التاريخ'),
-            Forms\Components\FileUpload::make('image')->label('صورة')->image()->disk('public')->directory('social'),
-            Forms\Components\Textarea::make('excerpt')->label('نبذة')->rows(3),
+            Forms\Components\FileUpload::make('image')
+                ->label('صورة الغلاف')
+                ->image()
+                ->disk('public')
+                ->directory('social'),
+            Forms\Components\FileUpload::make('images')
+                ->label('ألبوم صور المناسبة (عدة صور)')
+                ->image()
+                ->multiple()
+                ->reorderable()
+                ->appendFiles()
+                ->panelLayout('grid')
+                ->disk('public')
+                ->directory('social/gallery')
+                ->helperText('يمكنك رفع أكثر من صورة وسحبها لإعادة الترتيب.')
+                ->columnSpanFull(),
+            Forms\Components\Textarea::make('excerpt')->label('نبذة مختصرة')->rows(3),
+            Forms\Components\RichEditor::make('body')
+                ->label('الوصف التفصيلي')
+                ->columnSpanFull(),
             Forms\Components\Toggle::make('published')->label('منشور')->default(true),
         ]);
     }

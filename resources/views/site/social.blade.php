@@ -84,11 +84,15 @@
     <section class="container soc-results" id="soc-results" style="padding-bottom:48px;" data-animate="fade-up">
         <div class="news-grid">
             @forelse ($occasions as $item)
-                <article class="news-card social-card">
+                <a href="{{ route('social.show', $item->slug) }}" class="news-card social-card soc-card-link">
                     <div class="news-text">
                         <span class="news-date">{{ $item->occurred_on ? $item->occurred_on->locale('ar')->translatedFormat('j F Y') : '' }}</span>
                         <h3>{{ $item->title }}</h3>
                         <p>{{ $item->excerpt ?? '' }}</p>
+                        <span class="soc-card-cta">
+                            عرض التفاصيل
+                            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                        </span>
                         @if ($item->category)
                             <span class="badge" style="display:inline-block;margin-top:8px;padding:4px 10px;border-radius:999px;background:#f0f0f0;font-size:12px;">{{ $item->category->name }}</span>
                         @endif
@@ -96,11 +100,14 @@
                     <div class="news-image {{ $item->image ? 'news-image--has-img' : '' }}">
                         @if ($item->image)
                             <img src="{{ Media::url($item->image) }}" alt="" loading="lazy" decoding="async" />
+                            @if (! empty($item->images) && is_array($item->images) && count($item->images) > 0)
+                                <span class="soc-card-count"><i class="fas fa-images" aria-hidden="true"></i> {{ count($item->images) }}</span>
+                            @endif
                         @else
                             <i class="fas fa-heart"></i>
                         @endif
                     </div>
-                </article>
+                </a>
             @empty
                 <p style="grid-column:1/-1;text-align:center;">لا توجد مناسبات منشورة{{ $activeCategorySlug ? ' في هذا التصنيف' : '' }} بعد.</p>
             @endforelse
@@ -116,6 +123,43 @@
         .social-card.news-card {
             grid-template-columns: 1fr 260px !important;
             gap: 24px;
+        }
+        /* Card-as-link */
+        a.soc-card-link {
+            text-decoration: none;
+            color: inherit;
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+        a.soc-card-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 36px -20px rgba(80,55,20,.45);
+        }
+        .soc-card-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #8b7355;
+        }
+        a.soc-card-link:hover .soc-card-cta { color: #3a2e1f; }
+        .soc-card-cta .fas { transition: transform .2s ease; }
+        a.soc-card-link:hover .soc-card-cta .fas { transform: translateX(-3px); }
+        .social-card .news-image { position: relative; }
+        .soc-card-count {
+            position: absolute;
+            inset-inline-end: 8px;
+            bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            background: rgba(26,19,16,.62);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
         }
         .social-card .news-text {
             order: 1 !important;

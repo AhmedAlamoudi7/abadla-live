@@ -12,7 +12,7 @@ use Illuminate\View\View;
 
 class SocialController extends Controller
 {
-    public function __invoke(Request $request): View
+    public function index(Request $request): View
     {
         $categories = SocialCategory::query()->orderBy('sort_order')->get();
 
@@ -58,6 +58,39 @@ class SocialController extends Controller
             'activeCategorySlug' => $categorySlug,
             'heroImageUrl' => $heroImageUrl,
             'heroTitle' => $heroTitle,
+        ]);
+    }
+
+    public function show(string $slug): View
+    {
+        $occasion = SocialOccasion::query()
+            ->with('category')
+            ->where('slug', $slug)
+            ->where('published', true)
+            ->firstOrFail();
+
+        $gallery = collect($occasion->images ?? [])
+            ->filter()
+            ->map(fn ($path) => Media::url($path))
+            ->values()
+            ->all();
+
+        $latest = SocialOccasion::query()
+            ->with('category')
+            ->where('published', true)
+            ->where('id', '!=', $occasion->id)
+            ->orderByDesc('occurred_on')
+            ->limit(6)
+            ->get();
+
+        return view('site.social.show', [
+            'activeNav' => 'social',
+            'title' => $occasion->title.' - العبادلة',
+            'metaDescription' => $occasion->excerpt
+                ?: \Illuminate\Support\Str::limit(strip_tags((string) $occasion->body), 160),
+            'occasion' => $occasion,
+            'gallery' => $gallery,
+            'latest' => $latest,
         ]);
     }
 }

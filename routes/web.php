@@ -27,7 +27,8 @@ Route::get('/articles', [ArticlesController::class, 'index'])->name('articles.in
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{slug}', [EventController::class, 'show'])->name('events.show');
 
-Route::get('/social', SocialController::class)->name('social');
+Route::get('/social', [SocialController::class, 'index'])->name('social');
+Route::get('/social/{slug}', [SocialController::class, 'show'])->name('social.show');
 
 Route::get('/family-tree', FamilyTreePageController::class)->name('family-tree');
 

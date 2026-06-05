@@ -69,7 +69,7 @@
             <a class="rectangle-16" href="{{ $site['whatsapp_url'] ?? '#' }}" target="_blank" rel="noopener" aria-label="مجموعة واتساب"></a>
             <a class="div-4-link" href="{{ $site['whatsapp_url'] ?? '#' }}" target="_blank" rel="noopener">
                 <p class="div-4">
-                    <span class="text-wrapper-12">للإنضم</span><span class="text-wrapper-13">ـــــــ</span><span class="text-wrapper-12">ام في<br />{{ $site['whatsapp_line2'] ?? 'مجموعة واتساب' }}</span>
+                    <span class="text-wrapper-12">{{ $site['whatsapp_line1'] ?? 'للانضمام في' }}<br />{{ $site['whatsapp_line2'] ?? 'مجموعة واتساب' }}</span>
                 </p>
             </a>
             <a class="social-icons-link" href="{{ $site['whatsapp_url'] ?? '#' }}" target="_blank" rel="noopener" aria-label="واتساب">
@@ -116,7 +116,7 @@
             </div>
 
             <p class="div-5">
-                <a class="text-wrapper-19" href="#">الشروط والأحكام</a><span class="text-wrapper-20">&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; </span><a class="text-wrapper-19" href="#">سياسة الخصوصية</a>
+                <a class="text-wrapper-19" href="{{ $site['terms_url'] ?? '#' }}">الشروط والأحكام</a><span class="text-wrapper-20">&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp; </span><a class="text-wrapper-19" href="{{ $site['privacy_url'] ?? '#' }}">سياسة الخصوصية</a>
             </p>
             <p class="div-6">
                 <span class="text-wrapper-21">تصميم و تطوير <br />علامة ستديو للحلول الرقمية</span>

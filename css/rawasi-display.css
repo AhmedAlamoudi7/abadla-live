@@ -39,3 +39,32 @@
 .fi-body {
   font-family: 'Rawasi Display Arabic', Tahoma, sans-serif;
 }
+
+/* ============================================================
+   Rich-editor (Trix) image attachments rendered on the public site.
+   Hide the auto "filename + filesize" caption and make images responsive.
+   The .attachment__* classes are Trix-specific, so this is safe globally.
+   ============================================================ */
+.attachment__name,
+.attachment__size {
+  display: none !important;
+}
+figure.attachment,
+figure[data-trix-attachment] {
+  margin: 18px auto;
+  text-align: center;
+}
+figure.attachment img,
+figure[data-trix-attachment] img,
+.article-text img,
+.about-dynamic img,
+.landmark-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+.attachment__caption {
+  margin-top: 6px;
+  font-size: 14px;
+  color: #8b7355;
+}

@@ -15,7 +15,8 @@ class SiteComposer
             'logo_alt' => Setting::getValue('site_logo_alt', 'العبادلة'),
             'breaking_ticker' => Setting::getValue('breaking_ticker', ''),
             'copyright_line' => Setting::getValue('copyright_line', ''),
-            'footer_legal' => Setting::getValue('footer_legal', 'سياسة الخصوصية | الشروط والأحكام'),
+            'privacy_url' => Setting::getValue('privacy_url', '#'),
+            'terms_url' => Setting::getValue('terms_url', '#'),
             'whatsapp_line1' => Setting::getValue('whatsapp_line1', 'للانضمام في'),
             'whatsapp_line2' => Setting::getValue('whatsapp_line2', 'مجموعة واتساب'),
             'whatsapp_url' => Setting::getValue('whatsapp_url')
@@ -25,6 +26,7 @@ class SiteComposer
             'social_youtube' => Setting::getValue('social_youtube', '#'),
             'social_x' => Setting::getValue('social_x', '#'),
             'social_telegram' => Setting::getValue('social_telegram', '#'),
+            'social_tiktok' => Setting::getValue('social_tiktok', '#'),
             'newsletter_title' => Setting::getValue('newsletter_title', 'للاشتراك في النشرة البريدية'),
             'newsletter_subtitle' => Setting::getValue('newsletter_subtitle', 'ابقَ على اطلاع بأحدث الأخبار والتحديثات من خلال نشرتنا الإخبارية'),
         ]);

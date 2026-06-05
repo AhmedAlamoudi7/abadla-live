@@ -50,8 +50,10 @@ class ManageSiteSettings extends Page implements HasForms
             'social_youtube',
             'social_x',
             'social_telegram',
+            'social_tiktok',
             'whatsapp_link',
-            'whatsapp_text',
+            'whatsapp_line1',
+            'whatsapp_line2',
             'social_banner_image',
             'social_hero_title',
             'events_intro_1',
@@ -69,6 +71,21 @@ class ManageSiteSettings extends Page implements HasForms
             'stat_wide_two_value',
             'media_video_url',
             'home_articles_label',
+            'home_video_label',
+            'home_activities_title',
+            'home_stats_title',
+            'home_news_title',
+            'stat_female_label',
+            'stat_male_label',
+            'stat_alive_label',
+            'stat_total_label',
+            'home_archive_title',
+            'home_archive_help',
+            'home_archive_types',
+            'newsletter_title',
+            'newsletter_subtitle',
+            'meta_home_title',
+            'meta_home_description',
             'landmark_title',
             'landmark_body_html',
             'landmark_more_url',
@@ -137,7 +154,7 @@ class ManageSiteSettings extends Page implements HasForms
                                 'bold', 'italic', 'underline', 'strike',
                                 'h2', 'h3',
                                 'bulletList', 'orderedList',
-                                'link', 'blockquote',
+                                'attachFiles', 'link', 'blockquote',
                                 'undo', 'redo',
                             ])
                             ->columnSpanFull(),
@@ -163,12 +180,21 @@ class ManageSiteSettings extends Page implements HasForms
                         TextInput::make('social_youtube')->label('YouTube')->url()->maxLength(500)->nullable(),
                         TextInput::make('social_x')->label('X / Twitter')->url()->maxLength(500)->nullable(),
                         TextInput::make('social_telegram')->label('Telegram')->url()->maxLength(500)->nullable(),
+                        TextInput::make('social_tiktok')->label('TikTok')->url()->maxLength(500)->nullable(),
                     ])
                     ->columns(2),
                 Section::make('واتساب')
                     ->schema([
                         TextInput::make('whatsapp_link')->label('رابط المجموعة / واتساب')->url()->maxLength(500)->nullable(),
-                        Textarea::make('whatsapp_text')->label('نص دعوة الواتساب')->rows(2),
+                        TextInput::make('whatsapp_line1')->label('نص دعوة واتساب — السطر الأول')->maxLength(200)->placeholder('للانضمام في'),
+                        TextInput::make('whatsapp_line2')->label('نص دعوة واتساب — السطر الثاني')->maxLength(200)->placeholder('مجموعة واتساب'),
+                    ])
+                    ->columns(2),
+                Section::make('النشرة البريدية')
+                    ->description('العنوان والنص الظاهران فوق نموذج الاشتراك في التذييل.')
+                    ->schema([
+                        TextInput::make('newsletter_title')->label('عنوان النشرة البريدية')->maxLength(300)->placeholder('للاشتراك في النشرة البريدية'),
+                        Textarea::make('newsletter_subtitle')->label('نص النشرة البريدية')->rows(2)->maxLength(500),
                     ]),
                 Section::make('صفحة إجتماعيات')
                     ->schema([
@@ -186,7 +212,7 @@ class ManageSiteSettings extends Page implements HasForms
                                 'bold', 'italic', 'underline', 'strike',
                                 'h2', 'h3',
                                 'bulletList', 'orderedList',
-                                'link', 'blockquote',
+                                'attachFiles', 'link', 'blockquote',
                                 'undo', 'redo',
                             ])
                             ->columnSpanFull(),
@@ -199,7 +225,7 @@ class ManageSiteSettings extends Page implements HasForms
                                 'bold', 'italic', 'underline', 'strike',
                                 'h2', 'h3',
                                 'bulletList', 'orderedList',
-                                'link', 'blockquote',
+                                'attachFiles', 'link', 'blockquote',
                                 'undo', 'redo',
                             ])
                             ->columnSpanFull(),
@@ -209,7 +235,7 @@ class ManageSiteSettings extends Page implements HasForms
                                 'bold', 'italic', 'underline', 'strike',
                                 'h2', 'h3',
                                 'bulletList', 'orderedList',
-                                'link', 'blockquote',
+                                'attachFiles', 'link', 'blockquote',
                                 'undo', 'redo',
                             ])
                             ->columnSpanFull(),
@@ -223,7 +249,7 @@ class ManageSiteSettings extends Page implements HasForms
                                 'bold', 'italic', 'underline', 'strike',
                                 'h2', 'h3',
                                 'bulletList', 'orderedList',
-                                'link', 'blockquote',
+                                'attachFiles', 'link', 'blockquote',
                                 'undo', 'redo',
                             ])
                             ->columnSpanFull(),
@@ -245,20 +271,55 @@ class ManageSiteSettings extends Page implements HasForms
                             ->label('أو مسار داخل legacy/ أو رابط كامل (بدون رفع)')
                             ->maxLength(1000)
                             ->placeholder('مثال: img/article.jpg أو https://…'),
+                        TextInput::make('home_video_label')
+                            ->label('عنوان قسم الفيديو (يظهر فوق صندوق الفيديو)')
+                            ->maxLength(200)
+                            ->placeholder('برومو ومقاطع فيديو'),
                         TextInput::make('media_video_url')->label('رابط فيديو البرومو (YouTube أو ملف)')->url()->maxLength(1000)->nullable(),
                     ]),
                 Section::make('الرئيسية — إحصائيات العائلة')
                     ->schema([
-                        TextInput::make('stat_female')->label('إجمالي الإناث')->maxLength(50),
-                        TextInput::make('stat_male')->label('إجمالي الذكور')->maxLength(50),
-                        TextInput::make('stat_alive')->label('على قيد الحياة')->maxLength(50),
-                        TextInput::make('stat_total')->label('إجمالي الأفراد')->maxLength(50),
+                        TextInput::make('home_stats_title')->label('عنوان قسم الإحصائيات')->maxLength(200)->placeholder('إحصائيات العائلة')->columnSpanFull(),
+                        TextInput::make('stat_female_label')->label('تسمية البطاقة 1')->maxLength(200)->placeholder('إجمالي الإناث'),
+                        TextInput::make('stat_female')->label('قيمة البطاقة 1 (إجمالي الإناث)')->maxLength(50),
+                        TextInput::make('stat_male_label')->label('تسمية البطاقة 2')->maxLength(200)->placeholder('إجمالي الذكور'),
+                        TextInput::make('stat_male')->label('قيمة البطاقة 2 (إجمالي الذكور)')->maxLength(50),
+                        TextInput::make('stat_alive_label')->label('تسمية البطاقة 3')->maxLength(200)->placeholder('على قيد الحياة'),
+                        TextInput::make('stat_alive')->label('قيمة البطاقة 3 (على قيد الحياة)')->maxLength(50),
+                        TextInput::make('stat_total_label')->label('تسمية البطاقة 4')->maxLength(200)->placeholder('إجمالي عدد الأفراد'),
+                        TextInput::make('stat_total')->label('قيمة البطاقة 4 (إجمالي الأفراد)')->maxLength(50),
                         TextInput::make('stat_wide_one_label')->label('بطاقة عريضة — تسمية 1')->maxLength(200),
                         TextInput::make('stat_wide_one_value')->label('بطاقة عريضة — قيمة 1')->maxLength(200),
                         TextInput::make('stat_wide_two_label')->label('بطاقة عريضة — تسمية 2')->maxLength(200),
                         TextInput::make('stat_wide_two_value')->label('بطاقة عريضة — قيمة 2')->maxLength(200),
                     ])
                     ->columns(2),
+                Section::make('الرئيسية — عناوين الأقسام')
+                    ->description('عناوين الأقسام الظاهرة في الصفحة الرئيسية.')
+                    ->schema([
+                        TextInput::make('home_activities_title')->label('عنوان قسم «تصفح الفعاليات»')->maxLength(200)->placeholder('تصفح الفعاليات'),
+                        TextInput::make('home_news_title')->label('عنوان قسم «آخر الأخبار»')->maxLength(200)->placeholder('آخر الأخبار'),
+                    ])
+                    ->columns(2),
+                Section::make('الرئيسية — نموذج الأرشيف («أضف بياناتك»)')
+                    ->schema([
+                        TextInput::make('home_archive_title')->label('عنوان النموذج')->maxLength(200)->placeholder('أضف بياناتك'),
+                        Textarea::make('home_archive_help')
+                            ->label('النص التوضيحي (كل سطر يظهر في سطر مستقل)')
+                            ->rows(2)
+                            ->maxLength(500),
+                        TextInput::make('home_archive_types')
+                            ->label('أنواع البيانات (افصل بينها بفاصلة ,)')
+                            ->maxLength(500)
+                            ->placeholder('أفراد,عائلة,مغترب,أخرى')
+                            ->helperText('تظهر كأزرار اختيار فوق النموذج، والأول هو الافتراضي.'),
+                    ]),
+                Section::make('الرئيسية — SEO')
+                    ->description('عنوان ووصف الصفحة الرئيسية في نتائج البحث وعنوان تبويب المتصفح.')
+                    ->schema([
+                        TextInput::make('meta_home_title')->label('عنوان الصفحة الرئيسية في المتصفح (SEO)')->maxLength(255),
+                        Textarea::make('meta_home_description')->label('وصف الصفحة الرئيسية (SEO)')->rows(2)->maxLength(500),
+                    ]),
                 Section::make('الرئيسية — مكتبة الصور (المعلم / المحتوى)')
                     ->schema([
                         TextInput::make('landmark_title')->label('عنوان القسم')->maxLength(300),
@@ -268,7 +329,7 @@ class ManageSiteSettings extends Page implements HasForms
                                 'bold', 'italic', 'underline', 'strike',
                                 'h2', 'h3',
                                 'bulletList', 'orderedList',
-                                'link', 'blockquote',
+                                'attachFiles', 'link', 'blockquote',
                                 'undo', 'redo',
                             ])
                             ->columnSpanFull(),

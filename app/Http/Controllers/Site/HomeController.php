@@ -47,14 +47,35 @@ class HomeController extends Controller
             ->orderBy('sort_order')
             ->get();
 
-        $latestNews = NewsPost::query()
+        $publishedNews = fn () => NewsPost::query()
             ->where('type', NewsPost::TYPE_NEWS)
             ->where('published', true)
             ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
+            ->where('published_at', '<=', now());
+
+        // Honor the "يظهر في الرئيسية" toggle; fall back to latest news when
+        // the admin hasn't explicitly flagged any post (same pattern as featured events).
+        $latestNews = $publishedNews()
+            ->where('show_on_home', true)
             ->orderByDesc('published_at')
             ->limit(4)
             ->get();
+
+        if ($latestNews->isEmpty()) {
+            $latestNews = $publishedNews()
+                ->orderByDesc('published_at')
+                ->limit(4)
+                ->get();
+        }
+
+        $archiveTypes = collect(explode(',', (string) Setting::getValue('home_archive_types', 'أفراد,عائلة,مغترب,أخرى')))
+            ->map(fn ($t) => trim($t))
+            ->filter()
+            ->values();
+
+        if ($archiveTypes->isEmpty()) {
+            $archiveTypes = collect(['أفراد', 'عائلة', 'مغترب', 'أخرى']);
+        }
 
         return view('site.home', [
             'activeNav' => 'home',
@@ -65,12 +86,23 @@ class HomeController extends Controller
             'activityEvents' => $activityEvents,
             'galleryImages' => $galleryImages,
             'latestNews' => $latestNews,
+            'archiveTypes' => $archiveTypes,
             'familyIntroTitle' => Setting::getValue('home_family_intro_title', 'تعمـــــــــــــــق وتعرف على أصول العائلة ...'),
             'familyIntroHtml' => Setting::getValue('home_family_intro_html', ''),
+            'activitiesTitle' => Setting::getValue('home_activities_title', 'تصفح الفعاليات'),
+            'statsTitle' => Setting::getValue('home_stats_title', 'إحصائيات العائلة'),
+            'newsTitle' => Setting::getValue('home_news_title', 'آخر الأخبار'),
+            'videoLabel' => Setting::getValue('home_video_label', 'برومو ومقاطع فيديو'),
+            'archiveTitle' => Setting::getValue('home_archive_title', 'أضف بياناتك'),
+            'archiveHelp' => Setting::getValue('home_archive_help', "يرجى تعبئة جميع البيانات صحيحة ومحدثة\nلإضافتها لأرشيف العائلة"),
             'statFemale' => Setting::getValue('stat_female', '54800'),
             'statMale' => Setting::getValue('stat_male', '66200'),
             'statAlive' => Setting::getValue('stat_alive', '12230'),
             'statTotal' => Setting::getValue('stat_total', '16500'),
+            'statFemaleLabel' => Setting::getValue('stat_female_label', 'إجمالي الإناث'),
+            'statMaleLabel' => Setting::getValue('stat_male_label', 'إجمالي الذكور'),
+            'statAliveLabel' => Setting::getValue('stat_alive_label', 'على قيد الحياة'),
+            'statTotalLabel' => Setting::getValue('stat_total_label', 'إجمالي عدد الأفراد'),
             'statWideOneLabel' => Setting::getValue('stat_wide_one_label', 'أكبر فرع'),
             'statWideOneValue' => Setting::getValue('stat_wide_one_value', '—'),
             'statWideTwoLabel' => Setting::getValue('stat_wide_two_label', 'أكبر فرع'),

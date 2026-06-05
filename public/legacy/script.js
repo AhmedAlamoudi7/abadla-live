@@ -255,7 +255,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const videoFrame = document.getElementById("videoFrame");
   const videoCloseBtn = document.querySelector(".video-close");
   const videoOverlay = document.querySelector(".video-overlay");
-  const videoURL = "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1";
 
   function closeVideoModal() {
     if (videoModal) videoModal.classList.remove("active");
@@ -264,6 +263,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (playBtn) {
     playBtn.addEventListener("click", () => {
+      // Video URL is managed from the control panel (Setting media_video_url),
+      // exposed on the .video-box[data-video-url] element and window.MEDIA_VIDEO_URL.
+      const videoBox = document.querySelector(".video-box");
+      const videoURL = (videoBox && videoBox.dataset.videoUrl) || window.MEDIA_VIDEO_URL || "";
+      if (!videoURL) return; // no video configured — don't open an empty modal
       if (videoFrame) videoFrame.src = videoURL;
       if (videoModal) videoModal.classList.add("active");
     });
@@ -273,40 +277,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* =========================================
      ACTIVITY SLIDER
+     Rotates through ALL events (window.ACTIVITY_EVENTS) when there are more
+     events than visible cards, so the images actually change on next/prev.
+     Falls back to highlight-only when the pool fits in the visible cards.
      ========================================= */
-  const activityCards = document.querySelectorAll(".activity-card");
+  const activityRow = document.querySelector(".activites-row");
+  const activityCards = activityRow
+    ? Array.from(activityRow.querySelectorAll(".activity-card"))
+    : [];
   const nextActBtn = document.querySelector(".arrow-activty.right");
   const prevActBtn = document.querySelector(".arrow-activty.left");
+  const activityPool = Array.isArray(window.ACTIVITY_EVENTS) ? window.ACTIVITY_EVENTS : [];
 
   if (activityCards.length) {
-    let currentActivity = 0;
+    const canRotate = activityPool.length > activityCards.length;
+    let base = 0; // pool index shown in the first (front) card
+    let active = 0; // highlighted card index when not rotating
 
-    function updateActivitySlider() {
-      activityCards.forEach((card, i) => {
-        card.classList.toggle("active", i === currentActivity);
+    function setActive(i) {
+      active = (i + activityCards.length) % activityCards.length;
+      activityCards.forEach((card, idx) => card.classList.toggle("active", idx === active));
+    }
+
+    function fillCard(card, ev) {
+      if (!card || !ev) return;
+      card.setAttribute("href", ev.url || "#");
+      const img = card.querySelector(".activity-img");
+      if (img && ev.img) {
+        img.src = ev.img;
+        img.alt = ev.title || "";
+      }
+      const title = card.querySelector(".activity-info h3");
+      if (title) title.textContent = ev.title || "";
+      const date = card.querySelector(".activity-date");
+      if (date) date.textContent = ev.date || "";
+    }
+
+    function renderWindow() {
+      if (!canRotate) return;
+      activityCards.forEach((card, idx) => {
+        fillCard(card, activityPool[(base + idx) % activityPool.length]);
       });
     }
 
-    if (nextActBtn) {
-      nextActBtn.addEventListener("click", () => {
-        currentActivity = (currentActivity + 1) % activityCards.length;
-        updateActivitySlider();
-      });
+    function go(step) {
+      if (canRotate) {
+        base = (base + step + activityPool.length) % activityPool.length;
+        renderWindow();
+        setActive(0);
+      } else {
+        setActive(active + step);
+      }
     }
 
-    if (prevActBtn) {
-      prevActBtn.addEventListener("click", () => {
-        currentActivity = (currentActivity - 1 + activityCards.length) % activityCards.length;
-        updateActivitySlider();
-      });
-    }
+    if (nextActBtn) nextActBtn.addEventListener("click", () => go(1));
+    if (prevActBtn) prevActBtn.addEventListener("click", () => go(-1));
 
-    activityCards.forEach((card, i) => {
-      card.addEventListener("click", () => {
-        currentActivity = i;
-        updateActivitySlider();
-      });
-    });
+    renderWindow();
+    setActive(0);
   }
 
   /* =========================================
@@ -356,12 +384,19 @@ document.addEventListener("DOMContentLoaded", () => {
      GALLERY – dynamic grid + lightbox
      ========================================= */
   // Real gallery images are injected by the server (home view) as
-  // window.GALLERY_IMAGES (absolute URLs). Fall back to an empty grid if absent.
-  const galleryImages = Array.isArray(window.GALLERY_IMAGES) ? window.GALLERY_IMAGES : [];
+  // window.GALLERY_IMAGES. Each item is either a plain URL string (legacy) or
+  // an object { url, caption } managed from the control panel. Empty grid if absent.
+  const galleryImages = (Array.isArray(window.GALLERY_IMAGES) ? window.GALLERY_IMAGES : []).map(
+    (item) =>
+      typeof item === "string"
+        ? { url: item, caption: "" }
+        : { url: (item && item.url) || "", caption: (item && item.caption) || "" }
+  );
 
   const galleryGrid = document.getElementById("galleryGrid");
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightboxImg");
+  const lightboxCaption = document.getElementById("lightboxCaption");
   const lightboxClose = document.querySelector(".lightbox .close");
 
   if (galleryGrid && galleryImages.length) {
@@ -374,14 +409,16 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
     galleryGrid.appendChild(textCell);
 
-    galleryImages.forEach((src, i) => {
+    galleryImages.forEach((item, i) => {
+      const src = item.url;
+      const caption = item.caption;
       const card = document.createElement("div");
       card.className = "gallery-card";
       card.style.animationDelay = `${(i + 1) * 0.12}s`;
 
       const img = document.createElement("img");
       img.src = src;
-      img.alt = "صورة من المكتبة";
+      img.alt = caption || "صورة من المكتبة";
       img.loading = "lazy";
 
       card.appendChild(img);
@@ -390,7 +427,14 @@ document.addEventListener("DOMContentLoaded", () => {
       card.addEventListener("click", () => {
         document.querySelectorAll(".gallery-card").forEach((c) => c.classList.remove("active"));
         card.classList.add("active");
-        if (lightboxImg) lightboxImg.src = src;
+        if (lightboxImg) {
+          lightboxImg.src = src;
+          lightboxImg.alt = caption || "Gallery preview";
+        }
+        if (lightboxCaption) {
+          lightboxCaption.textContent = caption;
+          lightboxCaption.style.display = caption ? "block" : "none";
+        }
         if (lightbox) lightbox.classList.add("show");
       });
     });
@@ -721,17 +765,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const siteSearch = document.getElementById("siteSearch");
   const searchDropdown = document.getElementById("searchDropdown");
 
-  const sitePages = [
-    { title: "الرئيسية", url: "index.html", icon: "fas fa-home", keywords: "الصفحة الرئيسية أخبار فعاليات إحصائيات صور مكتبة نشرة العبادلة" },
-    { title: "عن العائلة", url: "about.html", icon: "fas fa-users", keywords: "تاريخ العائلة القيم الرؤية الرسالة النشأة الجذور العبادلة عن" },
-    { title: "أخبار العائلة", url: "news.html", icon: "fas fa-newspaper", keywords: "أخبار مقالات أحداث جديد آخر الأخبار تقارير" },
-    { title: "إجتماعيات", url: "social.html", icon: "fas fa-heart", keywords: "زواج تهنئة عزاء مناسبات اجتماعيات تهاني أفراح" },
-    { title: "شجرة العائلة", url: "family-tree.html", icon: "fas fa-sitemap", keywords: "شجرة نسب فروع أجداد الجد المؤسس عبدالله محمد إبراهيم علي حسين" },
-    { title: "فعاليات", url: "events.html", icon: "fas fa-calendar-check", keywords: "فعاليات أنشطة مناسبات ملتقى حفل تجمع لقاء عائلي" },
-    { title: "شخصيات إعتبارية", url: "personalities.html", icon: "fas fa-user-tie", keywords: "شخصيات إعتبارية أعيان وجهاء شخصية بارزة كبار" },
-    { title: "الألبوم", url: "album.html", icon: "fas fa-images", keywords: "ألبوم صور مكتبة لقطات ذكريات تاريخ مناسبات صورة" },
-    { title: "معلومات", url: "informations.html", icon: "fas fa-info-circle", keywords: "معلومات بيانات تفاصيل أخبار عريس عرس زواج مناسبة" },
-  ];
+  // Search pages come from the server (SiteComposer -> window.SITE_SEARCH_PAGES)
+  // with real Laravel route() URLs, so links never 404. Fall back to empty if absent.
+  const sitePages = Array.isArray(window.SITE_SEARCH_PAGES) ? window.SITE_SEARCH_PAGES : [];
 
   if (siteSearch && searchDropdown) {
     function collectPageContent() {
@@ -786,7 +822,9 @@ document.addEventListener("DOMContentLoaded", () => {
           const link = document.createElement("a");
           link.className = "sd-item";
           link.href = page.url;
-          link.innerHTML = `<i class="${page.icon}"></i><div class="sd-text"><strong>${highlighted}</strong><small>${page.url}</small></div>`;
+          let pagePath = page.url;
+          try { pagePath = new URL(page.url, window.location.origin).pathname || "/"; } catch (e) {}
+          link.innerHTML = `<i class="${page.icon}"></i><div class="sd-text"><strong>${highlighted}</strong><small>${pagePath}</small></div>`;
           searchDropdown.appendChild(link);
         });
       }
