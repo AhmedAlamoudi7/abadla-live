@@ -52,6 +52,23 @@ class ArchiveSubmissionResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->label('الاستلام')->dateTime(),
             ])
             ->defaultSort('created_at', 'desc')
+            ->filters([
+                Tables\Filters\SelectFilter::make('status')
+                    ->label('الحالة')
+                    ->options([
+                        'pending' => 'قيد المراجعة',
+                        'approved' => 'مقبول',
+                        'rejected' => 'مرفوض',
+                    ]),
+                Tables\Filters\SelectFilter::make('type')
+                    ->label('النوع')
+                    ->options([
+                        'أفراد' => 'أفراد',
+                        'عائلة' => 'عائلة',
+                        'مغترب' => 'مغترب',
+                        'أخرى' => 'أخرى',
+                    ]),
+            ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()]),

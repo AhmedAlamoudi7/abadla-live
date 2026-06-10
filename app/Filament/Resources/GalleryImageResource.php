@@ -40,6 +40,10 @@ class GalleryImageResource extends Resource
                 Tables\Columns\TextColumn::make('caption')->label('التعليق')->limit(30),
                 Tables\Columns\IconColumn::make('published')->label('منشور')->boolean(),
             ])
+            ->defaultSort('created_at', 'desc')
+            ->filters([
+                Tables\Filters\TernaryFilter::make('published')->label('منشور'),
+            ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }

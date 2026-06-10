@@ -47,7 +47,10 @@ class EventResource extends Resource
                 Tables\Columns\TextColumn::make('starts_at')->label('البداية')->dateTime()->sortable(),
                 Tables\Columns\IconColumn::make('is_published')->label('منشور')->boolean(),
             ])
-            ->defaultSort('starts_at', 'desc')
+            ->defaultSort('created_at', 'desc')
+            ->filters([
+                Tables\Filters\TernaryFilter::make('is_published')->label('منشور'),
+            ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()]),

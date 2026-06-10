@@ -70,6 +70,12 @@ class HomeController extends Controller
                 ->get();
         }
 
+        // Top featured cards (the .events-row): latest 3 news.
+        $topNews = $publishedNews()
+            ->latest()
+            ->limit(3)
+            ->get();
+
         // Latest 3 social occasions for the home "احدث الاجتماعيات" section.
         $latestSocial = SocialOccasion::query()
             ->with('category')
@@ -96,6 +102,7 @@ class HomeController extends Controller
             'activityEvents' => $activityEvents,
             'galleryImages' => $galleryImages,
             'latestNews' => $latestNews,
+            'topNews' => $topNews,
             'latestSocial' => $latestSocial,
             'archiveTypes' => $archiveTypes,
             'familyIntroTitle' => Setting::getValue('home_family_intro_title', 'تعمـــــــــــــــق وتعرف على أصول العائلة ...'),

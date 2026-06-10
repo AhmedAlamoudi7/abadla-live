@@ -69,6 +69,14 @@ class SocialOccasionResource extends Resource
                 Tables\Columns\TextColumn::make('title')->label('العنوان')->searchable()->limit(40),
                 Tables\Columns\TextColumn::make('occurred_on')->label('التاريخ')->date(),
             ])
+            ->defaultSort('created_at', 'desc')
+            ->filters([
+                Tables\Filters\SelectFilter::make('category')
+                    ->label('التصنيف')
+                    ->relationship('category', 'name')
+                    ->preload(),
+                Tables\Filters\TernaryFilter::make('published')->label('منشور'),
+            ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }

@@ -38,6 +38,7 @@ class AlbumCategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label('الاسم'),
                 Tables\Columns\TextColumn::make('slug')->label('المسار'),
             ])
+            ->defaultSort('created_at', 'desc')
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }

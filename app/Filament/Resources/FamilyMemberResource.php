@@ -59,6 +59,14 @@ class FamilyMemberResource extends Resource
                 Tables\Columns\IconColumn::make('is_public')->label('عام')->boolean(),
                 Tables\Columns\TextColumn::make('sort_order')->label('ترتيب')->sortable(),
             ])
+            ->defaultSort('created_at', 'desc')
+            ->filters([
+                Tables\Filters\SelectFilter::make('branch')
+                    ->label('الفرع')
+                    ->relationship('branch', 'name')
+                    ->preload(),
+                Tables\Filters\TernaryFilter::make('is_public')->label('ظاهر للعامة'),
+            ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }

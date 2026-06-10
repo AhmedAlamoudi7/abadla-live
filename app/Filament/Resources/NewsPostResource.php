@@ -73,9 +73,11 @@ class NewsPostResource extends Resource
                 Tables\Columns\IconColumn::make('published')->label('منشور')->boolean(),
                 Tables\Columns\TextColumn::make('published_at')->label('النشر')->dateTime()->sortable(),
             ])
-            ->defaultSort('published_at', 'desc')
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\TernaryFilter::make('published')->label('منشور'),
+                Tables\Filters\TernaryFilter::make('is_breaking')->label('عاجل'),
+                Tables\Filters\TernaryFilter::make('show_on_home')->label('يظهر في الرئيسية'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -46,6 +46,10 @@ class NewsBannerResource extends Resource
                 Tables\Columns\TextColumn::make('caption')->label('النص')->limit(40),
                 Tables\Columns\IconColumn::make('is_active')->label('مفعّل')->boolean(),
             ])
+            ->defaultSort('created_at', 'desc')
+            ->filters([
+                Tables\Filters\TernaryFilter::make('is_active')->label('مفعّل'),
+            ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }

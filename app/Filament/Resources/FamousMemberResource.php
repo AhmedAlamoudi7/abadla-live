@@ -40,7 +40,7 @@ class FamousMemberResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label('الاسم')->searchable(),
                 Tables\Columns\TextColumn::make('sort_order')->label('الترتيب')->sortable(),
             ])
-            ->defaultSort('sort_order')
+            ->defaultSort('created_at', 'desc')
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }

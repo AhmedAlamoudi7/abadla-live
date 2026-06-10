@@ -49,6 +49,14 @@ class PersonalityResource extends Resource
                 Tables\Columns\TextColumn::make('branch.name')->label('الفرع'),
                 Tables\Columns\IconColumn::make('published')->label('منشور')->boolean(),
             ])
+            ->defaultSort('created_at', 'desc')
+            ->filters([
+                Tables\Filters\SelectFilter::make('branch')
+                    ->label('الفرع')
+                    ->relationship('branch', 'name')
+                    ->preload(),
+                Tables\Filters\TernaryFilter::make('published')->label('منشور'),
+            ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }

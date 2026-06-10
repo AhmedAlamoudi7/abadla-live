@@ -45,6 +45,14 @@ class AlbumItemResource extends Resource
                 Tables\Columns\ImageColumn::make('image')->label('معاينة')->disk('public'),
                 Tables\Columns\TextColumn::make('caption')->label('التعليق')->limit(30),
             ])
+            ->defaultSort('created_at', 'desc')
+            ->filters([
+                Tables\Filters\SelectFilter::make('category')
+                    ->label('التصنيف')
+                    ->relationship('category', 'name')
+                    ->preload(),
+                Tables\Filters\TernaryFilter::make('published')->label('منشور'),
+            ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }

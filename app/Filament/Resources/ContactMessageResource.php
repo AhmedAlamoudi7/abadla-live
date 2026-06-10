@@ -43,6 +43,18 @@ class ContactMessageResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->label('التاريخ')->dateTime(),
             ])
             ->defaultSort('created_at', 'desc')
+            ->filters([
+                Tables\Filters\TernaryFilter::make('read_at')
+                    ->label('الحالة')
+                    ->placeholder('الكل')
+                    ->trueLabel('مقروءة')
+                    ->falseLabel('غير مقروءة')
+                    ->queries(
+                        true: fn ($query) => $query->whereNotNull('read_at'),
+                        false: fn ($query) => $query->whereNull('read_at'),
+                        blank: fn ($query) => $query,
+                    ),
+            ])
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }

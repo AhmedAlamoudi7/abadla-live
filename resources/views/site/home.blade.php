@@ -52,17 +52,17 @@
     <section class="family-events">
         <div class="container">
             <div class="events-row" data-animate="fade-up">
-                @foreach ($featuredEvents->take(3) as $i => $event)
-                    <a href="{{ route('events.show', $event->slug) }}" class="event-card {{ $i === 0 ? 'active' : '' }}">
+                @foreach ($topNews->take(3) as $i => $post)
+                    <a href="{{ route('news.show', $post->slug) }}" class="event-card {{ $i === 0 ? 'active' : '' }}">
                         <span class="event-date">
-                            @if ($event->starts_at)
-                                {{ $event->starts_at->locale('ar')->translatedFormat('j F Y') }}
+                            @if ($post->published_at)
+                                {{ $post->published_at->locale('ar')->translatedFormat('j F Y') }}
                             @endif
                         </span>
-                        <h3>{{ $event->title }}</h3>
-                        <p>{{ $event->location }}</p>
-                        @if ($event->cover_image)
-                            <img src="{{ Media::url($event->cover_image) }}" alt="" />
+                        <h3>{{ $post->title }}</h3>
+                        <p>{{ $post->excerpt }}</p>
+                        @if ($post->featured_image)
+                            <img src="{{ Media::url($post->featured_image) }}" alt="" />
                         @else
                             <img src="{{ asset('legacy/img/event'.($i % 3 + 1).'.jpg') }}" alt="" />
                         @endif
@@ -92,7 +92,7 @@
                 </div>
             </section>
 
-            {{-- احدث الاجتماعيات — latest social occasions --}}
+            {{-- أحدث الاجتماعيات — latest social occasions --}}
             @if (! empty($latestSocial) && $latestSocial->isNotEmpty())
                 <section class="section-title" data-animate="fade-up">
                     <div class="title-wrapper">

@@ -39,7 +39,7 @@ class SocialCategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')->label('الاسم'),
                 Tables\Columns\ImageColumn::make('icon_image')->label('أيقونة')->disk('public')->square(),
             ])
-            ->defaultSort('sort_order')
+            ->defaultSort('created_at', 'desc')
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }

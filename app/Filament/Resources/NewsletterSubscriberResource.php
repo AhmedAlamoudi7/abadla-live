@@ -37,6 +37,7 @@ class NewsletterSubscriberResource extends Resource
                 Tables\Columns\TextColumn::make('email')->label('البريد')->searchable(),
                 Tables\Columns\TextColumn::make('subscribed_at')->label('التاريخ')->dateTime(),
             ])
+            ->defaultSort('created_at', 'desc')
             ->actions([Tables\Actions\EditAction::make()])
             ->bulkActions([Tables\Actions\BulkActionGroup::make([Tables\Actions\DeleteBulkAction::make()])]);
     }
