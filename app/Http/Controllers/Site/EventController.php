@@ -13,7 +13,7 @@ class EventController extends Controller
     {
         $events = Event::query()
             ->where('is_published', true)
-            ->orderByDesc('starts_at')
+            ->latest()
             ->paginate(12);
 
         return view('site.events.index', [
@@ -36,7 +36,7 @@ class EventController extends Controller
         $latest = Event::query()
             ->where('is_published', true)
             ->where('id', '!=', $event->id)
-            ->orderByDesc('starts_at')
+            ->latest()
             ->limit(6)
             ->get();
 

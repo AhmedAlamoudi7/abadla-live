@@ -65,7 +65,9 @@ class NewsController extends Controller
 
         $idsUsed = $idsUsed->unique()->filter()->values();
 
-        $gridQuery = (clone $base)->whereNotIn('id', $idsUsed->all());
+        // Main news list: newest added first (created_at). The featured/mosaic
+        // area above stays curated (hourly / important_sort) per design.
+        $gridQuery = (clone $base)->whereNotIn('id', $idsUsed->all())->reorder('created_at', 'desc');
 
         $news = $gridQuery->paginate(8)->withQueryString();
 
@@ -134,7 +136,7 @@ class NewsController extends Controller
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now())
             ->when($post instanceof NewsPost, fn ($q) => $q->where('id', '!=', $post->id))
-            ->orderByDesc('published_at')
+            ->latest()
             ->limit(6)
             ->get();
 

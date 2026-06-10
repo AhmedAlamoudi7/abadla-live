@@ -36,7 +36,7 @@ class SiteSearchController extends Controller
                     $query->where('title', 'like', $like)
                         ->orWhere('excerpt', 'like', $like);
                 })
-                ->orderByDesc('published_at')
+                ->latest()
                 ->limit(20)
                 ->get();
 
@@ -46,14 +46,14 @@ class SiteSearchController extends Controller
                     $query->where('title', 'like', $like)
                         ->orWhere('description', 'like', $like);
                 })
-                ->orderByDesc('starts_at')
+                ->latest()
                 ->limit(20)
                 ->get();
 
             $results['personalities'] = Personality::query()
                 ->where('published', true)
                 ->where('full_name', 'like', $like)
-                ->orderBy('sort_order')
+                ->latest()
                 ->limit(20)
                 ->get();
 

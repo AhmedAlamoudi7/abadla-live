@@ -9,6 +9,7 @@ use App\Models\HeroSlide;
 use App\Models\HomeFeaturedEvent;
 use App\Models\NewsPost;
 use App\Models\Setting;
+use App\Models\SocialOccasion;
 use Illuminate\View\View;
 
 class HomeController extends Controller
@@ -31,7 +32,7 @@ class HomeController extends Controller
         if ($featuredLinks->isEmpty()) {
             $featuredLinks = Event::query()
                 ->where('is_published', true)
-                ->orderByDesc('starts_at')
+                ->latest()
                 ->limit(3)
                 ->get();
         }
@@ -58,16 +59,24 @@ class HomeController extends Controller
         // the admin hasn't explicitly flagged any post (same pattern as featured events).
         $latestNews = $publishedNews()
             ->where('show_on_home', true)
-            ->orderByDesc('published_at')
+            ->latest()
             ->limit(4)
             ->get();
 
         if ($latestNews->isEmpty()) {
             $latestNews = $publishedNews()
-                ->orderByDesc('published_at')
+                ->latest()
                 ->limit(4)
                 ->get();
         }
+
+        // Latest 3 social occasions for the home "احدث الاجتماعيات" section.
+        $latestSocial = SocialOccasion::query()
+            ->with('category')
+            ->where('published', true)
+            ->latest()
+            ->limit(3)
+            ->get();
 
         $archiveTypes = collect(explode(',', (string) Setting::getValue('home_archive_types', 'أفراد,عائلة,مغترب,أخرى')))
             ->map(fn ($t) => trim($t))
@@ -87,10 +96,12 @@ class HomeController extends Controller
             'activityEvents' => $activityEvents,
             'galleryImages' => $galleryImages,
             'latestNews' => $latestNews,
+            'latestSocial' => $latestSocial,
             'archiveTypes' => $archiveTypes,
             'familyIntroTitle' => Setting::getValue('home_family_intro_title', 'تعمـــــــــــــــق وتعرف على أصول العائلة ...'),
             'familyIntroHtml' => Setting::getValue('home_family_intro_html', ''),
             'activitiesTitle' => Setting::getValue('home_activities_title', 'تصفح الفعاليات'),
+            'socialTitle' => Setting::getValue('home_social_title', 'احدث الاجتماعيات'),
             'statsTitle' => Setting::getValue('home_stats_title', 'إحصائيات العائلة'),
             'newsTitle' => Setting::getValue('home_news_title', 'آخر الأخبار'),
             'videoLabel' => Setting::getValue('home_video_label', 'برومو ومقاطع فيديو'),

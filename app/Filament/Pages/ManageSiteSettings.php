@@ -73,6 +73,7 @@ class ManageSiteSettings extends Page implements HasForms
             'home_articles_label',
             'home_video_label',
             'home_activities_title',
+            'home_social_title',
             'home_stats_title',
             'home_news_title',
             'stat_female_label',
@@ -298,6 +299,7 @@ class ManageSiteSettings extends Page implements HasForms
                     ->description('عناوين الأقسام الظاهرة في الصفحة الرئيسية.')
                     ->schema([
                         TextInput::make('home_activities_title')->label('عنوان قسم «تصفح الفعاليات»')->maxLength(200)->placeholder('تصفح الفعاليات'),
+                        TextInput::make('home_social_title')->label('عنوان قسم «احدث الاجتماعيات»')->maxLength(200)->placeholder('احدث الاجتماعيات'),
                         TextInput::make('home_news_title')->label('عنوان قسم «آخر الأخبار»')->maxLength(200)->placeholder('آخر الأخبار'),
                     ])
                     ->columns(2),

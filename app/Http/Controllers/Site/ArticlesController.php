@@ -25,7 +25,7 @@ class ArticlesController extends Controller
             $items = Article::query()
                 ->where('published', true)
                 ->where(fn ($q) => $q->whereNull('published_at')->orWhere('published_at', '<=', now()))
-                ->orderByDesc('published_at')
+                ->latest()
                 ->get();
         }
 
@@ -37,12 +37,12 @@ class ArticlesController extends Controller
                 ->where('type', NewsPost::TYPE_ARTICLE)
                 ->where('published', true)
                 ->where(fn ($q) => $q->whereNull('published_at')->orWhere('published_at', '<=', now()))
-                ->orderByDesc('published_at')
+                ->latest()
                 ->get();
 
             $items = $items->concat($legacy)
                 ->unique('slug')
-                ->sortByDesc('published_at')
+                ->sortByDesc('created_at')
                 ->values();
         }
 

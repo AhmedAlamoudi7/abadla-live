@@ -13,7 +13,7 @@
     @stack('styles')
 </head>
 <body class="@yield('body_class')">
-    <img src="{{ asset('legacy/img/Group-126.svg') }}" class="top-ornament" alt="" />
+    <img src="{{ asset('legacy/img/pattern.svg') }}" class="top-ornament" alt="" />
 
     @include('site.partials.header')
 

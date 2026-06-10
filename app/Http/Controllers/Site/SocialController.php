@@ -33,7 +33,7 @@ class SocialController extends Controller
         }
 
         $occasions = $occasions
-            ->orderByDesc('occurred_on')
+            ->latest()
             ->paginate(12)
             ->withQueryString();
 
@@ -79,7 +79,7 @@ class SocialController extends Controller
             ->with('category')
             ->where('published', true)
             ->where('id', '!=', $occasion->id)
-            ->orderByDesc('occurred_on')
+            ->latest()
             ->limit(6)
             ->get();
 

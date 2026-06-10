@@ -92,6 +92,48 @@
                 </div>
             </section>
 
+            {{-- احدث الاجتماعيات — latest social occasions --}}
+            @if (! empty($latestSocial) && $latestSocial->isNotEmpty())
+                <section class="section-title" data-animate="fade-up">
+                    <div class="title-wrapper">
+                        <span class="line"></span>
+                        <h2 class="gradient-text">{{ $socialTitle }}</h2>
+                        <span class="line"></span>
+                    </div>
+                </section>
+
+                <section class="home-latest-social section-home-motion" data-animate="fade-up">
+                    <div class="hls-grid">
+                        @foreach ($latestSocial as $item)
+                            <a href="{{ route('social.show', $item->slug) }}" class="hls-card">
+                                <div class="hls-media">
+                                    @if ($item->image)
+                                        <img src="{{ Media::url($item->image) }}" alt="{{ $item->title }}" loading="lazy" />
+                                    @else
+                                        <span class="hls-media-fallback"><i class="fas fa-heart" aria-hidden="true"></i></span>
+                                    @endif
+                                    @if (! empty($item->images) && is_array($item->images) && count($item->images))
+                                        <span class="hls-count"><i class="fas fa-images" aria-hidden="true"></i> {{ count($item->images) }}</span>
+                                    @endif
+                                </div>
+                                <div class="hls-text">
+                                    @if ($item->occurred_on)
+                                        <span class="hls-date">{{ $item->occurred_on->locale('ar')->translatedFormat('j F Y') }}</span>
+                                    @endif
+                                    <h3 class="hls-title">{{ $item->title }}</h3>
+                                    @if ($item->category)
+                                        <span class="hls-cat">{{ $item->category->name }}</span>
+                                    @endif
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                    <div class="hls-all">
+                        <a href="{{ route('social') }}">عرض كل الإجتماعيات <i class="fas fa-arrow-left" aria-hidden="true"></i></a>
+                    </div>
+                </section>
+            @endif
+
             <section class="media-showcase section-home-motion" data-animate="fade-up">
                 <div class="container">
                     <div class="media-wrapper">
@@ -404,6 +446,60 @@
         .hln-title { font-size: 15px; }
         .hln-excerpt { -webkit-line-clamp: 2; }
     }
+
+    /* احدث الاجتماعيات — latest social occasions */
+    .home-latest-social { padding: 4px 0 8px; }
+    .home-latest-social .hls-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+    }
+    .hls-card {
+        display: flex;
+        flex-direction: column;
+        background: #f6f1ea;
+        border: 1px solid rgba(139, 115, 85, .12);
+        border-radius: 16px;
+        overflow: hidden;
+        text-decoration: none;
+        color: inherit;
+        box-shadow: 0 8px 22px -16px rgba(80, 55, 20, .3);
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .hls-card:hover { transform: translateY(-4px); box-shadow: 0 18px 34px -18px rgba(80, 55, 20, .4); }
+    .hls-media { position: relative; aspect-ratio: 16 / 11; background: #efe7db; overflow: hidden; }
+    .hls-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s ease; }
+    .hls-card:hover .hls-media img { transform: scale(1.05); }
+    .hls-media-fallback {
+        display: flex; align-items: center; justify-content: center;
+        width: 100%; height: 100%; color: #c9b79c; font-size: 36px;
+    }
+    .hls-count {
+        position: absolute; inset-inline-end: 8px; bottom: 8px;
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 3px 9px; border-radius: 999px;
+        background: rgba(26, 19, 16, .62); color: #fff; font-size: 12px; font-weight: 600;
+    }
+    .hls-text { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; text-align: center; }
+    .hls-date { font-size: 12px; color: #8b7355; font-weight: 600; }
+    .hls-title {
+        margin: 0; font-size: 16px; font-weight: 800; line-height: 1.55; color: #4a3527;
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .hls-cat {
+        align-self: center; display: inline-block; margin-top: 2px;
+        padding: 3px 12px; border-radius: 999px;
+        background: rgba(139, 115, 85, .12); color: #6a5b4a; font-size: 12px; font-weight: 600;
+    }
+    .hls-all { text-align: center; margin-top: 26px; }
+    .hls-all a {
+        display: inline-flex; align-items: center; gap: 8px;
+        color: #8b7355; font-weight: 700; font-size: 15px; text-decoration: none;
+        transition: color .2s ease;
+    }
+    .hls-all a:hover { color: #4a3527; }
+    @media (max-width: 900px) { .home-latest-social .hls-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 600px) { .home-latest-social .hls-grid { grid-template-columns: 1fr; } }
 </style>
 @endpush
 

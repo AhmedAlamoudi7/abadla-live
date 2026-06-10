@@ -14,7 +14,7 @@ class PersonalityController extends Controller
         $personalities = Personality::query()
             ->with('branch')
             ->where('published', true)
-            ->orderBy('sort_order')
+            ->latest()
             ->paginate(24);
 
         return view('site.personalities', [

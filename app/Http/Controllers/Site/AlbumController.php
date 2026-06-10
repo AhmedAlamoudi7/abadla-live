@@ -26,7 +26,7 @@ class AlbumController extends Controller
         }
 
         $items = $items
-            ->orderBy('sort_order')
+            ->latest()
             ->paginate(24)
             ->withQueryString();
 
