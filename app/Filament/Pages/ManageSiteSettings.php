@@ -298,8 +298,8 @@ class ManageSiteSettings extends Page implements HasForms
                 Section::make('الرئيسية — عناوين الأقسام')
                     ->description('عناوين الأقسام الظاهرة في الصفحة الرئيسية.')
                     ->schema([
-                        TextInput::make('home_activities_title')->label('عنوان قسم «تصفح الفعاليات»')->maxLength(200)->placeholder('آحدث الفعاليات'),
-                        TextInput::make('home_social_title')->label('عنوان قسم «احدث الاجتماعيات»')->maxLength(200)->placeholder('آحدث الاجتماعيات'),
+                        TextInput::make('home_activities_title')->label('عنوان قسم «آحدث الفعاليات»')->maxLength(200)->placeholder('آحدث الفعاليات'),
+                        TextInput::make('home_social_title')->label('عنوان قسم «آحدث الاجتماعيات»')->maxLength(200)->placeholder('آحدث الاجتماعيات'),
                         TextInput::make('home_news_title')->label('عنوان قسم «آخر الأخبار»')->maxLength(200)->placeholder('آخر الأخبار'),
                     ])
                     ->columns(2),
